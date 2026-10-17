@@ -3,7 +3,16 @@
  */
 
 import { Banner, Button, Input, Loader } from "@cloudflare/kumo";
-import { ArrowSquareOut, CheckCircle, Hammer, HourglassMedium, Question, RocketLaunch, XCircle } from "@phosphor-icons/react";
+import {
+	ArrowSquareOut,
+	CheckCircle,
+	Hammer,
+	HourglassMedium,
+	type Icon,
+	Question,
+	RocketLaunch,
+	XCircle,
+} from "@phosphor-icons/react";
 import type { PluginAdminExports } from "emdash";
 import { apiFetch, parseApiResponse } from "emdash/plugin-utils";
 import * as React from "react";
@@ -17,15 +26,17 @@ interface Status {
 	newerVersionAvailable: boolean;
 	online: boolean;
 	lastPublish: { commit: string; author: string; date: string; message: string } | null;
-	deployment: {
-		status: "queued" | "in_progress" | "success" | "failure" | "unknown";
-		commit: string;
-		title: string;
-		startedAt: string;
-		url: string;
-	} | null;
+	deployment: Deployment | null;
 	repo: string | null;
 	siteUrl: string | null;
+}
+
+interface Deployment {
+	status: "queued" | "in_progress" | "success" | "failure" | "unknown";
+	commit: string;
+	title: string;
+	startedAt: string;
+	url: string;
 }
 
 type PublishResult =
@@ -81,16 +92,17 @@ function useStatus() {
 function DeploymentLine({ status }: { status: Status }) {
 	const deployment = status.deployment;
 	if (!deployment) return null;
-	const [Icon, label, color] = {
+	const states: Record<Deployment["status"], [Icon, string, string]> = {
 		queued: [HourglassMedium, "Waiting to start building the website…", "text-kumo-warning"],
 		in_progress: [Hammer, "Building and deploying the website (usually 1–2 minutes)…", "text-kumo-warning"],
 		success: [CheckCircle, "The website is live", "text-kumo-success"],
 		failure: [XCircle, "The last deployment failed. Ask a developer to have a look.", "text-kumo-danger"],
 		unknown: [Question, "The deployment status is unknown", "text-kumo-subtle"],
-	}[deployment.status] as const;
+	};
+	const [StatusIcon, label, color] = states[deployment.status];
 	return (
 		<p className="flex items-center gap-1.5 text-sm">
-			<Icon className={color} size={18} weight="fill" aria-hidden />
+			<StatusIcon className={color} size={18} weight="fill" aria-hidden />
 			{label}
 			{" · "}
 			<a href={deployment.url} target="_blank" rel="noreferrer" className="underline">

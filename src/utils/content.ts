@@ -3,14 +3,16 @@ import { getAllTermsForEntries, getEmDashCollection, type TaxonomyTerm } from "e
 type Entry<C extends string> = Awaited<ReturnType<typeof getEmDashCollection<C>>>["entries"][number];
 
 /** Every published entry of a collection (follows pagination cursors). */
+type Filter = NonNullable<Parameters<typeof getEmDashCollection>[1]>;
+
 export async function allEntries<C extends string>(
 	collection: C,
-	options: Omit<NonNullable<Parameters<typeof getEmDashCollection>[1]>, "cursor"> = {},
+	options: Pick<Filter, "where" | "orderBy" | "status"> = {},
 ): Promise<Entry<C>[]> {
 	const entries: Entry<C>[] = [];
 	let cursor: string | undefined;
 	do {
-		const result = await getEmDashCollection(collection, { ...options, limit: 100, cursor });
+		const result = await getEmDashCollection(collection, { ...options, limit: 100, cursor } as Filter);
 		if (result.error) throw result.error;
 		entries.push(...result.entries);
 		cursor = result.nextCursor ?? undefined;

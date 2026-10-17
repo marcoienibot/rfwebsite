@@ -10,7 +10,9 @@ const TIERS = [
 	{ id: "silver", label: "Silver" },
 	{ id: "associate", label: "Associate" },
 ];
-const tiers = Object.fromEntries(await Promise.all(TIERS.map(async (tier) => [tier.id, await organizations(tier.id)])));
+const tiers: Record<string, Awaited<ReturnType<typeof organizations>>> = Object.fromEntries(
+	await Promise.all(TIERS.map(async (tier) => [tier.id, await organizations(tier.id)])),
+);
 ---
 
 <section id={value.anchor_id || undefined} class="section members">
