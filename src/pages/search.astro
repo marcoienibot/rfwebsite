@@ -22,7 +22,13 @@ import Base from "../layouts/Base.astro";
 		try {
 			await import(`${base}pagefind/pagefind-ui.js`);
 			const query = new URLSearchParams(location.search).get("q") ?? "";
-			const ui = new PagefindUI({ element: "#search", baseUrl: base, showSubResults: true, showImages: false });
+			const ui = new PagefindUI({
+				element: "#search",
+				bundlePath: `${base}pagefind/`,
+				baseUrl: base,
+				showSubResults: true,
+				showImages: false,
+			});
 			if (query) ui.triggerSearch(query);
 		} catch {
 			document.querySelector(".search__dev").hidden = false;
