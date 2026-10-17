@@ -11,7 +11,7 @@ import * as React from "react";
 const API = "/_emdash/api/plugins/publish";
 
 interface Status {
-	unpublishedChanges: number;
+	unpublishedChanges: boolean;
 	unpushedCommits: number;
 	newerVersionAvailable: boolean;
 	online: boolean;
@@ -126,7 +126,7 @@ function PublishPanel({ compact = false }: { compact?: boolean }) {
 	if (error) return <Banner variant="error" title="Publishing is unavailable" description={error} />;
 	if (!status) return <Loader />;
 
-	const pending = status.unpublishedChanges > 0 || status.unpushedCommits > 0;
+	const pending = status.unpublishedChanges || status.unpushedCommits > 0;
 
 	return (
 		<div className="space-y-4">

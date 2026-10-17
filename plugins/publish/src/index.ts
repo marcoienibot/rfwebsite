@@ -18,6 +18,8 @@ import { promisify } from "node:util";
 import type { PluginDescriptor } from "emdash";
 import { definePlugin } from "emdash";
 
+import { committedFingerprint, fingerprint } from "./fingerprint.mjs";
+
 const run = promisify(execFile);
 
 const PLUGIN_ID = "publish";
@@ -78,6 +80,29 @@ function checkpoint(database: string): void {
 	}
 }
 
+// Fingerprint of the published database, per commit (it only changes on publish/pull).
+const committedCache = new Map<string, string | null>();
+
+/**
+ * Whether the content differs from the last commit. Media files are compared
+ * by git; the database by content fingerprint, because opening the admin
+ * writes bookkeeping data that isn't worth publishing.
+ */
+async function pendingChanges(contentDir: string, database: string) {
+	checkpoint(database);
+	const media = (await git(["status", "--porcelain", "--", contentDir, `:!${database}`]))
+		.split("\n")
+		.filter(Boolean).length;
+	const head = await tryGit(["rev-parse", "HEAD"]);
+	let committed: string | null = null;
+	if (head) {
+		if (!committedCache.has(head)) committedCache.set(head, committedFingerprint(database, head));
+		committed = committedCache.get(head) ?? null;
+	}
+	const content = committed === null || fingerprint(resolve(process.cwd(), database)) !== committed;
+	return { media, content, any: media > 0 || content };
+}
+
 /** `git@github.com:owner/repo.git` or `https://github.com/owner/repo` → `owner/repo` */
 async function githubRepo(): Promise<string | null> {
 	const url = await tryGit(["remote", "get-url", "origin"]);
@@ -136,10 +161,7 @@ export function createPlugin(options: PublishPluginOptions) {
 	const { contentDir, database, branch, siteUrl } = options;
 
 	async function status() {
-		checkpoint(database);
-		const changed = (await git(["status", "--porcelain", "--", contentDir]))
-			.split("\n")
-			.filter(Boolean);
+		const pending = await pendingChanges(contentDir, database);
 		// Fetching can fail offline; the rest of the status is still useful.
 		const fetched = (await tryGit(["fetch", "--quiet", "origin", branch], 20_000)) !== null;
 		const counts = await tryGit(["rev-list", "--left-right", "--count", `HEAD...origin/${branch}`]);
@@ -148,7 +170,7 @@ export function createPlugin(options: PublishPluginOptions) {
 		const [commit, author, date, message] = lastPublish?.split("\x1f") ?? [];
 		const repo = await githubRepo();
 		return {
-			unpublishedChanges: changed.length,
+			unpublishedChanges: pending.any,
 			unpushedCommits: ahead,
 			newerVersionAvailable: behind > 0,
 			online: fetched,
@@ -160,14 +182,13 @@ export function createPlugin(options: PublishPluginOptions) {
 	}
 
 	async function publish(message: string, userName: string | undefined) {
-		checkpoint(database);
-		await git(["add", "--all", "--", contentDir]);
-		const staged = await git(["diff", "--cached", "--name-only"]);
+		const pending = await pendingChanges(contentDir, database);
 		const ahead = Number((await tryGit(["rev-list", "--count", `origin/${branch}..HEAD`])) ?? 0);
-		if (!staged && ahead === 0) {
+		if (!pending.any && ahead === 0) {
 			return { outcome: "nothing-to-publish" as const };
 		}
-		if (staged) {
+		if (pending.any) {
+			await git(["add", "--all", "--", contentDir]);
 			const subject = message.trim() || "Update website content";
 			const body = userName ? `\n\nPublished from the EmDash admin by ${userName}.` : "";
 			await git(["commit", "--quiet", "-m", `${subject}${body}`, "--", contentDir]);

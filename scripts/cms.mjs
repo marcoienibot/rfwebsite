@@ -10,6 +10,8 @@ import { createHash } from "node:crypto";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { DatabaseSync } from "node:sqlite";
 
+import { committedFingerprint, fingerprint } from "../plugins/publish/src/fingerprint.mjs";
+
 const PORT = 4321;
 const ADMIN_URL = `http://localhost:${PORT}/_emdash/api/setup/dev-bypass?redirect=/_emdash/admin`;
 const DATABASE = "content/data.db";
@@ -33,11 +35,14 @@ function checkpoint() {
 function getLatest() {
 	try {
 		checkpoint();
-		const unpublished = git("status", "--porcelain", "--", "content");
-		if (unpublished) {
+		const mediaChanged = git("status", "--porcelain", "--", "content", `:!${DATABASE}`);
+		const contentChanged = existsSync(DATABASE) && fingerprint(DATABASE) !== committedFingerprint(DATABASE);
+		if (mediaChanged || contentChanged) {
 			say("You have changes that aren't published yet, so I won't download other people's changes now.");
 			return;
 		}
+		// Only bookkeeping data changed (opening the admin writes some): drop it.
+		git("checkout", "--", DATABASE);
 		say("Downloading the latest published version…");
 		git("pull", "--ff-only", "--quiet");
 	} catch (error) {
