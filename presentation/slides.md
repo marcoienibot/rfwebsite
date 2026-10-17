@@ -234,7 +234,7 @@ The demo is live right now at marcoienibot.github.io/rfwebsite. Feel free to cli
       <li>Install <strong>Node.js</strong>, the engine the editor runs on</li>
       <li>Install <strong>GitHub Desktop</strong></li>
       <li>Get access to the website's GitHub repository (the project folder plus its history)</li>
-      <li>Download ("clone") it to your laptop</li>
+      <li>Download ("clone") it to your laptop and sign in to GitHub once, so the Publish button can upload</li>
     </ol>
   </div>
   <div class="tile soft">
@@ -272,6 +272,7 @@ Nothing you do in the editor is public until you click Publish.
 
 - Opens automatically after **Start editor**
 - Pages, posts ("News & blog"), policies, media, menus, categories and tags
+- Lists that feed the whole site: **Organisations** (members and partners, with their logos), **People**, **Events**, **Documents** (reports, board minutes) and **FAQs**
 - The **Website** box tells you if you have changes that aren't on the public site yet, and has the **Publish website** button
 
 </div>
@@ -284,6 +285,8 @@ Nothing you do in the editor is public until you click Publish.
 This is the first thing you see after Start editor: the EmDash dashboard.
 
 On the left there's the menu you'd expect: pages, news and blog posts, policies, media, menus, categories and tags.
+
+There are also a few lists that didn't exist as such in WordPress: Organisations, People, Events, Documents and FAQs. Add a new Silver member once, with its logo, and it shows up on the members page and the home page automatically. Same for a new staff member on the About page, a new event, or a new set of board minutes.
 
 The box I want you to notice is the "Website" one. We added it for this setup. It tells you if you have saved changes that aren't on the public website yet, and it has the Publish website button right there.
 -->
@@ -326,7 +329,7 @@ If we need a new kind of block, that's a developer task, and a small one.
 - A familiar rich-text editor
 - Categories (Blog, News, Press) and tags
 - SEO title and description per post
-- Save as draft, preview, schedule
+- Save as draft, preview, schedule (goes live with the nightly rebuild)
 - Revision history for every post
 
 </div>
@@ -342,7 +345,9 @@ Title, a rich-text editor for the body, a featured image, categories and tags, a
 
 Drafts, previews and revision history all work like you'd expect.
 
-(Note for Marco: on a static site, a scheduled post only appears on the live site when the website is next rebuilt. Double-check how scheduling behaves before promising exact timings.)
+Scheduling works too, with one nuance: the website rebuilds itself every night, so a scheduled post goes live at the first nightly rebuild after its date (or straight away, if someone publishes in the meantime).
+
+One thing to remember: an edited post is a draft until you click "Publish changes" on it. The Publish website screen lists any entries that still have unpublished edits, so nothing gets forgotten.
 -->
 
 ---
@@ -352,7 +357,8 @@ Drafts, previews and revision history all work like you'd expect.
 <div class="split">
 <div>
 
-- All existing images and files were migrated
+- All images and documents the site uses were migrated (~425 files)
+- Images were converted to a modern format: about 11 MB instead of the original ~200 MB
 - Upload once, reuse in any page or post
 - Images are saved in the website's version history too, so nothing gets lost
 
@@ -365,7 +371,7 @@ Drafts, previews and revision history all work like you'd expect.
 <!--
 The media library, again very WordPress-like.
 
-All of our roughly 500 existing images and files came across in the migration.
+All the images and files the site actually uses came across in the migration, about 425 of them, including the PDFs (annual reports, board minutes). The images were also converted to a modern format, which makes them much smaller and the site faster.
 
 One nice detail: images are stored together with the content in the version history. So if someone deletes or replaces an image by mistake, we can get the old one back.
 -->
@@ -413,7 +419,7 @@ Nobody has to use this. It's there if it saves you time.
 <div class="split">
 <div>
 
-1. **Save** your changes as usual. So far they're only on your laptop.
+1. **Save** and **Publish** entries as usual. So far they're only on your laptop.
 2. Open **Publish website** and, if you like, say what you changed: "Added the October board update"
 3. Click **Publish website**
 4. Watch the status: "Waiting to start…" → "Building…" → **"The website is live"**, in about 1–2 minutes
@@ -470,14 +476,14 @@ The reassuring bit: if anything goes wrong during the build, nothing gets publis
 <div>
 
 - Every publish is saved in the history: **who**, **when**, **what changed**, plus your note
-- See it in **GitHub Desktop** (or on github.com)
+- See it on **github.com** (screenshot) or in **GitHub Desktop**
 - Undo a change: in GitHub Desktop, right-click it → **Revert Changes in Commit** → **Push**
 - Restore the whole website to any earlier version: an "undo" for the entire site
 - GitHub Desktop is also a second way to publish: **Commit** → **Push**
 
 </div>
 <div>
-  <img src="/screenshots/github-desktop.png" alt="GitHub Desktop showing a change" class="shot" />
+  <img src="/screenshots/github-history.png" alt="The history of content changes on GitHub" class="shot" />
 </div>
 </div>
 
@@ -486,7 +492,7 @@ This is one of my favourite parts.
 
 Every time anyone publishes, it's recorded in the history: who did it, when, which pages and images changed, and the note they wrote.
 
-You can browse that history in GitHub Desktop. If a change was a mistake, you can revert it there and push, and the site goes back. We can also restore the entire website to how it looked on any earlier date.
+You can browse that history on github.com (that's what's on screen) or in GitHub Desktop. If a change was a mistake, you can revert it there and push, and the site goes back. We can also restore the entire website to how it looked on any earlier date.
 
 To be precise: undoing the most recent publish is a couple of clicks. Going further back restores the whole site to that point, so any later changes would need to be redone. For that, just ask me.
 
@@ -509,7 +515,9 @@ GitHub Desktop is also a backup way to publish: Commit, then Push. If the admin 
 | Security | Live server, login page, plugins to keep patched | No live database, no login page, nothing to patch on the server |
 | Page speed | Pages built on every visit, sped up by a cache plugin | Pre-built pages from a global CDN |
 | History and rollback | Revisions per page or post | Revisions, plus a history of the whole site with rollback |
-| Forms, search, events | Plugins (Gravity Forms, The Events Calendar…) | Need static-friendly replacements |
+| Search and events | Plugins (WordPress search, The Events Calendar) | Built in: site search, and an Events list in the admin |
+| Forms | Gravity Forms installed, but none in use | Not needed today; a form service if we ever need one |
+| Analytics, cookie banner | Google Analytics + SEOPress banner | Not added yet: one snippet |
 | Add-ons | Huge plugin ecosystem | Young, smaller ecosystem |
 
 </div>
@@ -517,7 +525,9 @@ GitHub Desktop is also a backup way to publish: Commit, then Push. If the admin 
 <!--
 Here's everything side by side. I've tried to make this fair, so there are rows where WordPress clearly wins.
 
-WordPress wins on: editing from anywhere, several people editing at once, instant publishing, and the size of the plugin ecosystem. Forms, search and events also work today through plugins, and we'd need replacements.
+WordPress wins on: editing from anywhere, several people editing at once, instant publishing, and the size of the plugin ecosystem.
+
+Search and events are already covered in the new setup. Forms turned out not to be an issue: the current site doesn't actually use any (contact is by email and the training application is a Typeform link). Analytics and the cookie banner still need to be added, which is a small job.
 
 The new setup wins on: cost, security, speed and history.
 
@@ -618,25 +628,24 @@ Now the downsides. I'd rather you hear them from me now than discover them later
 
 | The catch | What we do about it |
 |---|---|
-| **Contact forms and newsletter signups** need a server | Use a form service, e.g. Tally, Formspree or HubSpot forms, embedded in the page |
-| **Site search** needs a server | Pagefind: search that runs in the visitor's browser and is built along with the site |
-| **Events calendar** (The Events Calendar plugin today) | Needs a replacement too, e.g. an Events section in the admin (like Members and People) or an embedded calendar |
+| **Things that need a server** (forms, search, calendars) | Search is built in (it runs in the visitor's browser). Events are a list in the admin. The site has no forms today; a form service (Tally, Formspree, HubSpot) covers that if needed |
+| **Analytics and the cookie banner** aren't there yet | Add one snippet: Google Analytics like today, or a cookie-free tool such as Plausible (then no banner is needed) |
+| **Large files in the history**: every publish stores a new copy of the content database (~13 MB) | Fine for years of normal use; a developer can clean the history up if it ever gets big |
 | **EmDash is young** (version 1.x, 2026), with a much smaller plugin ecosystem than WordPress | Open source (MIT) and made by Cloudflare. The site itself is standard Astro, and our content lives in our own repository, so we're never locked in |
 
 </div>
 
-<div class="note">Anything that needs a server to respond to visitors (forms, search, calendars) needs a "static-friendly" replacement. These are decisions we'd make together.</div>
-
 <!--
 The second group of trade-offs is about features.
 
-A static website can't run code when a visitor clicks something. So anything interactive that relies on a server today needs a replacement:
+A static website can't run code on a server when a visitor clicks something. For us that turns out to matter less than you'd think:
 
-- Forms and newsletter signups: we'd use a form service like Tally, Formspree, or HubSpot forms, embedded in the page.
-- Search: there's a tool called Pagefind that builds a search index along with the site, and the search runs in the visitor's browser.
-- Events: today that's a plugin. We'd need to choose a replacement, for example an Events section in the admin, like we already have for Members and People.
+- Search: done. It's built when the site is published and runs in the visitor's browser. Try /search on the demo.
+- Events: done. Events are a list in the admin, like members and people, and the events page and event pages are generated from it.
+- Forms: the current site doesn't actually use any. Contact is by email, and the training application is a Typeform link, which keeps working.
+- Analytics and the cookie banner still need adding. That's a small job, and if we pick a cookie-free analytics tool we don't even need the banner.
 
-And EmDash itself is new. It reached version 1 this year, and its plugin ecosystem is nowhere near WordPress's. What reduces the risk: it's open source, it's from Cloudflare, the website itself is plain Astro, and all our content is in our own repository. If EmDash disappeared tomorrow, the website would keep working.
+Two honest caveats: every publish stores a new copy of the content database in the history, which is fine for a long time but means the project folder grows; and EmDash is new, with a small ecosystem. It's open source, from Cloudflare, the site is plain Astro and the content is ours, so the risk is limited.
 -->
 
 ---
@@ -682,33 +691,35 @@ And the design and content stay exactly the same, and the public website can sta
   <div class="stat">
     <div class="num">310</div>
     <div class="label">posts</div>
-    <div class="sub">Blog, News and Press. The 51 press items link to external articles.</div>
+    <div class="sub">Blog, News and Press, with authors, categories, tags and original dates. The 51 press items link to the external articles.</div>
   </div>
   <div class="stat">
-    <div class="num">27</div>
+    <div class="num">25</div>
     <div class="label">pages</div>
-    <div class="sub">Editable in the admin</div>
+    <div class="sub">Rebuilt from blocks, editable in the admin</div>
   </div>
   <div class="stat">
-    <div class="num">16</div>
-    <div class="label">policies</div>
-    <div class="sub">Their own section in the admin</div>
+    <div class="num">273</div>
+    <div class="label">list entries</div>
+    <div class="sub">16 policies, 72 organisations, 28 people, 29 events, 82 documents, 46 FAQs</div>
   </div>
   <div class="stat">
-    <div class="num">~500</div>
+    <div class="num">~425</div>
     <div class="label">media files</div>
-    <div class="sub">Images and files</div>
+    <div class="sub">Images and PDFs the site uses</div>
   </div>
 </div>
 
-<div class="note">Migrated automatically from the current site. <strong>Still open:</strong> replacements for forms, newsletter signup, site search and the events calendar, plus a review by the marketing team.</div>
+<div class="note">Old URLs keep working (same addresses, plus redirects for moved pages). <strong>Still open:</strong> analytics and cookie banner, a review by the marketing team, and switching the domain.</div>
 
 <!--
 Where are we today?
 
-All of the content has already been migrated automatically from the current site: 310 posts across Blog, News and Press (51 of those are press items that link to articles elsewhere), 27 pages, 16 policies, and around 500 images and files.
+All of the content has been migrated automatically from the current site: 310 posts across Blog, News and Press with their original dates, authors, categories and tags; 25 pages rebuilt from blocks (the other two WordPress "pages" were just redirects); and 273 entries in the new lists: policies, organisations, people, events, documents and FAQs. Around 425 images and PDFs came along.
 
-What's still open: the replacements for the interactive features we just discussed, and a proper review by you, the people who know the content best. That's where I'd love your help.
+Addresses stay the same, so links from search engines and other sites keep working, and old addresses that moved have redirects.
+
+What's still open: analytics and the cookie banner, a proper review by you, the people who know the content best, and eventually pointing rustfoundation.org at the new site.
 -->
 
 ---
@@ -718,9 +729,9 @@ What's still open: the replacements for the interactive features we just discuss
 <ol class="checklist">
   <li>Open the live site: <a href="https://marcoienibot.github.io/rfwebsite/" target="_blank">marcoienibot.github.io/rfwebsite</a></li>
   <li>Double-click <strong>Start editor</strong></li>
-  <li>Change the homepage headline</li>
+  <li>Change the homepage headline, then <strong>Save</strong> and <strong>Publish changes</strong></li>
   <li>Add a news post with an image</li>
-  <li>Click <strong>Publish website</strong></li>
+  <li>Open <strong>Publish website</strong> and click the button</li>
   <li>Watch it build: "Building…" → "The website is live"</li>
   <li>Refresh the live site: there's the change</li>
   <li>Show the change in GitHub Desktop's history, and how to undo it</li>
@@ -738,7 +749,7 @@ Before the meeting: make sure GitHub Desktop is open, the editor is NOT already 
 5. Go to Publish website, type a note, click the button.
 6. While it builds (1–2 minutes), show the GitHub Actions run via the "details" link. Good moment to take a question.
 7. Refresh the live site and show both changes.
-8. Open GitHub Desktop, show the new entry in the history with my note, and show how "Revert Changes in Commit" would undo it.
+8. Open the history (github.com or GitHub Desktop), show the new entry with my note, and show how "Revert Changes in Commit" in GitHub Desktop would undo it.
 
 Remember to revert the demo changes afterwards.
 -->
@@ -755,8 +766,8 @@ Remember to revert the demo changes afterwards.
   </div>
   <div class="tile">
     <ph-list-checks class="tile-icon" />
-    <h3>2. Pick the replacements</h3>
-    <p>Choose how we handle forms, newsletter signup, site search and the events calendar.</p>
+    <h3>2. Analytics and review</h3>
+    <p>Choose analytics (Google Analytics like today, or a cookie-free tool) and review the rebuilt pages.</p>
   </div>
   <div class="tile">
     <ph-signpost class="tile-icon" />
@@ -771,7 +782,7 @@ Remember to revert the demo changes afterwards.
 So here's what I'm proposing.
 
 1. A pilot of 2 to 4 weeks with one or two of you, doing real work in the new setup. During the pilot nothing changes for the public: the WordPress site stays live, and we compare the two.
-2. In parallel, we decide how to replace forms, newsletter signup, search and the events calendar.
+2. In parallel, we pick an analytics tool, and you review the rebuilt pages and tell me what's missing or wrong.
 3. At the end of the pilot, we decide together whether the laptop editor is good enough, or whether we host the editor online.
 
 Only after that would we talk about actually switching rustfoundation.org over.
