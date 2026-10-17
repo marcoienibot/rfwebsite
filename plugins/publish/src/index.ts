@@ -103,6 +103,33 @@ async function pendingChanges(contentDir: string, database: string) {
 	return { media, content, any: media > 0 || content };
 }
 
+/**
+ * Entries with saved but unpublished edits. They are in the database, but
+ * visitors won't see them until someone clicks "Publish" on the entry.
+ */
+function pendingDrafts(database: string) {
+	const db = new DatabaseSync(resolve(process.cwd(), database), { readOnly: true });
+	try {
+		const tables = db
+			.prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name LIKE 'ec\\_%' ESCAPE '\\'")
+			.all() as Array<{ name: string }>;
+		const drafts: Array<{ title: string; collection: string; id: string }> = [];
+		for (const { name } of tables) {
+			const rows = db
+				.prepare(
+					`SELECT id, title FROM "${name}" WHERE deleted_at IS NULL AND (draft_revision_id IS NOT NULL OR status = 'draft') ORDER BY updated_at DESC LIMIT 10`,
+				)
+				.all() as Array<{ id: string; title: string }>;
+			for (const row of rows) drafts.push({ title: row.title, collection: name.slice(3), id: row.id });
+		}
+		return drafts;
+	} catch {
+		return [];
+	} finally {
+		db.close();
+	}
+}
+
 /** `git@github.com:owner/repo.git` or `https://github.com/owner/repo` → `owner/repo` */
 async function githubRepo(): Promise<string | null> {
 	const url = await tryGit(["remote", "get-url", "origin"]);
@@ -112,6 +139,7 @@ async function githubRepo(): Promise<string | null> {
 
 interface Deployment {
 	status: "queued" | "in_progress" | "success" | "failure" | "unknown";
+	sha: string;
 	commit: string;
 	title: string;
 	startedAt: string;
@@ -147,6 +175,7 @@ async function latestDeployment(repo: string, branch: string): Promise<Deploymen
 		}
 		return {
 			status,
+			sha: latest.head_sha,
 			commit: latest.head_sha.slice(0, 7),
 			title: latest.display_title,
 			startedAt: latest.run_started_at,
@@ -169,13 +198,20 @@ export function createPlugin(options: PublishPluginOptions) {
 		const lastPublish = await tryGit(["log", "-1", "--format=%h%x1f%an%x1f%aI%x1f%s", `origin/${branch}`]);
 		const [commit, author, date, message] = lastPublish?.split("\x1f") ?? [];
 		const repo = await githubRepo();
+		let deployment = repo ? await latestDeployment(repo, branch) : null;
+		// Right after a publish, GitHub hasn't started building the new commit yet.
+		const published = await tryGit(["rev-parse", `origin/${branch}`]);
+		if (deployment && published && deployment.sha !== published) {
+			deployment = { ...deployment, status: "queued" };
+		}
 		return {
 			unpublishedChanges: pending.any,
+			drafts: pendingDrafts(database),
 			unpushedCommits: ahead,
 			newerVersionAvailable: behind > 0,
 			online: fetched,
 			lastPublish: commit ? { commit, author, date, message } : null,
-			deployment: repo ? await latestDeployment(repo, branch) : null,
+			deployment,
 			repo,
 			siteUrl: siteUrl ?? null,
 		};

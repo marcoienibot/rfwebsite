@@ -18,6 +18,7 @@ const IGNORED_TABLES = [
 	/^_emdash_cron_tasks$/,
 	/^_emdash_migrations/,
 	/^_emdash_media_usage/,
+	/_fts/, // search index: derived from the content, reorganised in the background
 	/^_emdash_revision_prune_queue$/,
 	/^_emdash_(api_tokens|device_codes|authorization_codes|oauth_clients|oauth_tokens)$/,
 	/^(audit_logs|auth_challenges|auth_tokens|credentials|oauth_accounts|users|allowed_domains)$/,

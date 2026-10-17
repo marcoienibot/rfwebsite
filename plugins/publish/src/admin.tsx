@@ -12,6 +12,7 @@ const API = "/_emdash/api/plugins/publish";
 
 interface Status {
 	unpublishedChanges: boolean;
+	drafts: Array<{ title: string; collection: string; id: string }>;
 	unpushedCommits: number;
 	newerVersionAvailable: boolean;
 	online: boolean;
@@ -142,6 +143,26 @@ function PublishPanel({ compact = false }: { compact?: boolean }) {
 					variant="alert"
 					title="You're offline"
 					description="You can keep editing. Publishing needs an internet connection."
+				/>
+			)}
+
+			{status.drafts.length > 0 && (
+				<Banner
+					variant="alert"
+					title={`${status.drafts.length} ${status.drafts.length === 1 ? "entry has" : "entries have"} unpublished edits`}
+					description={
+						<>
+							These won’t appear on the website until you open them and click <strong>Publish</strong>:{" "}
+							{status.drafts.map((draft, index) => (
+								<React.Fragment key={draft.id}>
+									{index > 0 && ", "}
+									<a className="underline" href={`/_emdash/admin/content/${draft.collection}/${draft.id}`}>
+										{draft.title}
+									</a>
+								</React.Fragment>
+							))}
+						</>
+					}
 				/>
 			)}
 
