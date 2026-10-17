@@ -67,6 +67,10 @@ or apply the seed with `npx emdash seed seed/seed.json --database content/data.d
 scripts/wordpress/migrate.sh   # replaces content/ with a fresh import of rustfoundation.org
 ```
 
+To re-apply only the page definitions in `scripts/wordpress/pages/` (and event data) to the
+existing content, keeping everything edited in the admin, run
+`node scripts/wordpress/update-content.mjs .cache/wordpress [page-slug…]` while `npm run dev` is running.
+
 ### Custom domain
 
 Configure the domain in the repository's GitHub Pages settings. The workflow reads the site URL from
