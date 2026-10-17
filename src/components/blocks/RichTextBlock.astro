@@ -4,10 +4,24 @@ import RichText from "../RichText.astro";
 const { value } = Astro.props;
 ---
 
-<section id={value.anchor_id || undefined} class:list={["section rich", `bg-${value.background ?? "white"}`]}>
+<section
+	id={value.anchor_id || undefined}
+	class:list={["section rich", `bg-${value.background ?? "white"}`, `rich--columns-${value.columns ?? "1"}`]}
+>
 	<div class={value.width === "wide" ? "container" : "container--narrow"}>
-		{value.headline && <h2 class="rich__headline">{value.headline}</h2>}
-		<RichText value={value.body} />
+		{
+			value.collapsible && value.headline ? (
+				<details class="rich__details">
+					<summary>{value.headline}</summary>
+					<RichText value={value.body} />
+				</details>
+			) : (
+				<>
+					{value.headline && <h2 class="rich__headline">{value.headline}</h2>}
+					<RichText value={value.body} />
+				</>
+			)
+		}
 	</div>
 </section>
 
@@ -18,5 +32,58 @@ const { value } = Astro.props;
 
 	.rich__headline {
 		text-align: center;
+	}
+
+	.rich--columns-2 :global(.prose) {
+		columns: 2 18rem;
+		column-gap: 3rem;
+	}
+
+	.rich--columns-3 :global(.prose) {
+		columns: 3 14rem;
+		column-gap: 2.5rem;
+	}
+
+	.rich :global(.prose li) {
+		break-inside: avoid;
+	}
+
+	/* A collapsed section directly after another one sits right under it. */
+	.rich:has(.rich__details) {
+		padding-block: 0;
+	}
+
+	.rich__details {
+		border-bottom: 1px solid var(--blue-20);
+	}
+
+	.rich__details summary {
+		position: relative;
+		padding: 1rem 2.5rem 1rem 0;
+		font-family: var(--font-serif);
+		font-size: 1.3rem;
+		cursor: pointer;
+		list-style: none;
+	}
+
+	.rich__details summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.rich__details summary::after {
+		content: "+";
+		position: absolute;
+		right: 0.5rem;
+		top: 0.8rem;
+		font-size: 1.5rem;
+		color: var(--rust);
+	}
+
+	.rich__details[open] summary::after {
+		content: "–";
+	}
+
+	.rich__details :global(.prose) {
+		padding-bottom: 1.5rem;
 	}
 </style>

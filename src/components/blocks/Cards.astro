@@ -1,36 +1,51 @@
 ---
 import Img from "../Img.astro";
+import Paragraphs from "../Paragraphs.astro";
 import { linkAttrs } from "../../utils/links";
-import { paragraphs } from "../../utils/text";
 
 const { value } = Astro.props;
+const style = value.style ?? "boxed";
+
+type Card = { title: string; text?: string; image?: never; url?: string; link_label?: string };
+
+/** Pricing cards: the first paragraph is the price, the rest describes the tier. */
+function splitPrice(text = "") {
+	const [price = "", ...rest] = text.split(/\n\s*\n/);
+	return { price: price.trim(), rest: rest.join("\n\n") };
+}
 ---
 
 <section id={value.anchor_id || undefined} class:list={["section", `bg-${value.background ?? "white"}`]}>
 	<div class="container">
 		{value.headline && <h2 class="heading-center">{value.headline}</h2>}
-		{paragraphs(value.text).map((p) => <p class="cards__text">{p}</p>)}
-		<ul class:list={["cards", `cards--${value.style ?? "boxed"}`]}>
+		<Paragraphs text={value.text} class="cards__text" />
+		<ul class:list={["cards", `cards--${style}`]}>
 			{
-				value.cards?.map((card: { title: string; text?: string; image?: never; url?: string; link_label?: string }) => (
-					<li class="cards__item">
-						{card.image && <Img image={card.image} class="cards__image" />}
-						<h3>{card.url ? <a {...linkAttrs(card.url)}>{card.title}</a> : card.title}</h3>
-						{paragraphs(card.text).map((p) => <p>{p}</p>)}
-						{card.url && card.link_label && (
-							<a {...linkAttrs(card.url)} class="cards__link">
-								{card.link_label}
-							</a>
-						)}
-					</li>
-				))
+				value.cards?.map((card: Card) => {
+					const { price, rest } = style === "pricing" ? splitPrice(card.text) : { price: "", rest: card.text };
+					return (
+						<li class="cards__item">
+							{card.image && <Img image={card.image} class="cards__image" />}
+							<h3>{card.url && style !== "pricing" ? <a {...linkAttrs(card.url)}>{card.title}</a> : card.title}</h3>
+							{price && <p class="cards__price">{price}</p>}
+							<div class="cards__body">
+								<Paragraphs text={rest} />
+							</div>
+							{card.url && (card.link_label || style === "pricing") && (
+								<a {...linkAttrs(card.url)} class={style === "pricing" ? "btn btn--small cards__button" : "cards__link"}>
+									{card.link_label || "Learn more"}
+								</a>
+							)}
+						</li>
+					);
+				})
 			}
 		</ul>
 	</div>
 </section>
 
 <style>
-	.cards__text {
+	.container > :global(.cards__text) {
 		max-width: 60rem;
 		margin-inline: auto;
 		text-align: center;
@@ -43,6 +58,11 @@ const { value } = Astro.props;
 		margin: 1.5rem 0 0;
 		padding: 0;
 		list-style: none;
+	}
+
+	.cards__item {
+		display: flex;
+		flex-direction: column;
 	}
 
 	.cards--boxed .cards__item {
@@ -76,11 +96,60 @@ const { value } = Astro.props;
 		margin-bottom: 1rem;
 	}
 
-	.cards__item p {
+	.cards__body :global(:is(p, ul)) {
 		font-size: 0.95rem;
 	}
 
 	.cards__link {
 		font-size: 0.9rem;
+	}
+
+	/* Pricing table */
+	.cards--pricing .cards__item {
+		padding: 0 0 1.5rem;
+		color: var(--ink);
+		background: var(--white);
+		border: 1px solid var(--blue-20);
+	}
+
+	.cards--pricing h3 {
+		padding: 1.25rem 1.25rem 0.75rem;
+		margin: 0;
+		text-align: center;
+	}
+
+	.cards__price {
+		margin: 0 0 1rem;
+		padding: 0.6rem 1rem;
+		font-size: 1.5rem;
+		line-height: 1.2;
+		text-align: center;
+		color: var(--white);
+		background: #707070;
+	}
+
+	.cards--pricing .cards__body {
+		padding-inline: 1.25rem;
+	}
+
+	.cards--pricing .cards__body :global(ul) {
+		padding: 0;
+		list-style: none;
+	}
+
+	.cards--pricing .cards__body :global(li) {
+		padding: 0.5rem 0 0.5rem 1.6rem;
+		border-top: 1px solid var(--blue-20);
+		background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d34516' stroke-width='3'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") no-repeat 0 0.75rem / 1rem;
+	}
+
+	.cards__button {
+		align-self: center;
+		margin-top: auto;
+		background: var(--navy);
+	}
+
+	.cards__button:hover {
+		background: var(--rust);
 	}
 </style>

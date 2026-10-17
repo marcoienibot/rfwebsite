@@ -1,6 +1,6 @@
 ---
+import Paragraphs from "../Paragraphs.astro";
 import Img from "../Img.astro";
-import { paragraphs } from "../../utils/text";
 
 const { value } = Astro.props;
 const items = value.items ?? [];
@@ -16,9 +16,7 @@ const items = value.items ?? [];
 						{item.photo && <Img image={item.photo} alt="" class="quote__photo" />}
 						<div>
 							<blockquote>
-								{paragraphs(item.quote).map((p) => (
-									<p>{p}</p>
-								))}
+								<Paragraphs text={item.quote} />
 							</blockquote>
 							{(item.name || item.role) && (
 								<figcaption>
@@ -37,8 +35,8 @@ const items = value.items ?? [];
 <style>
 	.quotes__list {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-		gap: 1.5rem;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
+		gap: 2rem 2.5rem;
 	}
 
 	.quotes__list--single {
@@ -55,8 +53,8 @@ const items = value.items ?? [];
 	}
 
 	.quote :global(.quote__photo) {
-		width: 6rem;
-		height: 6rem;
+		width: 5rem;
+		height: 5rem;
 		border-radius: 50%;
 		object-fit: cover;
 	}

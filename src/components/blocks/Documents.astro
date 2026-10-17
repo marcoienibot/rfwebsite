@@ -1,8 +1,9 @@
 ---
+import Paragraphs from "../Paragraphs.astro";
 import { documents } from "../../utils/content";
 import { linkAttrs } from "../../utils/links";
 import { mediaSrc } from "../../utils/media";
-import { formatDate, paragraphs } from "../../utils/text";
+import { formatDate } from "../../utils/text";
 
 const { value } = Astro.props;
 let docs = await documents(value.category ?? "rust-foundation-reports");
@@ -13,7 +14,7 @@ const href = (doc: (typeof docs)[number]) => mediaSrc(doc.data.file as never) ??
 <section id={value.anchor_id || undefined} class:list={["section docs", `bg-${value.background ?? "white"}`]}>
 	<div class="container">
 		{value.headline && <h2 class="heading-center">{value.headline}</h2>}
-		{paragraphs(value.text).map((p) => <p class="docs__text">{p}</p>)}
+		<Paragraphs text={value.text} class="docs__text" />
 		{
 			value.style === "list" ? (
 				<ul class="docs__list">
@@ -44,7 +45,7 @@ const href = (doc: (typeof docs)[number]) => mediaSrc(doc.data.file as never) ??
 </section>
 
 <style>
-	.docs__text {
+	.docs :global(.docs__text) {
 		max-width: 60rem;
 		margin-inline: auto;
 		text-align: center;

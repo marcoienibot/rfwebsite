@@ -1,7 +1,7 @@
 ---
+import Paragraphs from "../Paragraphs.astro";
 import { linkAttrs } from "../../utils/links";
 import { mediaSrc } from "../../utils/media";
-import { paragraphs } from "../../utils/text";
 
 const { value } = Astro.props;
 const photo = mediaSrc(value.background_image);
@@ -10,11 +10,11 @@ const photo = mediaSrc(value.background_image);
 <section
 	id={value.anchor_id || undefined}
 	class:list={["cta", `bg-${value.background ?? "light"}`, { "cta--photo": photo }]}
-	style={photo ? `--cta-photo: url("${photo}")` : undefined}
+	style={photo ? `--cta-photo: url(${photo})` : undefined}
 >
 	<div class="container">
 		<h2>{value.headline}</h2>
-		{paragraphs(value.text).map((p) => <p>{p}</p>)}
+		<Paragraphs text={value.text} />
 		{
 			value.buttons?.length > 0 && (
 				<div class="btn-row btn-row--center">
@@ -39,7 +39,7 @@ const photo = mediaSrc(value.background_image);
 		font-size: clamp(1.6rem, 3vw, 2.25rem);
 	}
 
-	.cta p {
+	.cta :global(p) {
 		max-width: 50rem;
 		margin-inline: auto;
 	}
@@ -53,5 +53,13 @@ const photo = mediaSrc(value.background_image);
 		background:
 			linear-gradient(90deg, rgb(40 96 127 / 0.95), rgb(40 96 127 / 0.55) 55%, rgb(255 255 255 / 0)),
 			var(--cta-photo) center / cover;
+	}
+
+	@media (max-width: 45rem) {
+		.cta--photo {
+			background:
+				linear-gradient(rgb(40 96 127 / 0.75), rgb(40 96 127 / 0.75)),
+				var(--cta-photo) center / cover;
+		}
 	}
 </style>

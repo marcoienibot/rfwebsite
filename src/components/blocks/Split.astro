@@ -1,7 +1,7 @@
 ---
+import Paragraphs from "../Paragraphs.astro";
 import Img from "../Img.astro";
 import { linkAttrs } from "../../utils/links";
-import { paragraphs } from "../../utils/text";
 
 const { value } = Astro.props;
 const position = value.image_position ?? "above";
@@ -14,7 +14,7 @@ const position = value.image_position ?? "above";
 		</div>
 		<div class="split__text">
 			<h2>{value.headline}</h2>
-			{paragraphs(value.text).map((p) => <p>{p}</p>)}
+			<Paragraphs text={value.text} />
 			{
 				value.buttons?.length > 0 && (
 					<div class="btn-row">
@@ -43,10 +43,9 @@ const position = value.image_position ?? "above";
 
 	.split__image :global(img) {
 		display: block;
-		width: 100%;
+		max-width: 100%;
 		height: auto;
-		max-height: 32rem;
-		object-fit: cover;
+		margin-inline: auto;
 	}
 
 	.split--above .split__text {

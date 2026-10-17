@@ -52,7 +52,7 @@ export default async ({ image, file, richText }) => ({
 				{ name: "Rust Foundation primary logo in black", logo: await image(`${U}/2024/07/rf-logo-primary-black-1.png`, "Rust Foundation primary logo in black") },
 				{ name: "Rust Foundation primary logo in Rust orange", logo: await image(`${U}/2024/07/rf–logo-primary-rust-1.png`, "Rust Foundation primary logo in Rust orange") },
 			],
-			background: "light",
+			background: "slate",
 		},
 		{
 			_type: "logo_wall",
@@ -63,7 +63,7 @@ export default async ({ image, file, richText }) => ({
 				{ name: "Rust Foundation secondary logo in black", logo: await image(`${U}/2023/10/Rust-Foundation-Black.png`, "Rust Foundation secondary logo in black") },
 				{ name: "Rust Foundation secondary logo in Rust orange", logo: await image(`${U}/2024/07/rf-logo-secondary1-rust.png`, "Rust Foundation secondary logo in Rust orange") },
 			],
-			background: "light",
+			background: "slate",
 		},
 		{
 			_type: "split",

@@ -37,7 +37,7 @@ export default async ({ image, file, richText }) => ({
 			color: "navy",
 			image_side: "right",
 			headline: "Developing Rust Security Expertise",
-			text: "Through the Security Initiative, we have hired a full-time Security Engineer and a security-focused Software Engineer who help lead the program and regularly collaborate with members of the Rust Project’s crates.io Team, Infrastructure Team, Security Response Working Group, and Secure Code Working Group, in addition to specific external stakeholders.",
+			text: "Through the Security Initiative, we have hired a full-time Security Engineer and a security-focused Software Engineer who help lead the program and regularly collaborate with members of the Rust Project’s [crates.io Team](https://www.rust-lang.org/governance/teams/crates-io), [Infrastructure Team](https://www.rust-lang.org/governance/teams/infra), [Security Response Working Group](https://www.rust-lang.org/governance/wgs/wg-security-response), and [Secure Code Working Group](https://www.rust-lang.org/governance/wgs/wg-secure-code), in addition to specific external stakeholders.",
 			image: await image(`${U}/2024/09/expertise.png`, "Brain and magnifying glass icon"),
 		},
 		{
@@ -61,7 +61,7 @@ export default async ({ image, file, richText }) => ({
 			color: "navy",
 			image_side: "left",
 			headline: "Actionable Security Research",
-			text: "The findings of our work under the Security Initiative have revealed the need for new open source tools and features to enhance maintainers’ security workflows and unlock greater insight into vulnerabilities. To date, our team has created the following new open source Rust security tools:\n\nPainter – Creates a complete call graph across the entire crates ecosystem to reveal how crates relate to each other.\n\nTypomania – Detects potential typosquatting as a reusable library that can be adapted to any registry.",
+			text: "The findings of our work under the Security Initiative have revealed the need for new open source tools and features to enhance maintainers’ security workflows and unlock greater insight into vulnerabilities. To date, our team has created the following new open source Rust security tools:\n\n- [Painter](https://github.com/rustfoundation/painter) – Creates a complete call graph across the entire crates ecosystem to reveal how crates relate to each other.\n- [Typomania](https://github.com/rustfoundation/typomania) – Detects potential typosquatting as a reusable library that can be adapted to any registry.",
 			image: await image(`${U}/2024/09/research.png`, "Book with lock icon"),
 		},
 		{

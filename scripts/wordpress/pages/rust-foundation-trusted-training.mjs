@@ -189,6 +189,7 @@ export default async ({ image, richText }) => ({
 		},
 		{
 			_type: "faq",
+			category: "none",
 			background: "blush",
 			items: [
 				{
@@ -218,9 +219,15 @@ export default async ({ image, richText }) => ({
 			anchor_id: "resources",
 			headline: "Application Support",
 			body: await richText(
-				`<p>Once we’ve approved your request for the full application, here’s what you need to know before submitting your materials.</p>
-<h3>Application Guide &amp; Checklist</h3>
-<p><a href="${U}/2026/06/RFTT-Applicant-Checklist-Best-Practices.pdf">↓ View as PDF</a></p>
+				`<p>Once we’ve approved your request for the full application, here’s what you need to know before submitting your materials.</p>`,
+			),
+		},
+		{
+			_type: "rich_text",
+			headline: "Application Guide & Checklist",
+			collapsible: true,
+			body: await richText(
+				`<p><a href="${U}/2026/06/RFTT-Applicant-Checklist-Best-Practices.pdf">↓ View as PDF</a></p>
 <p><strong>Best Practices</strong></p>
 <p>Before starting the application form, take time to gather all required materials - it’s easy to underestimate. This will help you complete the form efficiently and avoid delays during review.</p>
 <ul>
@@ -301,9 +308,15 @@ export default async ({ image, richText }) => ({
 <ul>
 <li>Pay by credit card (via Stripe) immediately</li>
 <li>Pay by bank transfer (provide billing contact for invoice)</li>
-</ul>
-<h3>Application Criteria</h3>
-<p><a href="${U}/2026/06/RFTT-Accreditation-Criteria.pdf">↓ View as PDF</a></p>
+</ul>`,
+			),
+		},
+		{
+			_type: "rich_text",
+			headline: "Application Criteria",
+			collapsible: true,
+			body: await richText(
+				`<p><a href="${U}/2026/06/RFTT-Accreditation-Criteria.pdf">↓ View as PDF</a></p>
 <p>All training programs submitted for accreditation must meet the following criteria:</p>
 <p><strong>1. Eligibility</strong></p>
 <ul>
@@ -350,7 +363,6 @@ export default async ({ image, richText }) => ({
 <li>Participant acknowledges that the Rust Foundation reserves the right to collect direct feedback from clients/learners in the future and that this feedback must be made available to the Rust Foundation.</li>
 </ul>`,
 			),
-			background: "blush",
 		},
 		{
 			_type: "people_grid",

@@ -1,0 +1,27 @@
+---
+/** Renders a plain multi-line text field: paragraphs, "- " lists and [links](…). */
+import { textBlocks } from "../utils/inline";
+
+interface Props {
+	text: string | null | undefined;
+	class?: string;
+	/** Style an opening phrase in capitals ("OUR MISSION is…"). */
+	leadIn?: boolean;
+}
+
+const { text, class: className, leadIn = false } = Astro.props;
+---
+
+{
+	textBlocks(text, { emphasiseLeadIn: leadIn }).map((block) =>
+		block.type === "p" ? (
+			<p class={className} set:html={block.html} />
+		) : (
+			<ul class={className}>
+				{block.items.map((item) => (
+					<li set:html={item} />
+				))}
+			</ul>
+		),
+	)
+}

@@ -199,8 +199,11 @@ for (const event of wpEvents) {
 		status: "published",
 		data: {
 			title: decodeEntities(event.title),
-			starts: `${event.utc_start_date.replace(" ", "T")}Z`,
-			ends: event.utc_end_date ? `${event.utc_end_date.replace(" ", "T")}Z` : undefined,
+			// Local wall-clock time at the event, so dates read as on the old site.
+			starts: `${event.start_date.replace(" ", "T")}Z`,
+			ends: event.end_date ? `${event.end_date.replace(" ", "T")}Z` : undefined,
+			organizer: event.organizer?.[0]?.organizer ? decodeEntities(event.organizer[0].organizer) : undefined,
+			organizer_url: event.organizer?.[0]?.website || undefined,
 			location: location ? decodeEntities(location) : undefined,
 			category: category ?? "attending",
 			website: event.website || undefined,

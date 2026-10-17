@@ -30,7 +30,7 @@ export default async ({ richText }) => ({
 			_type: "people_grid",
 			anchor_id: "infra-team",
 			headline: "Key Contributors",
-			text: "The following team members help direct and carry out the Rust Foundation’s infrastructure contributions to the Rust language ecosystem. They remain in constant collaboration with the Rust Project’s Infrastructure Team.",
+			text: "The following team members help direct and carry out the Rust Foundation’s infrastructure contributions to the Rust language ecosystem. They remain in constant collaboration with the Rust Project’s [Infrastructure Team](https://www.rust-lang.org/governance/teams/infra).",
 			group: "infrastructure-contributors",
 		},
 		{
@@ -56,9 +56,8 @@ export default async ({ richText }) => ({
 			_type: "post_cards",
 			anchor_id: "infra-stories",
 			headline: "Related Stories",
-			category: "all",
-			tag: "infrastructure",
-			count: 4,
+			// Hand-picked, as on the old site.
+			posts: "/media/welcoming-infrastructure-engineer-marco-ieni-to-the-rust-foundation-team/\n/media/the-new-stack-rust-growing-fastest-but-javascript-reigns-supreme/\n/media/rust-foundation-annual-report-2023/\n/media/rust-foundation-joins-open-infrastructure-foundation-as-associate-member/\n/media/mit-technology-review-how-rust-went-from-a-side-project-to-the-worlds-most-loved-programming-language/\n/media/rust-foundation-annual-report-2022/\n/media/join-the-rust-foundation-at-rust-nation-uk-2023/\n/media/rust-foundation-included-in-fastlys-fast-forward-program/\n/media/welcome-jan-david-rust-foundation-infrastructure-engineer/",
 		},
 		{
 			_type: "cta",

@@ -13,5 +13,5 @@ const posts = await allPosts();
 ---
 
 <Base title={`Media Room – page ${page}`}>
-	<PostListing posts={posts} page={page} href={(n) => (n === 1 ? "/media/" : `/media/page/${n}/`)} />
+	<PostListing posts={posts} page={page} href={(n) => (n === 1 ? "/media/" : `/media/page/${n}/`)} feature />
 </Base>

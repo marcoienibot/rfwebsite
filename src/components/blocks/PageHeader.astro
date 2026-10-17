@@ -1,7 +1,8 @@
 ---
+import Paragraphs from "../Paragraphs.astro";
 import Img from "../Img.astro";
 import { linkAttrs } from "../../utils/links";
-import { leadIn, paragraphs } from "../../utils/text";
+import { paragraphs } from "../../utils/text";
 
 const { value } = Astro.props;
 const intro = paragraphs(value.intro);
@@ -15,15 +16,7 @@ const intro = paragraphs(value.intro);
 				<div class:list={["page-header__intro", { "page-header__intro--icon": value.icon }]}>
 					{value.icon && <Img image={value.icon} class="page-header__icon" loading="eager" />}
 					<div>
-						{intro.map((paragraph) => {
-							const { lead, rest } = leadIn(paragraph);
-							return (
-								<p>
-									{lead && <span class="lead-in">{lead}</span>}
-									{rest}
-								</p>
-							);
-						})}
+						<Paragraphs text={value.intro} leadIn />
 					</div>
 				</div>
 			)
@@ -88,11 +81,15 @@ const intro = paragraphs(value.intro);
 		height: auto;
 	}
 
-	.page-header__intro p:last-child {
+	.page-header__intro :global(p:last-child) {
 		margin-bottom: 0;
 	}
 
-	.lead-in {
+	.page-header__intro :global(a) {
+		color: inherit;
+	}
+
+	.page-header__intro :global(.lead-in) {
 		font-weight: 400;
 		letter-spacing: 0.02em;
 	}

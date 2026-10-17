@@ -181,7 +181,7 @@ const URL_ATTRIBUTE =
 	/(\s(?:href|src|action|poster|content|component-url|renderer-url|before-hydration-url|data-src)=["'])\/(?!\/)/g;
 const SRCSET = /(\ssrcset=["'])([^"']*)(["'])/g;
 const META_REFRESH = /(content=["']\d+;\s*url=)\/(?!\/)/gi;
-const CSS_URL = /url\((["']?)\/(?!\/)/g;
+const CSS_URL = /url\((["']|&quot;|&#34;|&#x27;)?\/(?!\/)/g;
 const JS_ASSET = /(["'`])\/_astro\//g;
 
 async function rebase(files, base) {

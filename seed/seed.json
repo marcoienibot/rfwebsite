@@ -34,7 +34,7 @@
 						},
 						{
 							"slug": "intro",
-							"label": "Introduction (leave a blank line between paragraphs; text before a colon in CAPITALS is emphasised)",
+							"label": "Introduction (blank line = new paragraph, “- ” = list item, [text](https://…) = link)",
 							"type": "text"
 						},
 						{
@@ -105,7 +105,7 @@
 						},
 						{
 							"slug": "text",
-							"label": "Text (leave a blank line between paragraphs)",
+							"label": "Text (blank line = new paragraph, “- ” = list item, [text](https://…) = link)",
 							"type": "text"
 						},
 						{
@@ -180,7 +180,7 @@
 						},
 						{
 							"slug": "text",
-							"label": "Text (leave a blank line between paragraphs)",
+							"label": "Text (blank line = new paragraph, “- ” = list item, [text](https://…) = link)",
 							"type": "text",
 							"required": true
 						},
@@ -282,6 +282,25 @@
 							"defaultValue": "narrow"
 						},
 						{
+							"slug": "columns",
+							"label": "Columns (long lists read better in 2 or 3)",
+							"type": "select",
+							"validation": {
+								"options": [
+									"1",
+									"2",
+									"3"
+								]
+							},
+							"defaultValue": "1"
+						},
+						{
+							"slug": "collapsible",
+							"label": "Collapsed: the headline opens and closes the text",
+							"type": "boolean",
+							"defaultValue": false
+						},
+						{
 							"slug": "anchor_id",
 							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
 							"type": "string",
@@ -311,7 +330,7 @@
 						},
 						{
 							"slug": "text",
-							"label": "Text (leave a blank line between paragraphs)",
+							"label": "Text (blank line = new paragraph, “- ” = list item, [text](https://…) = link)",
 							"type": "text"
 						},
 						{
@@ -621,6 +640,11 @@
 							"type": "string"
 						},
 						{
+							"slug": "posts",
+							"label": "Or pick posts: one post link or slug per line (overrides category and tag)",
+							"type": "text"
+						},
+						{
 							"slug": "count",
 							"label": "How many",
 							"type": "integer",
@@ -732,12 +756,13 @@
 						},
 						{
 							"slug": "style",
-							"label": "Style",
+							"label": "Style (pricing: the first paragraph is the price, the link becomes a button)",
 							"type": "select",
 							"validation": {
 								"options": [
 									"boxed",
-									"plain"
+									"plain",
+									"pricing"
 								]
 							},
 							"defaultValue": "boxed"
@@ -999,10 +1024,11 @@
 						},
 						{
 							"slug": "category",
-							"label": "Which questions",
+							"label": "Questions from the FAQs list",
 							"type": "select",
 							"validation": {
 								"options": [
+									"none",
 									"mission-purpose-leadership",
 									"definitions",
 									"finance-funding-membership",
@@ -1014,7 +1040,7 @@
 									"rftt"
 								]
 							},
-							"defaultValue": "mission-purpose-leadership"
+							"defaultValue": "none"
 						},
 						{
 							"slug": "items",
@@ -1030,7 +1056,7 @@
 									},
 									{
 										"slug": "answer",
-										"label": "Answer (leave a blank line between paragraphs)",
+										"label": "Answer (blank line = new paragraph, “- ” = list item, [text](https://…) = link)",
 										"type": "text",
 										"required": true
 									}
@@ -1415,6 +1441,12 @@
 					"slug": "external_url",
 					"label": "External article (press coverage: the post links straight to this URL)",
 					"type": "url"
+				},
+				{
+					"slug": "featured",
+					"label": "Pin as the featured post at the top of the Media Room",
+					"type": "boolean",
+					"defaultValue": false
 				}
 			]
 		},
@@ -1502,7 +1534,7 @@
 				},
 				{
 					"slug": "bio",
-					"label": "About (leave a blank line between paragraphs)",
+					"label": "About (blank line = new paragraph, “- ” = list item, [text](https://…) = link)",
 					"type": "text"
 				},
 				{
@@ -1557,7 +1589,7 @@
 				},
 				{
 					"slug": "bio",
-					"label": "Biography (leave a blank line between paragraphs)",
+					"label": "Biography (blank line = new paragraph, “- ” = list item, [text](https://…) = link)",
 					"type": "text"
 				},
 				{
@@ -1591,13 +1623,13 @@
 				},
 				{
 					"slug": "starts",
-					"label": "Starts",
+					"label": "Starts (local time at the event)",
 					"type": "datetime",
 					"required": true
 				},
 				{
 					"slug": "ends",
-					"label": "Ends",
+					"label": "Ends (local time at the event)",
 					"type": "datetime"
 				},
 				{
@@ -1623,6 +1655,16 @@
 				{
 					"slug": "website",
 					"label": "Event website",
+					"type": "url"
+				},
+				{
+					"slug": "organizer",
+					"label": "Organizer",
+					"type": "string"
+				},
+				{
+					"slug": "organizer_url",
+					"label": "Organizer website",
 					"type": "url"
 				},
 				{
@@ -1760,15 +1802,18 @@
 			"terms": [
 				{
 					"slug": "news",
-					"label": "News"
+					"label": "News",
+					"description": "Official announcements from the Rust Foundation."
 				},
 				{
 					"slug": "blog",
-					"label": "Blog"
+					"label": "Blog",
+					"description": "Stories and insights from the Rust Foundation."
 				},
 				{
 					"slug": "press",
-					"label": "Press"
+					"label": "Press",
+					"description": "Press clips and media mentions of the Rust Foundation."
 				}
 			]
 		},

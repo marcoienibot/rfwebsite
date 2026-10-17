@@ -374,6 +374,20 @@ a.tag:hover {
 	gap: 0.75rem;
 }
 
+/* Longer hand-picked lists scroll sideways, like the old carousels. */
+.post-grid--scroll {
+	grid-auto-flow: column;
+	grid-template-columns: none;
+	grid-auto-columns: minmax(min(85%, 18rem), calc(25% - 0.6rem));
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	padding-bottom: 0.75rem;
+}
+
+.post-grid--scroll > * {
+	scroll-snap-align: start;
+}
+
 .logo-grid {
 	display: flex;
 	flex-wrap: wrap;

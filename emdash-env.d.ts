@@ -35,6 +35,8 @@ export interface Event {
   website?: string;
   image?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
   description?: PortableTextBlock[];
+  organizer?: string;
+  organizer_url?: string;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -128,6 +130,8 @@ export interface PageContentRichTextV1Block {
   "body"?: PortableTextBlock[] | null;
   "background"?: "white" | "light" | "navy" | "teal" | "slate" | "blush" | null;
   "width"?: "narrow" | "wide" | null;
+  "columns"?: "1" | "2" | "3" | null;
+  "collapsible"?: boolean | null;
   "anchor_id"?: string | null;
 }
 
@@ -193,6 +197,7 @@ export interface PageContentPostCardsV1Block {
   "headline": string;
   "category"?: "all" | "news" | "blog" | "press" | null;
   "tag"?: string | null;
+  "posts"?: string | null;
   "count"?: number | null;
   "buttons"?: { "label": string; "url"?: string | null }[] | null;
   "background"?: "white" | "light" | "navy" | "teal" | "slate" | "blush" | null;
@@ -208,7 +213,7 @@ export interface PageContentCardsV1Block {
   "headline"?: string | null;
   "text"?: string | null;
   "cards"?: { "title": string; "text"?: string | null; "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null; "url"?: string | null; "link_label"?: string | null }[] | null;
-  "style"?: "boxed" | "plain" | null;
+  "style"?: "boxed" | "plain" | "pricing" | null;
   "background"?: "white" | "light" | "navy" | "teal" | "slate" | "blush" | null;
   "anchor_id"?: string | null;
 }
@@ -266,7 +271,7 @@ export interface PageContentFaqV1Block {
   _version: 1;
   _key: string;
   "headline"?: string | null;
-  "category"?: "mission-purpose-leadership" | "definitions" | "finance-funding-membership" | "legal-administrative" | "decision-making-collaboration" | "transparency-communication" | "initiatives" | "rust-innovation-lab" | "rftt" | null;
+  "category"?: "none" | "mission-purpose-leadership" | "definitions" | "finance-funding-membership" | "legal-administrative" | "decision-making-collaboration" | "transparency-communication" | "initiatives" | "rust-innovation-lab" | "rftt" | null;
   "items"?: { "question": string; "answer": string }[] | null;
   "background"?: "white" | "light" | "navy" | "teal" | "slate" | "blush" | null;
   "anchor_id"?: string | null;
@@ -391,6 +396,7 @@ export interface Post {
   featured_image?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
   content?: PortableTextBlock[];
   external_url?: string;
+  featured?: boolean;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;

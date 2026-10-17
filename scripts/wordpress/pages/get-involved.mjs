@@ -25,7 +25,7 @@ export default async ({ image, file, richText }) => ({
 			anchor_id: "membership-info",
 			headline: "Interested in Becoming a Rust Foundation Member?",
 			text: "Rust Foundation membership is the best way to directly support the Rust programming language and provide critical tools to the Rust Project and community. Our membership opportunities are divided into four tiers: Platinum, Gold, Silver, and Associate. Below, you’ll find more information about each category:",
-			style: "boxed",
+			style: "pricing",
 			cards: [
 				{
 					title: "Platinum Membership",
@@ -86,7 +86,7 @@ export default async ({ image, file, richText }) => ({
 			_type: "cta",
 			anchor_id: "maintainers",
 			headline: "Support Rust Maintainers",
-			text: "You can also donate directly to the Rust Foundation Maintainers Fund through our GitHub Sponsorship page. Donations received through this platform help fund the hardworking people maintaining the Rust programming language.",
+			text: "You can also donate directly to the Rust Foundation Maintainers Fund through our [GitHub Sponsorship page](https://github.com/sponsors/rustfoundation). Donations received through this platform help fund the hardworking people maintaining the Rust programming language.",
 			buttons: [{ label: "Explore Our Maintainers Fund", url: "https://github.com/sponsors/rustfoundation" }],
 			background: "teal",
 		},
@@ -94,7 +94,7 @@ export default async ({ image, file, richText }) => ({
 			_type: "cta",
 			anchor_id: "ril",
 			headline: "Host Your Project at the Rust Foundation",
-			text: "The Rust Foundation has the tools, resources, network, and professional expertise to build and scale open source projects through the Rust Innovation Lab.\n\nInterested in how the Rust Foundation can benefit your project through hosting? Learn more here.",
+			text: "The Rust Foundation has the tools, resources, network, and professional expertise to build and scale open source projects through the [Rust Innovation Lab](/rust-innovation-lab/).\n\nInterested in how the Rust Foundation can benefit your project through hosting? Learn more [here](/rust-innovation-lab/).",
 			buttons: [{ label: "Explore the Rust Innovation Lab", url: "/rust-innovation-lab/" }],
 			background: "teal",
 		},

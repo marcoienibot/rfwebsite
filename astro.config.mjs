@@ -1,5 +1,6 @@
 import node from "@astrojs/node";
 import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
 import { publishPlugin } from "@rfwebsite/plugin-publish";
 import icon from "astro-iconset";
 import { defineConfig, fontProviders } from "astro/config";
@@ -21,6 +22,7 @@ export default defineConfig({
 	adapter: node({ mode: "standalone" }),
 	integrations: [
 		react(),
+		sitemap({ filter: (page) => !/\/(search|404)\/?$/.test(page) }),
 		icon({
 			include: {
 				ph: [

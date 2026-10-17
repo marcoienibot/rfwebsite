@@ -1,10 +1,10 @@
 ---
+import Paragraphs from "../Paragraphs.astro";
 import RichText from "../RichText.astro";
 import { faqs } from "../../utils/content";
-import { paragraphs } from "../../utils/text";
 
 const { value } = Astro.props;
-const fromCollection = value.category ? await faqs(value.category) : [];
+const fromCollection = value.category && value.category !== "none" ? await faqs(value.category) : [];
 ---
 
 <section id={value.anchor_id || undefined} class:list={["section faq", `bg-${value.background ?? "white"}`]}>
@@ -23,9 +23,7 @@ const fromCollection = value.category ? await faqs(value.category) : [];
 				<details>
 					<summary>{item.question}</summary>
 					<div class="faq__answer prose">
-						{paragraphs(item.answer).map((p) => (
-							<p>{p}</p>
-						))}
+						<Paragraphs text={item.answer} />
 					</div>
 				</details>
 			))

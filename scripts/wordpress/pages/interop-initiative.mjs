@@ -61,9 +61,8 @@ export default async ({ richText }) => ({
 			_type: "post_cards",
 			anchor_id: "news",
 			headline: "Rust/C++ Interoperability Initiative News",
-			category: "blog",
-			tag: "interop-initiative",
-			count: 4,
+			// Hand-picked, as on the old site.
+			posts: "/media/rust-cpp-interop-initiative-progress-update/\n/media/experimenting-with-function-overloading-in-rust-why-it-matters/\n/media/rust-foundation-interop-initiative-update-from-research-to-implementation/\n/media/google-contributes-1m-to-rust-foundation-to-support-c-rust-interop-initiative/",
 		},
 		{
 			_type: "post_cards",

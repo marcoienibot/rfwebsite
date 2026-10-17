@@ -50,12 +50,18 @@ const range = (start: Date, end?: Date | null) =>
 				))
 			}
 		</ul>
+		{value.show !== "past" && <p class="events__ical"><a href="/events.ics">Add our events to your calendar (iCal)</a></p>}
 	</div>
 </section>
 
 <style>
 	.events {
 		padding-block: 2rem;
+	}
+
+	.events__ical {
+		margin-top: 1.25rem;
+		font-size: 0.95rem;
 	}
 
 	.events__list {

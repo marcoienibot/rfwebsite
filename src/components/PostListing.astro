@@ -1,6 +1,7 @@
 ---
 import { getEmDashEntry } from "emdash";
 import Blocks from "./Blocks.astro";
+import PageHeader from "./blocks/PageHeader.astro";
 import Pagination from "./Pagination.astro";
 import PostCard from "./PostCard.astro";
 import type { Post } from "../utils/content";
@@ -12,30 +13,48 @@ interface Props {
 	page: number;
 	/** URL of page n of this listing */
 	href: (page: number) => string;
+	/** Archive title (category, tag, author) shown instead of "Media Room" */
 	heading?: string;
-	/** Show the newest post as a large featured card on the first page */
+	description?: string;
+	/** Show the pinned (or newest) post as a large featured card on the first page */
 	feature?: boolean;
 }
 
-const { posts, page, href, heading, feature = false } = Astro.props;
-const last = Math.max(1, Math.ceil(posts.length / PER_PAGE));
-const pagePosts = posts.slice((page - 1) * PER_PAGE, page * PER_PAGE);
-const featured = feature && page === 1 ? pagePosts[0] : undefined;
+const { posts, page, href, heading, description, feature = false } = Astro.props;
+// The pinned post leads the first page; it isn't repeated in the grid.
+const pinned = feature ? (posts.find((post) => post.data.featured) ?? posts[0]) : undefined;
+const listed = posts.filter((post) => post !== pinned);
+const last = Math.max(1, Math.ceil(listed.length / PER_PAGE));
+const pagePosts = listed.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+const featured = page === 1 ? pinned : undefined;
 
 // The "Media Room" header is editable: it's the `media` page in the admin.
+// Archives reuse its buttons with their own title.
 const { entry: mediaPage } = await getEmDashEntry("pages", "media");
+const blocks = (mediaPage?.data.content ?? []) as Array<{ _type: string; [key: string]: unknown }>;
+const header = blocks.find((block) => block._type === "page_header");
 ---
 
-<Blocks value={mediaPage?.data.content} />
+{
+	heading ? (
+		<PageHeader value={{ ...header, headline: heading, intro: description ?? "", jump_links: [] }} />
+	) : (
+		<Blocks value={blocks} />
+	)
+}
 
 <section class="listing">
 	<div class="container">
-		{heading && <h2 class="listing__heading">{heading}</h2>}
 		{featured && <PostCard post={featured} featured headingLevel="h2" />}
 		<div class="post-grid listing__grid">
-			{pagePosts.filter((post) => post !== featured).map((post) => <PostCard post={post} headingLevel="h2" />)}
+			{pagePosts.map((post) => <PostCard post={post} headingLevel="h2" />)}
 		</div>
+		{pagePosts.length === 0 && !featured && <p>No posts yet.</p>}
 		<Pagination current={page} last={last} href={href} />
+		<p class="listing__note">
+			Please direct all media inquiries to <a href="mailto:media@rustfoundation.org">media@rustfoundation.org</a>.
+			Thank you!
+		</p>
 	</div>
 </section>
 
@@ -44,8 +63,10 @@ const { entry: mediaPage } = await getEmDashEntry("pages", "media");
 		padding-block: 2rem 4rem;
 	}
 
-	.listing__heading {
-		margin-bottom: 1.5rem;
+	.listing__note {
+		margin-top: 2.5rem;
+		text-align: center;
+		font-size: 0.95rem;
 	}
 
 	.listing__grid {

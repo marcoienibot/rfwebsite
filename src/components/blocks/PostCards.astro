@@ -1,16 +1,24 @@
 ---
 import PostCard from "../PostCard.astro";
-import { postsWhere } from "../../utils/content";
+import { allPosts, postsWhere } from "../../utils/content";
 import { linkAttrs } from "../../utils/links";
 
 const { value } = Astro.props;
-const posts = (await postsWhere({ category: value.category, tag: value.tag || undefined })).slice(0, value.count || 4);
+// Hand-picked posts (one link or slug per line) win over category and tag.
+const picked = String(value.posts ?? "")
+	.split("\n")
+	.map((line) => line.trim().replace(/\/+$/, "").split("/").pop())
+	.filter(Boolean);
+const all = picked.length ? await allPosts() : [];
+const posts = picked.length
+	? picked.flatMap((slug) => all.filter((post) => post.id === slug))
+	: (await postsWhere({ category: value.category, tag: value.tag || undefined })).slice(0, value.count || 4);
 ---
 
 <section id={value.anchor_id || undefined} class:list={["section", `bg-${value.background ?? "white"}`]}>
 	<div class="container">
 		<h2 class="heading-center">{value.headline}</h2>
-		<div class="post-grid">
+		<div class:list={["post-grid", { "post-grid--scroll": posts.length > 4 }]}>
 			{posts.map((post) => <PostCard post={post} />)}
 		</div>
 		{

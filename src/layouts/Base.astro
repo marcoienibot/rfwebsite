@@ -35,6 +35,9 @@ const fullTitle = title && title !== siteTitle ? `${title} ${titleSeparator} ${s
 const site = Astro.site ?? Astro.url;
 const absolute = (path: string) => new URL(path.replace(/^\//, ""), site.href.endsWith("/") ? site : `${site.href}/`).href;
 
+// The Rust Foundation emblem is the share image when a page has none.
+const shareImage = absolute(image ?? "/theme/og-default.png");
+
 const pageCtx = createPublicPageContext({
 	Astro,
 	kind: content ? "content" : "custom",
@@ -43,9 +46,9 @@ const pageCtx = createPublicPageContext({
 	pageTitle: title ?? siteTitle,
 	description: description || siteTagline || undefined,
 	canonical: canonical ?? absolute(Astro.url.pathname),
-	image: image ? absolute(image) : undefined,
+	image: shareImage,
 	content,
-	seo: { ogImage: image ? absolute(image) : undefined, robots },
+	seo: { ogImage: shareImage, robots },
 	siteName: siteTitle,
 });
 

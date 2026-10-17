@@ -1,11 +1,11 @@
 ---
+import Paragraphs from "./Paragraphs.astro";
 /**
  * A logo tile. Clicking it opens a card with the organisation's details,
  * like on the old site; logos without details link straight to the website.
  */
 import Img from "./Img.astro";
 import { linkAttrs } from "../utils/links";
-import { paragraphs } from "../utils/text";
 
 interface Props {
 	id: string;
@@ -39,7 +39,7 @@ const host = website ? new URL(website).hostname.replace(/^www\./, "") : undefin
 						{host}
 					</a>
 				)}
-				{paragraphs(bio).map((p) => <p>{p}</p>)}
+				<Paragraphs text={bio} />
 			</div>
 		</>
 	) : website ? (

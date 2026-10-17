@@ -1,18 +1,16 @@
 ---
+import Paragraphs from "../Paragraphs.astro";
 import { linkAttrs } from "../../utils/links";
-import { paragraphs } from "../../utils/text";
 
 const { value } = Astro.props;
-const [first, ...rest] = paragraphs(value.text);
+const text = value.label ? `**${value.label}** ${value.text ?? ""}` : value.text;
 ---
 
 <section id={value.anchor_id || undefined} class:list={["statement section", `bg-${value.background ?? "light"}`]}>
 	<div class="container">
-		<p class="statement__lead">
-			{value.label && <strong>{value.label}</strong>}
-			{first}
-		</p>
-		{rest.map((p) => <p>{p}</p>)}
+		<div class="statement__text">
+			<Paragraphs text={text} />
+		</div>
 		{
 			value.buttons?.length > 0 && (
 				<div class="btn-row btn-row--center">
@@ -32,11 +30,11 @@ const [first, ...rest] = paragraphs(value.text);
 		padding-block: 2.5rem;
 	}
 
-	.statement__lead {
+	.statement__text :global(p:first-child) {
 		font-size: 1.15rem;
 	}
 
-	.statement__lead strong {
+	.statement__text :global(p:first-child strong:first-child) {
 		margin-right: 0.35em;
 		font-family: var(--font-serif);
 		font-size: 1.6rem;

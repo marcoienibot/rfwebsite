@@ -7,7 +7,10 @@ import { writeFile } from "node:fs/promises";
 const LINK_PATTERN = "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$";
 
 const string = (slug, label, extra = {}) => ({ slug, label, type: "string", ...extra });
+// Multi-line text: a blank line starts a new paragraph, lines starting with
+// "- " become a list, and [link text](https://…) makes a link.
 const text = (slug, label, extra = {}) => ({ slug, label, type: "text", ...extra });
+const PARAGRAPHS = "(blank line = new paragraph, “- ” = list item, [text](https://…) = link)";
 const link = (slug, label) => ({
 	slug,
 	label: `${label} (starts with /, https://, mailto: or #)`,
@@ -100,7 +103,7 @@ const block = (slug, label, description, fields) => ({
 const blockTypes = [
 	block("page_header", "Page header", "The dark blue introduction at the top of a page", [
 		string("headline", "Headline", { required: true }),
-		text("intro", "Introduction (leave a blank line between paragraphs; text before a colon in CAPITALS is emphasised)"),
+		text("intro", `Introduction ${PARAGRAPHS}`),
 		image("icon", "Small round icon next to the introduction"),
 		repeater("jump_links", "“Jump to” links", [
 			string("label", "Text", { required: true }),
@@ -110,7 +113,7 @@ const blockTypes = [
 	]),
 	block("feature_band", "Feature band", "A coloured band with a heading, text, button and a round illustration", [
 		string("headline", "Headline", { required: true }),
-		text("text", "Text (leave a blank line between paragraphs)"),
+		text("text", `Text ${PARAGRAPHS}`),
 		string("button_label", "Button text"),
 		link("button_url", "Button link"),
 		image("image", "Round illustration"),
@@ -120,7 +123,7 @@ const blockTypes = [
 	]),
 	block("statement", "Statement", "A short emphasised statement such as the mission", [
 		string("label", "Label in capitals (e.g. OUR MISSION)"),
-		text("text", "Text (leave a blank line between paragraphs)", { required: true }),
+		text("text", `Text ${PARAGRAPHS}`, { required: true }),
 		buttons,
 		select("background", "Background", BACKGROUNDS, "light"),
 		anchor,
@@ -130,11 +133,13 @@ const blockTypes = [
 		{ slug: "body", label: "Text", type: "portableText" },
 		select("background", "Background", BACKGROUNDS, "white"),
 		select("width", "Width", ["narrow", "wide"], "narrow"),
+		select("columns", "Columns (long lists read better in 2 or 3)", ["1", "2", "3"], "1"),
+		{ slug: "collapsible", label: "Collapsed: the headline opens and closes the text", type: "boolean", defaultValue: false },
 		anchor,
 	]),
 	block("split", "Text and image", "Text next to (or below) a large photo", [
 		string("headline", "Headline", { required: true }),
-		text("text", "Text (leave a blank line between paragraphs)"),
+		text("text", `Text ${PARAGRAPHS}`),
 		image("image", "Photo", { required: true }),
 		select("image_position", "Photo position", ["above", "left", "right"], "above"),
 		buttons,
@@ -169,6 +174,7 @@ const blockTypes = [
 		string("headline", "Headline", { required: true }),
 		select("category", "Category", ["all", "news", "blog", "press"], "all"),
 		string("tag", "Only posts with this tag (tag slug, optional)"),
+		text("posts", "Or pick posts: one post link or slug per line (overrides category and tag)"),
 		{ slug: "count", label: "How many", type: "integer", defaultValue: 4 },
 		buttons,
 		select("background", "Background", BACKGROUNDS, "white"),
@@ -184,7 +190,7 @@ const blockTypes = [
 			subLink("url", "Link"),
 			string("link_label", "Link text"),
 		]),
-		select("style", "Style", ["boxed", "plain"], "boxed"),
+		select("style", "Style (pricing: the first paragraph is the price, the link becomes a button)", ["boxed", "plain", "pricing"], "boxed"),
 		select("background", "Background", BACKGROUNDS, "white"),
 		anchor,
 	]),
@@ -217,10 +223,10 @@ const blockTypes = [
 	]),
 	block("faq", "Questions and answers", "Expandable questions and answers from the FAQs list", [
 		string("headline", "Headline"),
-		select("category", "Which questions", FAQ_CATEGORIES, "mission-purpose-leadership"),
+		select("category", "Questions from the FAQs list", ["none", ...FAQ_CATEGORIES], "none"),
 		repeater("items", "Extra questions for this page only", [
 			string("question", "Question", { required: true }),
-			text("answer", "Answer (leave a blank line between paragraphs)", { required: true }),
+			text("answer", `Answer ${PARAGRAPHS}`, { required: true }),
 		]),
 		select("background", "Background", BACKGROUNDS, "white"),
 		anchor,
@@ -292,6 +298,7 @@ const collections = [
 				label: "External article (press coverage: the post links straight to this URL)",
 				type: "url",
 			},
+			{ slug: "featured", label: "Pin as the featured post at the top of the Media Room", type: "boolean", defaultValue: false },
 		],
 	},
 	{
@@ -319,7 +326,7 @@ const collections = [
 			{ slug: "groups", label: "Shown as", type: "multiSelect", validation: { options: ORGANIZATION_GROUPS } },
 			{ slug: "website", label: "Website", type: "url" },
 			string("joined", "Joined (e.g. November, 2021)"),
-			text("bio", "About (leave a blank line between paragraphs)"),
+			text("bio", `About ${PARAGRAPHS}`),
 			{ slug: "order", label: "Order (lower comes first)", type: "integer", defaultValue: 100 },
 		],
 	},
@@ -335,7 +342,7 @@ const collections = [
 			string("role", "Role"),
 			{ slug: "groups", label: "Shown in", type: "multiSelect", validation: { options: PEOPLE_GROUPS } },
 			image("photo", "Photo"),
-			text("bio", "Biography (leave a blank line between paragraphs)"),
+			text("bio", `Biography ${PARAGRAPHS}`),
 			{ slug: "order", label: "Order (lower comes first)", type: "integer", defaultValue: 100 },
 		],
 	},
@@ -348,11 +355,13 @@ const collections = [
 		supports: ["drafts", "revisions", "preview", "seo", "search"],
 		fields: [
 			string("title", "Name", { required: true, searchable: true }),
-			{ slug: "starts", label: "Starts", type: "datetime", required: true },
-			{ slug: "ends", label: "Ends", type: "datetime" },
+			{ slug: "starts", label: "Starts (local time at the event)", type: "datetime", required: true },
+			{ slug: "ends", label: "Ends (local time at the event)", type: "datetime" },
 			string("location", "Location (e.g. Barcelona, Spain)"),
 			select("category", "Our involvement", EVENT_CATEGORIES, "attending"),
 			{ slug: "website", label: "Event website", type: "url" },
+			string("organizer", "Organizer"),
+			{ slug: "organizer_url", label: "Organizer website", type: "url" },
 			image("image", "Banner image"),
 			{ slug: "description", label: "Description", type: "portableText", searchable: true },
 		],
@@ -414,9 +423,9 @@ const seed = {
 			hierarchical: true,
 			collections: ["posts"],
 			terms: [
-				{ slug: "news", label: "News" },
-				{ slug: "blog", label: "Blog" },
-				{ slug: "press", label: "Press" },
+				{ slug: "news", label: "News", description: "Official announcements from the Rust Foundation." },
+				{ slug: "blog", label: "Blog", description: "Stories and insights from the Rust Foundation." },
+				{ slug: "press", label: "Press", description: "Press clips and media mentions of the Rust Foundation." },
 			],
 		},
 		{

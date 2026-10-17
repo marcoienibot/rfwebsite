@@ -47,6 +47,8 @@ export default async ({ image, richText }) => ({
 			_type: "rich_text",
 			anchor_id: "orgs",
 			headline: "Meet the RCN’s Members",
+			width: "wide",
+			columns: "2",
 			body: await richText(`
 				<p>The following organizations are official founding members of the Rust Commercial Network, committed to advancing Rust adoption and supporting the long-term health of the Rust ecosystem.</p>
 				<ul>

@@ -87,7 +87,7 @@ export default async ({ image, richText }) => ({
 		{
 			_type: "split",
 			headline: "Rustls",
-			text: "Rustls is a memory-safe, high-performance TLS library that is by far the most popular way to build secure connections in the Rust ecosystem and is one of the top 100 packages on crates.io.",
+			text: "[Rustls](https://github.com/rustls/rustls) is a memory-safe, high-performance TLS library that is by far the most popular way to build secure connections in the Rust ecosystem and is one of the top 100 packages on crates.io.",
 			image: await image(`${U}/2025/08/rustacean-flat-happy-lock-resize-e1756413130658.png`, "Rustls logo: Ferris the crab holding a padlock"),
 			image_position: "right",
 			buttons: [
@@ -111,7 +111,7 @@ export default async ({ image, richText }) => ({
 		{
 			_type: "split",
 			headline: "Symposium",
-			text: "Symposium is a tool that automatically installs skills, MCP servers, or other extensions based on the dependencies in your Rust crate. These extensions help agents make the best use of Rust and of the crates in your project. Symposium’s ultimate goal is to make agentic development more interoperable, reliable, and token-efficient.",
+			text: "[Symposium](https://symposium.dev) is a tool that automatically installs skills, MCP servers, or other extensions based on the dependencies in your Rust crate. These extensions help agents make the best use of Rust and of the crates in your project. Symposium’s ultimate goal is to make agentic development more interoperable, reliable, and token-efficient.",
 			image: await image(`${U}/2026/04/symposium5_vase-ferris-1.png`, "Symposium logo: a vase decorated with Ferris the crab"),
 			image_position: "right",
 			buttons: [
@@ -132,7 +132,7 @@ export default async ({ image, richText }) => ({
 		{
 			_type: "split",
 			headline: "Wild",
-			text: "Wild is a linker with the goal of being very fast for iterative development. Wild is Linux-only today, but cross-platform support is a clear priority: ports to Windows and macOS are on the roadmap. The project is licensed under MIT and Apache 2.0 (the same dual license used by the Rust project itself), so the code remains freely available to everyone. Wild is maintained by David Lattimore (lead maintainer) along with a growing group of contributors. Development is supported financially by AWS.",
+			text: "[Wild](https://github.com/wild-linker/wild) is a linker with the goal of being very fast for iterative development. Wild is Linux-only today, but cross-platform support is a clear priority: ports to Windows and macOS are on the roadmap. The project is licensed under MIT and Apache 2.0 (the same dual license used by the Rust project itself), so the code remains freely available to everyone. Wild is maintained by David Lattimore (lead maintainer) along with a growing group of contributors. Development is supported financially by AWS.",
 			image: await image(`${U}/2026/06/wild.png`, "Wild logo"),
 			image_position: "right",
 			buttons: [
@@ -153,7 +153,7 @@ export default async ({ image, richText }) => ({
 		{
 			_type: "split",
 			headline: "Josh",
-			text: "Josh (“Just One Single History”) is a Rust-based platform for scaling Git to codebases of any size, with any number of contributors, without slowing down the pace of change. Josh is one of those projects many Rust contributors rely on every day without ever thinking about it. It quietly keeps the compiler and some of the most important tools in sync, at a scale that pushed traditional Git tooling past its limits. Its maintainers have been great partners to the Rust Project, improving Josh to meet the Project’s demanding needs. It also shows the rest of the industry what a Rust-built approach to version control at scale can look like. Bringing Josh into the Rust Innovation Lab hopefully provides this critical piece of infrastructure a stable, long-term home.",
+			text: "[Josh](https://josh-project.dev/) (“Just One Single History”) is a Rust-based platform for scaling Git to codebases of any size, with any number of contributors, without slowing down the pace of change. Josh is one of those projects many Rust contributors rely on every day without ever thinking about it. It quietly keeps the compiler and some of the most important tools in sync, at a scale that pushed traditional Git tooling past its limits. Its maintainers have been great partners to the Rust Project, improving Josh to meet the Project’s demanding needs. It also shows the rest of the industry what a Rust-built approach to version control at scale can look like. Bringing Josh into the Rust Innovation Lab hopefully provides this critical piece of infrastructure a stable, long-term home.",
 			image: await image(`${U}/2026/10/fc1ff215-6a68-4564-9662-b552cf2e9729-1.png`, "Josh (Just One Single History) logo"),
 			image_position: "right",
 			buttons: [

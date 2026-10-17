@@ -17,6 +17,7 @@
 	"dependencies": {
 		"@astrojs/node": "^11.1.5",
 		"@astrojs/react": "^7.0.0",
+		"@astrojs/sitemap": "^3.7.4",
 		"@iconify-json/ph": "^1.2.2",
 		"@rfwebsite/plugin-publish": "file:./plugins/publish",
 		"astro": "^7.3.2",

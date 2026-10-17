@@ -18,6 +18,13 @@ const seo = getSeoMeta(event, { siteUrl: Astro.site?.origin ?? Astro.url.origin,
 const starts = toDate(event.data.starts);
 const ends = toDate(event.data.ends);
 const when = starts && ends && formatDate(ends) !== formatDate(starts) ? `${formatDate(starts)} – ${formatDate(ends)}` : formatDate(starts);
+const CATEGORY: Record<string, string> = {
+	hosted: "Hosted by the Rust Foundation",
+	sponsored: "Sponsored",
+	attending: "Attending",
+	speaking: "Speaking",
+	suggested: "Suggested",
+};
 const all = await events();
 const index = all.findIndex((e) => e.id === event.id);
 const previous = all[index - 1];
@@ -48,9 +55,56 @@ const next = all[index + 1];
 			{event.data.image && <Img image={event.data.image} alt="" loading="eager" class="event-hero__image" />}
 		</div>
 	</header>
-	<article class="container--narrow event-body">
+	<div class="container event-body">
 		<RichText value={event.data.description} />
-	</article>
+		<aside class="event-details" aria-label="Event details">
+			<h2>Details</h2>
+			<dl>
+				<dt>Starts</dt>
+				<dd>{formatDate(starts)}</dd>
+				{ends && <dt>Ends</dt>}
+				{ends && <dd>{formatDate(ends)}</dd>}
+				{event.data.category && <dt>Our involvement</dt>}
+				{event.data.category && <dd>{CATEGORY[event.data.category] ?? event.data.category}</dd>}
+				{event.data.location && <dt>Where</dt>}
+				{
+					event.data.location && (
+						<dd>
+							{event.data.location} ·{" "}
+							<a href={`https://www.google.com/maps/search/${encodeURIComponent(event.data.location)}`} target="_blank" rel="noopener">
+								map
+							</a>
+						</dd>
+					)
+				}
+				{event.data.organizer && <dt>Organizer</dt>}
+				{
+					event.data.organizer && (
+						<dd>
+							{event.data.organizer_url ? (
+								<a href={event.data.organizer_url} target="_blank" rel="noopener">
+									{event.data.organizer}
+								</a>
+							) : (
+								event.data.organizer
+							)}
+						</dd>
+					)
+				}
+				{event.data.website && <dt>Website</dt>}
+				{
+					event.data.website && (
+						<dd>
+							<a href={event.data.website} target="_blank" rel="noopener">
+								{new URL(event.data.website).hostname.replace(/^www\./, "")}
+							</a>
+						</dd>
+					)
+				}
+			</dl>
+			<a href="/events.ics" class="event-details__ical">Add our events to your calendar</a>
+		</aside>
+	</div>
 	<nav class="container event-nav" aria-label="More events">
 		{previous && <a href={`/event/${previous.id}/`}>← {previous.data.title}</a>}
 		{next && <a href={`/event/${next.id}/`} class="event-nav__next">{next.data.title} →</a>}
@@ -85,7 +139,39 @@ const next = all[index + 1];
 	}
 
 	.event-body {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 18rem;
+		gap: 3rem;
+		align-items: start;
 		padding-block: 2.5rem;
+	}
+
+	.event-details {
+		padding: 1.5rem;
+		background: var(--blue-10);
+		font-size: 0.95rem;
+	}
+
+	.event-details h2 {
+		font-size: 1.4rem;
+	}
+
+	.event-details dt {
+		font-weight: 700;
+	}
+
+	.event-details dd {
+		margin: 0 0 0.75rem;
+	}
+
+	.event-details__ical {
+		font-size: 0.9rem;
+	}
+
+	@media (max-width: 50rem) {
+		.event-body {
+			grid-template-columns: 1fr;
+		}
 	}
 
 	.event-nav {

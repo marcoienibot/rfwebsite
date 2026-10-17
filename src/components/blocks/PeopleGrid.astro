@@ -1,7 +1,7 @@
 ---
+import Paragraphs from "../Paragraphs.astro";
 import Img from "../Img.astro";
 import { people } from "../../utils/content";
-import { paragraphs } from "../../utils/text";
 
 const { value } = Astro.props;
 const list = await people(value.group ?? "staff");
@@ -17,12 +17,12 @@ const initials = (name: string) =>
 <section id={value.anchor_id || undefined} class="section people">
 	<div class="container">
 		<h2 class="heading-center">{value.headline}</h2>
-		{paragraphs(value.text).map((p) => <p class="people__text">{p}</p>)}
+		<Paragraphs text={value.text} class="people__text" />
 		<ul class="people__grid">
 			{
 				list.map((person) => {
 					const popoverId = `bio-${value._key ?? value.group}-${person.id}`;
-					const bio = paragraphs(person.data.bio);
+					const bio = person.data.bio?.trim();
 					return (
 						<li class="person">
 							{person.data.photo ? (
@@ -34,7 +34,7 @@ const initials = (name: string) =>
 							)}
 							<h3 class="person__name">{person.data.title}</h3>
 							{person.data.role && <p class="person__role">{person.data.role}</p>}
-							{bio.length > 0 && (
+							{bio && (
 								<>
 									<button type="button" class="arrow-link person__more" popovertarget={popoverId}>
 										<span class="visually-hidden">About {person.data.title}</span>
@@ -51,7 +51,7 @@ const initials = (name: string) =>
 											<div>
 												<h3>{person.data.title}</h3>
 												{person.data.role && <p class="person__role">{person.data.role}</p>}
-												{bio.map((p) => <p>{p}</p>)}
+												<Paragraphs text={bio} />
 											</div>
 										</div>
 									</div>
@@ -62,7 +62,7 @@ const initials = (name: string) =>
 				})
 			}
 		</ul>
-		{value.note && <p class="people__note">{value.note}</p>}
+		<Paragraphs text={value.note} class="people__note" />
 	</div>
 </section>
 
@@ -71,7 +71,7 @@ const initials = (name: string) =>
 		padding-block: 2rem;
 	}
 
-	.people__text {
+	.people :global(.people__text) {
 		max-width: 60rem;
 		margin-inline: auto;
 		text-align: center;
@@ -134,7 +134,7 @@ const initials = (name: string) =>
 		cursor: pointer;
 	}
 
-	.people__note {
+	.people :global(.people__note) {
 		max-width: 75rem;
 		margin: 1.25rem auto 0;
 		font-size: 0.8rem;

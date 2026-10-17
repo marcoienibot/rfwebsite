@@ -28,9 +28,8 @@ export default async () => ({
 			_type: "post_cards",
 			anchor_id: "stories",
 			headline: "Member Stories",
-			category: "all",
-			tag: "member-announcements",
-			count: 4,
+			// Hand-picked, as on the old site.
+			posts: "/media/rust-foundation-member-announcement-fledgio-qrt-code-construct-tor-project/\n/media/rust-foundation-announces-arm-as-a-platinum-member/\n/media/rust-foundation-new-silver-member-announcement-astral-and-adorsys/\n/media/the-rust-foundation-is-thrilled-to-welcome-three-new-silver-members-accelerant-wyeworks-and-zed-industries/\n/media/1m-microsoft-donation-to-fund-key-rust-foundation-project-priorities/\n/media/rust-foundation-silver-associate-member-announcement-april-2024/\n/media/rust-foundation-new-member-announcement-trace-machina-veecle/\n/media/google-contributes-1m-to-rust-foundation-to-support-c-rust-interop-initiative/\n/media/rust-foundation-new-member-announcement-xfusion-lynx-spruceid/\n/media/the-power-of-rust-adoption-lessons-from-google/\n/media/member-spotlight-red-badger/\n/media/member-spotlight-kdab/\n/media/member-spotlight-1password/\n/media/rust-foundation-achieves-significant-milestone-with-15th-silver-member-organization/",
 			background: "teal",
 		},
 		{

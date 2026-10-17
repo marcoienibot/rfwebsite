@@ -1,7 +1,7 @@
 ---
+import Paragraphs from "../Paragraphs.astro";
 import Img from "../Img.astro";
 import { linkAttrs } from "../../utils/links";
-import { paragraphs } from "../../utils/text";
 
 const { value } = Astro.props;
 ---
@@ -10,7 +10,7 @@ const { value } = Astro.props;
 	<div class:list={["band", `bg-${value.color ?? "navy"}`, { "band--image-left": value.image_side === "left" }]}>
 		<div class="band__text">
 			<h2>{value.headline}</h2>
-			{paragraphs(value.text).map((p) => <p>{p}</p>)}
+			<Paragraphs text={value.text} />
 			{
 				value.button_label && value.button_url && (
 					<a {...linkAttrs(value.button_url)} class="btn btn--small">
@@ -58,7 +58,7 @@ const { value } = Astro.props;
 		font-size: clamp(1.5rem, 2.4vw, 1.9rem);
 	}
 
-	p {
+	.band__text :global(:is(p, ul)) {
 		font-size: 0.95rem;
 	}
 

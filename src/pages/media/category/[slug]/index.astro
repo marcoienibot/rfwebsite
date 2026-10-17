@@ -17,5 +17,5 @@ const posts = await postsWhere({ category: slug });
 ---
 
 <Base title={label}>
-	<PostListing posts={posts} page={1} heading={label} href={(n) => (n === 1 ? `/media/category/${slug}/` : `/media/category/${slug}/page/${n}/`)} />
+	<PostListing posts={posts} page={1} heading={label} description={term.description} href={(n) => (n === 1 ? `/media/category/${slug}/` : `/media/category/${slug}/page/${n}/`)} />
 </Base>
