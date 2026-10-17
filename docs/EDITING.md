@@ -4,7 +4,7 @@ This guide is for the people who update the website's content. No coding needed.
 
 ## One-time setup (about 15 minutes)
 
-1. Install **Node.js** (the LTS version) from https://nodejs.org.
+1. Install **Node.js** (the LTS version, 24 or newer) from https://nodejs.org.
 2. Install **GitHub Desktop** from https://desktop.github.com and sign in with your GitHub account.
    Ask a developer to give your account access to the website repository.
 3. In GitHub Desktop: **File → Clone repository…**, pick `rfwebsite`, and choose a folder
@@ -38,6 +38,8 @@ This guide is for the people who update the website's content. No coding needed.
 4. When you're happy, open **Publish website** in the admin sidebar (or use the widget on the
    dashboard). Optionally describe what you changed, then click **Publish website**.
    The public website updates within about two minutes, and the admin shows the progress.
+   If an entry still has saved-but-unpublished edits, this screen lists it: open it and click
+   **Publish changes** first, or those edits won't be on the website.
 5. Close the editor with **Ctrl+C** in its window, or by closing the window.
 
 ## Good to know

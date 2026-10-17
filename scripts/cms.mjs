@@ -61,6 +61,7 @@ function installDependencies() {
 }
 
 function openBrowser(url) {
+	if (process.env.CMS_NO_BROWSER) return;
 	const [command, args] =
 		process.platform === "darwin"
 			? ["open", [url]]
