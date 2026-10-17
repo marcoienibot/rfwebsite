@@ -399,14 +399,15 @@ a.tag:hover {
 	list-style: none;
 }
 
-.logo-grid li {
+.logo-grid > li {
 	display: grid;
+	grid-template: minmax(0, 1fr) / minmax(0, 1fr);
 	place-items: center;
 	width: 8.5rem;
 	height: 4rem;
 }
 
-.logo-grid--large li {
+.logo-grid--large > li {
 	width: 10rem;
 	height: 4.5rem;
 }
