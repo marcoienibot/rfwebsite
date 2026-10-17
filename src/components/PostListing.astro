@@ -1,0 +1,54 @@
+---
+import { getEmDashEntry } from "emdash";
+import Blocks from "./Blocks.astro";
+import Pagination from "./Pagination.astro";
+import PostCard from "./PostCard.astro";
+import type { Post } from "../utils/content";
+
+export const PER_PAGE = 12;
+
+interface Props {
+	posts: Post[];
+	page: number;
+	/** URL of page n of this listing */
+	href: (page: number) => string;
+	heading?: string;
+	/** Show the newest post as a large featured card on the first page */
+	feature?: boolean;
+}
+
+const { posts, page, href, heading, feature = false } = Astro.props;
+const last = Math.max(1, Math.ceil(posts.length / PER_PAGE));
+const pagePosts = posts.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+const featured = feature && page === 1 ? pagePosts[0] : undefined;
+
+// The "Media Room" header is editable: it's the `media` page in the admin.
+const { entry: mediaPage } = await getEmDashEntry("pages", "media");
+---
+
+<Blocks value={mediaPage?.data.content} />
+
+<section class="listing">
+	<div class="container">
+		{heading && <h2 class="listing__heading">{heading}</h2>}
+		{featured && <PostCard post={featured} featured headingLevel="h2" />}
+		<div class="post-grid listing__grid">
+			{pagePosts.filter((post) => post !== featured).map((post) => <PostCard post={post} headingLevel="h2" />)}
+		</div>
+		<Pagination current={page} last={last} href={href} />
+	</div>
+</section>
+
+<style>
+	.listing {
+		padding-block: 2rem 4rem;
+	}
+
+	.listing__heading {
+		margin-bottom: 1.5rem;
+	}
+
+	.listing__grid {
+		margin-top: 0.75rem;
+	}
+</style>

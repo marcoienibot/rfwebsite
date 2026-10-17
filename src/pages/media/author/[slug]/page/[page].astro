@@ -1,0 +1,24 @@
+---
+import PostListing, { PER_PAGE } from "../../../../../components/PostListing.astro";
+import Base from "../../../../../layouts/Base.astro";
+import { authors, postsWhere } from "../../../../../utils/content";
+
+export async function getStaticPaths() {
+	const paths = [];
+	for (const slug of (await authors()).keys()) {
+		const pages = Math.ceil((await postsWhere({ author: slug })).length / PER_PAGE);
+		for (let page = 2; page <= pages; page++) paths.push({ params: { slug, page: String(page) } });
+	}
+	return paths;
+}
+
+const { slug } = Astro.params;
+const page = Number(Astro.params.page);
+const name = (await authors()).get(slug!);
+if (!name) return Astro.rewrite("/404");
+const posts = await postsWhere({ author: slug });
+---
+
+<Base title={`${name} – page ${page}`}>
+	<PostListing posts={posts} page={page} heading={`Posts by ${name}`} href={(n) => (n === 1 ? `/media/author/${slug}/` : `/media/author/${slug}/page/${n}/`)} />
+</Base>

@@ -1,0 +1,46 @@
+---
+const { value } = Astro.props;
+---
+
+<section id={value.anchor_id || undefined} class:list={["section stats", `bg-${value.background ?? "navy"}`]}>
+	<div class="container">
+		{value.headline && <h2 class="heading-center">{value.headline}</h2>}
+		<dl>
+			{
+				value.items?.map((item: { value: string; label: string }) => (
+					<div>
+						<dt>{item.label}</dt>
+						<dd>{item.value}</dd>
+					</div>
+				))
+			}
+		</dl>
+	</div>
+</section>
+
+<style>
+	dl {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+		gap: 1.5rem;
+		margin: 0;
+		text-align: center;
+	}
+
+	div {
+		display: flex;
+		flex-direction: column-reverse;
+	}
+
+	dd {
+		margin: 0;
+		font-family: var(--font-serif);
+		font-size: clamp(2.25rem, 5vw, 3.5rem);
+		line-height: 1.1;
+		color: var(--rust-50);
+	}
+
+	dt {
+		font-size: 0.95rem;
+	}
+</style>

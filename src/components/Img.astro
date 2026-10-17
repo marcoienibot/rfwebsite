@@ -1,0 +1,29 @@
+---
+import { mediaSrc, type ImageValue } from "../utils/media";
+
+interface Props {
+	image: ImageValue | null | undefined;
+	alt?: string;
+	class?: string;
+	loading?: "lazy" | "eager";
+	sizes?: string;
+}
+
+const { image, alt, class: className, loading = "lazy" } = Astro.props;
+const src = mediaSrc(image);
+---
+
+{
+	src && (
+		<img
+			src={src}
+			alt={alt ?? image?.alt ?? ""}
+			width={image?.width}
+			height={image?.height}
+			loading={loading}
+			decoding="async"
+			class={className}
+			style={image?.dominantColor ? `background-color:${image.dominantColor}` : undefined}
+		/>
+	)
+}

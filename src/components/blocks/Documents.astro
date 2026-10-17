@@ -1,0 +1,114 @@
+---
+import { documents } from "../../utils/content";
+import { linkAttrs } from "../../utils/links";
+import { mediaSrc } from "../../utils/media";
+import { formatDate, paragraphs } from "../../utils/text";
+
+const { value } = Astro.props;
+let docs = await documents(value.category ?? "rust-foundation-reports");
+if (value.count > 0) docs = docs.slice(0, value.count);
+const href = (doc: (typeof docs)[number]) => mediaSrc(doc.data.file as never) ?? doc.data.link ?? undefined;
+---
+
+<section id={value.anchor_id || undefined} class:list={["section docs", `bg-${value.background ?? "white"}`]}>
+	<div class="container">
+		{value.headline && <h2 class="heading-center">{value.headline}</h2>}
+		{paragraphs(value.text).map((p) => <p class="docs__text">{p}</p>)}
+		{
+			value.style === "list" ? (
+				<ul class="docs__list">
+					{docs.map((doc) => (
+						<li>
+							<a {...linkAttrs(href(doc))}>{doc.data.title}</a>
+							{doc.date && <span class="docs__date">{formatDate(doc.date)}</span>}
+						</li>
+					))}
+				</ul>
+			) : (
+				<ul class="docs__cards">
+					{docs.map((doc) => (
+						<li class="docs__card">
+							<h3>
+								<a {...linkAttrs(href(doc))}>{doc.data.title}</a>
+							</h3>
+							{doc.data.summary && <p>{doc.data.summary}</p>}
+							<a {...linkAttrs(href(doc))} class="arrow-link" aria-label={`Open ${doc.data.title}`}>
+								<svg viewBox="0 0 21 16" aria-hidden="true"><path d="M0 8h19M13 1.5 19.5 8 13 14.5" fill="none" stroke="currentColor" /></svg>
+							</a>
+						</li>
+					))}
+				</ul>
+			)
+		}
+	</div>
+</section>
+
+<style>
+	.docs__text {
+		max-width: 60rem;
+		margin-inline: auto;
+		text-align: center;
+	}
+
+	.docs__cards {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+		gap: 1rem;
+		margin: 1.5rem 0 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.docs__card {
+		display: flex;
+		flex-direction: column;
+		padding: 1.5rem;
+		background: var(--rust-10);
+	}
+
+	.docs__card h3 {
+		font-size: 1.3rem;
+		font-weight: 700;
+	}
+
+	.docs__card h3 a {
+		color: var(--ink);
+		text-decoration: none;
+	}
+
+	.docs__card h3 a:hover {
+		text-decoration: underline;
+	}
+
+	.docs__card p {
+		font-size: 0.9rem;
+	}
+
+	.docs__card .arrow-link {
+		margin-top: auto;
+	}
+
+	.docs__list {
+		columns: 3 16rem;
+		column-gap: 2rem;
+		margin: 1.5rem 0 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.docs__list li {
+		break-inside: avoid;
+		padding: 0.4rem 0;
+		border-bottom: 1px solid var(--blue-20);
+	}
+
+	.docs__list a::before {
+		content: ">> ";
+	}
+
+	.docs__date {
+		display: block;
+		font-size: 0.8rem;
+		color: var(--muted);
+	}
+</style>

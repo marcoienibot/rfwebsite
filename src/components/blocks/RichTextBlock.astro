@@ -1,0 +1,22 @@
+---
+import RichText from "../RichText.astro";
+
+const { value } = Astro.props;
+---
+
+<section id={value.anchor_id || undefined} class:list={["section rich", `bg-${value.background ?? "white"}`]}>
+	<div class={value.width === "wide" ? "container" : "container--narrow"}>
+		{value.headline && <h2 class="rich__headline">{value.headline}</h2>}
+		<RichText value={value.body} />
+	</div>
+</section>
+
+<style>
+	.rich {
+		padding-block: clamp(2rem, 5vw, 3.5rem);
+	}
+
+	.rich__headline {
+		text-align: center;
+	}
+</style>

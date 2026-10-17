@@ -1,0 +1,89 @@
+---
+import Img from "../Img.astro";
+import { linkAttrs } from "../../utils/links";
+import { paragraphs } from "../../utils/text";
+
+const { value } = Astro.props;
+---
+
+<section id={value.anchor_id || undefined} class="band-wrap">
+	<div class:list={["band", `bg-${value.color ?? "navy"}`, { "band--image-left": value.image_side === "left" }]}>
+		<div class="band__text">
+			<h2>{value.headline}</h2>
+			{paragraphs(value.text).map((p) => <p>{p}</p>)}
+			{
+				value.button_label && value.button_url && (
+					<a {...linkAttrs(value.button_url)} class="btn btn--small">
+						{value.button_label}
+					</a>
+				)
+			}
+		</div>
+		{
+			value.image && (
+				<div class="band__image">
+					<Img image={value.image} />
+				</div>
+			)
+		}
+	</div>
+</section>
+
+<style>
+	.band-wrap {
+		width: min(100% - 2 * var(--gutter), var(--content));
+		margin-inline: auto;
+	}
+
+	.band {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		align-items: center;
+		gap: 2rem;
+		min-height: 22rem;
+		padding: 3rem clamp(1.5rem, 6vw, 4.5rem);
+	}
+
+	.band__text {
+		max-width: 26rem;
+	}
+
+	.band--image-left .band__text {
+		order: 2;
+	}
+
+	h2 {
+		padding-bottom: 0.5rem;
+		border-bottom: 1px solid currentColor;
+		font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+	}
+
+	p {
+		font-size: 0.95rem;
+	}
+
+	.band__image {
+		display: grid;
+		place-items: center;
+	}
+
+	.band__image :global(img) {
+		width: clamp(9rem, 20vw, 14rem);
+		aspect-ratio: 1;
+		object-fit: contain;
+		padding: clamp(1.5rem, 3vw, 2.25rem);
+		border-radius: 50%;
+		background: var(--white) !important;
+	}
+
+	@media (max-width: 45rem) {
+		.band {
+			grid-template-columns: 1fr;
+		}
+
+		.band__image,
+		.band--image-left .band__text {
+			order: 0;
+		}
+	}
+</style>

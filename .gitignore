@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Astro
+.astro/
+.emdash/migrations.json
+
+# Content: the database and media library ARE committed (that's how
+# publishing works), but SQLite's temporary side files are not.
+content/*.db-wal
+content/*.db-shm
+content/*.db-journal
+
+# Migration cache
+.cache/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode/*
+!.vscode/mcp.json
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*

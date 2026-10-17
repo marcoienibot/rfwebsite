@@ -1,0 +1,137 @@
+---
+import Img from "../Img.astro";
+import { events } from "../../utils/content";
+import { formatDate } from "../../utils/text";
+
+const { value } = Astro.props;
+// "Today" is the day the site was built; the site rebuilds every night so
+// past events move to the past list.
+const now = Date.now();
+let list = await events();
+if (value.show === "upcoming") list = list.filter((e) => (e.ends ?? e.starts).getTime() >= now);
+if (value.show === "past") list = list.filter((e) => (e.ends ?? e.starts).getTime() < now).reverse();
+if (value.count > 0) list = list.slice(0, value.count);
+
+const LABELS: Record<string, string> = {
+	hosted: "Hosted",
+	sponsored: "Sponsored",
+	attending: "Attending",
+	speaking: "Speaking",
+	suggested: "Suggested",
+};
+const range = (start: Date, end?: Date | null) =>
+	end && formatDate(end) !== formatDate(start) ? `${formatDate(start)} – ${formatDate(end)}` : formatDate(start);
+---
+
+<section id={value.anchor_id || undefined} class="section events">
+	<div class="container">
+		{value.headline && <h2>{value.headline}</h2>}
+		{list.length === 0 && <p>No events to show right now.</p>}
+		<ul class="events__list">
+			{
+				list.map((event) => (
+					<li class="event">
+						<div class="event__date">
+							<span class="event__month">{event.starts.toLocaleString("en-US", { month: "short", timeZone: "UTC" })}</span>
+							<span class="event__day">{event.starts.getUTCDate()}</span>
+						</div>
+						<div class="event__info">
+							<p class="event__when">{range(event.starts, event.ends)}</p>
+							<h3>
+								<a href={`/event/${event.id}/`}>{event.data.title}</a>
+							</h3>
+							<p class="event__meta">
+								{event.data.location}
+								{event.data.category && <span class="tag">{LABELS[event.data.category] ?? event.data.category}</span>}
+							</p>
+						</div>
+						{event.data.image && <Img image={event.data.image} alt="" class="event__image" />}
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>
+
+<style>
+	.events {
+		padding-block: 2rem;
+	}
+
+	.events__list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.event {
+		display: grid;
+		grid-template-columns: 4.5rem 1fr minmax(0, 16rem);
+		gap: 1.5rem;
+		align-items: center;
+		padding-block: 1.25rem;
+		border-bottom: 1px solid var(--blue-20);
+	}
+
+	.event__date {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-transform: uppercase;
+	}
+
+	.event__month {
+		font-size: 0.85rem;
+	}
+
+	.event__day {
+		font-family: var(--font-serif);
+		font-size: 2rem;
+		line-height: 1;
+	}
+
+	.event__when {
+		margin: 0 0 0.25rem;
+		font-size: 0.9rem;
+		font-weight: 700;
+	}
+
+	.event h3 {
+		margin-bottom: 0.25rem;
+		font-size: 1.4rem;
+	}
+
+	.event h3 a {
+		color: var(--ink);
+		text-decoration: none;
+	}
+
+	.event h3 a:hover {
+		text-decoration: underline;
+	}
+
+	.event__meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		align-items: center;
+		margin: 0;
+		font-size: 0.9rem;
+	}
+
+	.event :global(.event__image) {
+		width: 100%;
+		aspect-ratio: 3;
+		object-fit: cover;
+	}
+
+	@media (max-width: 45rem) {
+		.event {
+			grid-template-columns: 3.5rem 1fr;
+		}
+
+		.event :global(.event__image) {
+			display: none;
+		}
+	}
+</style>

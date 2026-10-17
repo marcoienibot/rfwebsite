@@ -1,0 +1,80 @@
+---
+import Img from "../Img.astro";
+import OrgLogo from "../OrgLogo.astro";
+import { organizations } from "../../utils/content";
+import { linkAttrs } from "../../utils/links";
+import { paragraphs } from "../../utils/text";
+
+const { value } = Astro.props;
+type Logo = { name: string; logo?: unknown; url?: string; id?: string; joined?: string | null; bio?: string | null };
+let logos: Logo[] = value.logos ?? [];
+if (value.source && value.source !== "pick below") {
+	logos = (await organizations(value.source)).map((org) => ({
+		name: org.data.title,
+		logo: org.data.logo,
+		url: org.data.website ?? undefined,
+		id: `${value._key ?? value.source}-${org.id}`,
+		joined: org.data.joined,
+		bio: org.data.bio,
+	}));
+}
+---
+
+<section
+	id={value.anchor_id || undefined}
+	class:list={["section logos", `bg-${value.background ?? "white"}`, { "logos--continued": !value.headline && !value.text }]}
+>
+	<div class="container">
+		{value.headline && <h2 class="heading-center">{value.headline}</h2>}
+		{paragraphs(value.text).map((p) => <p class="logos__text">{p}</p>)}
+		<ul class="logo-grid">
+			{
+				logos.map((item) => (
+					<li>
+						{item.id ? (
+							<OrgLogo id={item.id} name={item.name} logo={item.logo} website={item.url} joined={item.joined} bio={item.bio} />
+						) : item.url ? (
+							<a {...linkAttrs(item.url)} title={item.name}>
+								<Img image={item.logo as never} alt={item.name} />
+							</a>
+						) : (
+							<Img image={item.logo as never} alt={item.name} />
+						)}
+					</li>
+				))
+			}
+		</ul>
+		{
+			value.buttons?.length > 0 && (
+				<div class="btn-row btn-row--center">
+					{value.buttons.map((button: { label: string; url?: string }) => (
+						<a {...linkAttrs(button.url)} class="btn btn--small">
+							{button.label}
+						</a>
+					))}
+				</div>
+			)
+		}
+	</div>
+</section>
+
+<style>
+	.logos {
+		padding-block: clamp(2rem, 4vw, 3rem);
+	}
+
+	/* A wall without a heading continues the one above it (e.g. one per tier). */
+	.logos--continued {
+		padding-top: 0;
+	}
+
+	.logos:has(+ .logos--continued) {
+		padding-bottom: 0;
+	}
+
+	.logos__text {
+		max-width: 60rem;
+		margin-inline: auto;
+		text-align: center;
+	}
+</style>

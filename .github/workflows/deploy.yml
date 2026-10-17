@@ -1,0 +1,67 @@
+# Builds the static website (and the presentation) from main and publishes
+# them to GitHub Pages. Runs on every push, including the ones made by the
+# "Publish website" button in the EmDash admin.
+name: Deploy website
+
+on:
+  push:
+    branches: [main]
+  # Rebuild every night so scheduled posts go live and past events move to
+  # the "past" list without anyone having to publish.
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never cancel a deployment halfway; queue the next one instead.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            presentation/package-lock.json
+
+      - id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Build website
+        run: |
+          npm ci
+          npm run build
+        env:
+          SITE_URL: ${{ steps.pages.outputs.base_url }}
+
+      - name: Build presentation
+        working-directory: presentation
+        run: |
+          npm ci
+          npx slidev build --base "${{ steps.pages.outputs.base_path }}/presentation/" --out ../dist/client/presentation
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/client
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

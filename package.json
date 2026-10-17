@@ -1,0 +1,33 @@
+{
+	"name": "rustfoundation-website",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"emdash": {
+		"label": "Rust Foundation",
+		"seed": "seed/seed.json"
+	},
+	"scripts": {
+		"cms": "node scripts/cms.mjs",
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "npx serve dist/client",
+		"typecheck": "astro check"
+	},
+	"dependencies": {
+		"@astrojs/node": "^11.1.5",
+		"@astrojs/react": "^7.0.0",
+		"@iconify-json/ph": "^1.2.2",
+		"@rfwebsite/plugin-publish": "file:./plugins/publish",
+		"astro": "^7.3.2",
+		"astro-iconset": "^0.0.4",
+		"emdash": "^1.3.0",
+		"react": "19.2.4",
+		"react-dom": "19.2.4"
+	},
+	"devDependencies": {
+		"@astrojs/check": "^0.9.10",
+		"cheerio": "^1.2.0",
+		"pagefind": "^1.5.2"
+	}
+}

@@ -1,0 +1,75 @@
+---
+import RichText from "../RichText.astro";
+import { faqs } from "../../utils/content";
+import { paragraphs } from "../../utils/text";
+
+const { value } = Astro.props;
+const fromCollection = value.category ? await faqs(value.category) : [];
+---
+
+<section id={value.anchor_id || undefined} class:list={["section faq", `bg-${value.background ?? "white"}`]}>
+	<div class="container--narrow">
+		{value.headline && <h2>{value.headline}</h2>}
+		{
+			fromCollection.map((item) => (
+				<details>
+					<summary>{item.data.title}</summary>
+					<RichText value={item.data.answer} class="faq__answer" />
+				</details>
+			))
+		}
+		{
+			value.items?.map((item: { question: string; answer: string }) => (
+				<details>
+					<summary>{item.question}</summary>
+					<div class="faq__answer prose">
+						{paragraphs(item.answer).map((p) => (
+							<p>{p}</p>
+						))}
+					</div>
+				</details>
+			))
+		}
+	</div>
+</section>
+
+<style>
+	.faq {
+		padding-block: 2.5rem;
+	}
+
+	details {
+		border-bottom: 1px solid var(--blue-20);
+	}
+
+	summary {
+		position: relative;
+		padding: 1rem 2.5rem 1rem 0;
+		font-family: var(--font-serif);
+		font-size: 1.2rem;
+		cursor: pointer;
+		list-style: none;
+	}
+
+	summary::-webkit-details-marker {
+		display: none;
+	}
+
+	summary::after {
+		content: "+";
+		position: absolute;
+		right: 0.5rem;
+		top: 0.8rem;
+		font-size: 1.5rem;
+		color: var(--rust);
+	}
+
+	details[open] summary::after {
+		content: "–";
+	}
+
+	.faq :global(.faq__answer) {
+		padding-bottom: 1rem;
+		font-size: 1rem;
+	}
+</style>

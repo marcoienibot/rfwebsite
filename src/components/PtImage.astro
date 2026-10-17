@@ -1,0 +1,40 @@
+---
+/**
+ * Portable Text image. Replaces EmDash's default renderer, which builds
+ * absolute URLs to its media API, with a plain image from /media/.
+ */
+import { sanitizeHref } from "emdash";
+import { publicMediaUrl } from "../utils/media";
+
+interface Props {
+	node: {
+		asset?: { _ref?: string; url?: string };
+		alt?: string;
+		caption?: string;
+		width?: number;
+		height?: number;
+		alignment?: string;
+		link?: string | { href: string; blank?: boolean };
+	};
+}
+
+const { node } = Astro.props;
+const src = publicMediaUrl(node.asset?.url);
+const href = typeof node.link === "string" ? node.link : node.link?.href;
+const safeHref = href ? sanitizeHref(href) : undefined;
+---
+
+{
+	src && (
+		<figure class:list={["pt-image", node.alignment && `pt-image--${node.alignment}`]}>
+			{safeHref ? (
+				<a href={safeHref}>
+					<img src={src} alt={node.alt ?? ""} width={node.width} height={node.height} loading="lazy" decoding="async" />
+				</a>
+			) : (
+				<img src={src} alt={node.alt ?? ""} width={node.width} height={node.height} loading="lazy" decoding="async" />
+			)}
+			{node.caption && <figcaption>{node.caption}</figcaption>}
+		</figure>
+	)
+}

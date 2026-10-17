@@ -1,0 +1,164 @@
+---
+import Img from "./Img.astro";
+import type { Post } from "../utils/content";
+import { categoryUrl, postUrl, tagUrl } from "../utils/links";
+
+interface Props {
+	post: Post;
+	featured?: boolean;
+	headingLevel?: "h2" | "h3";
+}
+
+const { post, featured = false, headingLevel: Heading = "h3" } = Astro.props;
+const external = post.data.external_url;
+const href = external || postUrl(post.id);
+const target = external ? "_blank" : undefined;
+const rel = external ? "noopener" : undefined;
+const terms = [...post.categories, ...post.tags].slice(0, featured ? 4 : 5);
+---
+
+<article class:list={["card", { "card--featured": featured }]}>
+	<a href={href} target={target} rel={rel} class="card__media" tabindex="-1" aria-hidden="true">
+		{post.data.featured_image ? <Img image={post.data.featured_image} alt="" /> : <span class="card__placeholder" />}
+	</a>
+	<div class="card__body">
+		{featured && <span class="card__badge">Featured</span>}
+		<Heading class="card__title">
+			<a href={href} target={target} rel={rel}>{post.data.title}</a>
+		</Heading>
+		{
+			terms.length > 0 && (
+				<ul class="tags">
+					{terms.map((term) => (
+						<li>
+							<a
+								class="tag"
+								href={post.categories.includes(term) ? categoryUrl(term.slug) : tagUrl(term.slug)}
+							>
+								{term.label}
+							</a>
+						</li>
+					))}
+				</ul>
+			)
+		}
+		{post.data.excerpt && <p class="card__excerpt">{post.data.excerpt}</p>}
+		<a href={href} target={target} rel={rel} class="arrow-link card__arrow" aria-label={`Read “${post.data.title}”`}>
+			<svg viewBox="0 0 21 16" aria-hidden="true"><path d="M0 8h19M13 1.5 19.5 8 13 14.5" fill="none" stroke="currentColor" /></svg>
+		</a>
+	</div>
+</article>
+
+<style>
+	.card {
+		display: flex;
+		flex-direction: column;
+		background: var(--blue-10);
+	}
+
+	.card__media {
+		display: block;
+		aspect-ratio: 16 / 9;
+		overflow: hidden;
+		background: var(--navy) url("/theme/cog.png") no-repeat center top -2.5rem / 11rem;
+		background-blend-mode: soft-light;
+	}
+
+	.card__media :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.card__placeholder {
+		display: block;
+		height: 100%;
+	}
+
+	.card__body {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		padding: 1.5rem 1.5rem 1.25rem;
+	}
+
+	.card__title {
+		margin-bottom: 0.75rem;
+		font-size: clamp(1.3rem, 1.8vw, 1.6rem);
+		font-weight: 700;
+		line-height: 1.25;
+	}
+
+	.card__title a {
+		color: var(--ink);
+		text-decoration: none;
+	}
+
+	.card__title a:hover {
+		text-decoration: underline;
+	}
+
+	.card__excerpt {
+		font-size: 0.9rem;
+		display: -webkit-box;
+		-webkit-line-clamp: 5;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.card__arrow {
+		margin-top: auto;
+	}
+
+	.card--featured {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		color: var(--white);
+		background: var(--navy) url("/theme/cog.png") no-repeat right 2rem top -3rem / 16rem;
+		background-blend-mode: soft-light;
+	}
+
+	.card--featured .card__media {
+		order: 2;
+		aspect-ratio: auto;
+		background: none;
+	}
+
+	.card--featured .card__body {
+		padding: 2rem;
+	}
+
+	.card--featured .card__title {
+		font-size: 1.6rem;
+		font-weight: 400;
+	}
+
+	.card--featured .card__title a,
+	.card--featured .card__arrow {
+		color: var(--white);
+	}
+
+	.card--featured .card__arrow {
+		color: var(--white);
+		background: var(--rust);
+		border-color: var(--rust);
+	}
+
+	.card__badge {
+		align-self: flex-start;
+		margin-bottom: 1rem;
+		padding: 0.05rem 0.4rem;
+		border: 1px solid currentColor;
+		font-size: 0.75rem;
+	}
+
+	@media (max-width: 45rem) {
+		.card--featured {
+			grid-template-columns: 1fr;
+		}
+
+		.card--featured .card__media {
+			order: 0;
+		}
+	}
+</style>

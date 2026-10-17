@@ -1,0 +1,33 @@
+---
+import { getEmDashEntry, getSeoMeta } from "emdash";
+import Blocks from "../components/Blocks.astro";
+import Base from "../layouts/Base.astro";
+import { allEntries, RESERVED_PAGES } from "../utils/content";
+import { pageSeoDefaults } from "../utils/seo";
+
+export async function getStaticPaths() {
+	const pages = await allEntries("pages");
+	return pages.filter((page) => !RESERVED_PAGES.has(page.id)).map((page) => ({ params: { slug: page.id } }));
+}
+
+const { slug } = Astro.params;
+if (!slug || RESERVED_PAGES.has(slug)) return Astro.rewrite("/404");
+const { entry: page } = await getEmDashEntry("pages", slug);
+if (!page) return Astro.rewrite("/404");
+
+const seo = getSeoMeta(page, {
+	siteUrl: Astro.site?.origin ?? Astro.url.origin,
+	path: `/${page.id}/`,
+	...pageSeoDefaults(page.data.content),
+});
+---
+
+<Base
+	title={seo.title || page.data.title}
+	description={seo.description}
+	image={seo.ogImage}
+	robots={seo.robots}
+	content={{ collection: "pages", id: page.data.id, slug: page.id }}
+>
+	<Blocks value={page.data.content} />
+</Base>

@@ -1,0 +1,34 @@
+---
+import PostCard from "../PostCard.astro";
+import { postsWhere } from "../../utils/content";
+import { linkAttrs } from "../../utils/links";
+
+const { value } = Astro.props;
+const posts = (await postsWhere({ category: value.category, tag: value.tag || undefined })).slice(0, value.count || 4);
+---
+
+<section id={value.anchor_id || undefined} class:list={["section", `bg-${value.background ?? "white"}`]}>
+	<div class="container">
+		<h2 class="heading-center">{value.headline}</h2>
+		<div class="post-grid">
+			{posts.map((post) => <PostCard post={post} />)}
+		</div>
+		{
+			value.buttons?.length > 0 && (
+				<div class="btn-row btn-row--center more">
+					{value.buttons.map((button: { label: string; url?: string }) => (
+						<a {...linkAttrs(button.url)} class="btn btn--small">
+							{button.label}
+						</a>
+					))}
+				</div>
+			)
+		}
+	</div>
+</section>
+
+<style>
+	.more {
+		margin-top: 2rem;
+	}
+</style>

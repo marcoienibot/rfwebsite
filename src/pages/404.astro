@@ -1,0 +1,23 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Page not found" robots="noindex">
+	<section class="not-found bg-navy">
+		<div class="container--narrow">
+			<h1>Page not found</h1>
+			<p>The page you’re looking for doesn’t exist or has moved.</p>
+			<div class="btn-row btn-row--center">
+				<a href="/" class="btn">Go to the homepage</a>
+				<a href="/search/" class="btn btn--outline">Search the site</a>
+			</div>
+		</div>
+	</section>
+</Base>
+
+<style>
+	.not-found {
+		padding-block: 6rem;
+		text-align: center;
+	}
+</style>

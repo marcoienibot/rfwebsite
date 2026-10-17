@@ -1,0 +1,19 @@
+---
+import { PortableText } from "emdash/ui";
+import PtImage from "./PtImage.astro";
+
+interface Props {
+	value: unknown[] | null | undefined;
+	class?: string;
+}
+
+const { value, class: className } = Astro.props;
+---
+
+{
+	value && value.length > 0 && (
+		<div class:list={["prose", className]}>
+			<PortableText value={value as never} components={{ type: { image: PtImage } }} />
+		</div>
+	)
+}

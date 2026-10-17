@@ -1,0 +1,132 @@
+---
+import Img from "../Img.astro";
+import { linkAttrs } from "../../utils/links";
+import { leadIn, paragraphs } from "../../utils/text";
+
+const { value } = Astro.props;
+const intro = paragraphs(value.intro);
+---
+
+<section class="page-header bg-navy">
+	<div class="page-header__inner">
+		<h1>{value.headline}</h1>
+		{
+			intro.length > 0 && (
+				<div class:list={["page-header__intro", { "page-header__intro--icon": value.icon }]}>
+					{value.icon && <Img image={value.icon} class="page-header__icon" loading="eager" />}
+					<div>
+						{intro.map((paragraph) => {
+							const { lead, rest } = leadIn(paragraph);
+							return (
+								<p>
+									{lead && <span class="lead-in">{lead}</span>}
+									{rest}
+								</p>
+							);
+						})}
+					</div>
+				</div>
+			)
+		}
+		{
+			value.jump_links?.length > 0 && (
+				<nav class="page-header__jump" aria-label="On this page">
+					<span>Jump to:</span>
+					<ul>
+						{value.jump_links.map((link: { label: string; url?: string }) => (
+							<li>
+								<a href={link.url} class="btn btn--outline btn--small">
+									{link.label}
+								</a>
+							</li>
+						))}
+					</ul>
+				</nav>
+			)
+		}
+		{
+			value.buttons?.length > 0 && (
+				<div class="btn-row btn-row--center page-header__buttons">
+					{value.buttons.map((button: { label: string; url?: string }) => (
+						<a {...linkAttrs(button.url)} class="btn">
+							{button.label}
+						</a>
+					))}
+				</div>
+			)
+		}
+	</div>
+</section>
+
+<style>
+	.page-header {
+		padding: 1.5rem var(--gutter) 3rem;
+	}
+
+	.page-header__inner {
+		max-width: 64rem;
+		margin-inline: auto;
+	}
+
+	h1 {
+		margin-bottom: 0.4em;
+	}
+
+	.page-header__intro {
+		font-size: 1.05rem;
+	}
+
+	.page-header__intro--icon {
+		display: grid;
+		grid-template-columns: 5.5rem 1fr;
+		gap: 1.5rem;
+		align-items: center;
+	}
+
+	.page-header__intro :global(.page-header__icon) {
+		width: 5.5rem;
+		height: auto;
+	}
+
+	.page-header__intro p:last-child {
+		margin-bottom: 0;
+	}
+
+	.lead-in {
+		font-weight: 400;
+		letter-spacing: 0.02em;
+	}
+
+	.page-header__jump {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.75rem 1rem;
+		margin-top: 1.5rem;
+		font-style: italic;
+	}
+
+	.page-header__jump ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.6rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.page-header__jump .btn {
+		font-style: normal;
+		color: var(--white);
+	}
+
+	.page-header__buttons {
+		margin-top: 2rem;
+	}
+
+	@media (max-width: 40rem) {
+		.page-header__intro--icon {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

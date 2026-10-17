@@ -1,0 +1,1787 @@
+{
+	"$schema": "https://emdashcms.com/seed.schema.json",
+	"version": "1",
+	"meta": {
+		"name": "Rust Foundation",
+		"description": "Content model for rustfoundation.org",
+		"author": "Rust Foundation"
+	},
+	"settings": {
+		"title": "Rust Foundation",
+		"tagline": "The Rust Foundation is an independent, non-profit organization that provides the infrastructure, tooling, administration, & community-investment that the Rust programming language needs to grow and thrive.",
+		"postsPerPage": 12,
+		"dateFormat": "MMMM d, yyyy",
+		"seo": {
+			"titleSeparator": "–"
+		}
+	},
+	"blockTypes": [
+		{
+			"slug": "page_header",
+			"label": "Page header",
+			"description": "The dark blue introduction at the top of a page",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "intro",
+							"label": "Introduction (leave a blank line between paragraphs; text before a colon in CAPITALS is emphasised)",
+							"type": "text"
+						},
+						{
+							"slug": "icon",
+							"label": "Small round icon next to the introduction",
+							"type": "image"
+						},
+						{
+							"slug": "jump_links",
+							"label": "“Jump to” links",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "label",
+										"label": "Text",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "url",
+										"label": "Link (usually #section-id) (starts with /, https://, mailto: or #)",
+										"type": "string"
+									}
+								]
+							}
+						},
+						{
+							"slug": "buttons",
+							"label": "Buttons",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "label",
+										"label": "Text",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "url",
+										"label": "Link (starts with /, https://, mailto: or #)",
+										"type": "string"
+									}
+								],
+								"maxItems": 6
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "feature_band",
+			"label": "Feature band",
+			"description": "A coloured band with a heading, text, button and a round illustration",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "text",
+							"label": "Text (leave a blank line between paragraphs)",
+							"type": "text"
+						},
+						{
+							"slug": "button_label",
+							"label": "Button text",
+							"type": "string"
+						},
+						{
+							"slug": "button_url",
+							"label": "Button link (starts with /, https://, mailto: or #)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
+							}
+						},
+						{
+							"slug": "image",
+							"label": "Round illustration",
+							"type": "image"
+						},
+						{
+							"slug": "color",
+							"label": "Colour",
+							"type": "select",
+							"validation": {
+								"options": [
+									"navy",
+									"teal",
+									"slate"
+								]
+							},
+							"defaultValue": "navy"
+						},
+						{
+							"slug": "image_side",
+							"label": "Illustration side",
+							"type": "select",
+							"validation": {
+								"options": [
+									"right",
+									"left"
+								]
+							},
+							"defaultValue": "right"
+						},
+						{
+							"slug": "anchor_id",
+							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "statement",
+			"label": "Statement",
+			"description": "A short emphasised statement such as the mission",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "label",
+							"label": "Label in capitals (e.g. OUR MISSION)",
+							"type": "string"
+						},
+						{
+							"slug": "text",
+							"label": "Text (leave a blank line between paragraphs)",
+							"type": "text",
+							"required": true
+						},
+						{
+							"slug": "buttons",
+							"label": "Buttons",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "label",
+										"label": "Text",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "url",
+										"label": "Link (starts with /, https://, mailto: or #)",
+										"type": "string"
+									}
+								],
+								"maxItems": 6
+							}
+						},
+						{
+							"slug": "background",
+							"label": "Background",
+							"type": "select",
+							"validation": {
+								"options": [
+									"white",
+									"light",
+									"navy",
+									"teal",
+									"slate",
+									"blush"
+								]
+							},
+							"defaultValue": "light"
+						},
+						{
+							"slug": "anchor_id",
+							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "rich_text",
+			"label": "Text",
+			"description": "Headings, paragraphs, lists, links and images",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "body",
+							"label": "Text",
+							"type": "portableText"
+						},
+						{
+							"slug": "background",
+							"label": "Background",
+							"type": "select",
+							"validation": {
+								"options": [
+									"white",
+									"light",
+									"navy",
+									"teal",
+									"slate",
+									"blush"
+								]
+							},
+							"defaultValue": "white"
+						},
+						{
+							"slug": "width",
+							"label": "Width",
+							"type": "select",
+							"validation": {
+								"options": [
+									"narrow",
+									"wide"
+								]
+							},
+							"defaultValue": "narrow"
+						},
+						{
+							"slug": "anchor_id",
+							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "split",
+			"label": "Text and image",
+			"description": "Text next to (or below) a large photo",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "text",
+							"label": "Text (leave a blank line between paragraphs)",
+							"type": "text"
+						},
+						{
+							"slug": "image",
+							"label": "Photo",
+							"type": "image",
+							"required": true
+						},
+						{
+							"slug": "image_position",
+							"label": "Photo position",
+							"type": "select",
+							"validation": {
+								"options": [
+									"above",
+									"left",
+									"right"
+								]
+							},
+							"defaultValue": "above"
+						},
+						{
+							"slug": "buttons",
+							"label": "Buttons",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "label",
+										"label": "Text",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "url",
+										"label": "Link (starts with /, https://, mailto: or #)",
+										"type": "string"
+									}
+								],
+								"maxItems": 6
+							}
+						},
+						{
+							"slug": "anchor_id",
+							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "logo_wall",
+			"label": "Logo wall",
+			"description": "A grid of logos from the Organisations list (or picked by hand)",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "text",
+							"label": "Text",
+							"type": "text"
+						},
+						{
+							"slug": "source",
+							"label": "Which logos (from the Organisations list)",
+							"type": "select",
+							"validation": {
+								"options": [
+									"platinum",
+									"gold",
+									"silver",
+									"associate",
+									"infrastructure-donor",
+									"security-sponsor",
+									"cloud-provider",
+									"scrc-founder",
+									"rftt-provider",
+									"interop-supporter",
+									"open-source-partnership",
+									"all members",
+									"pick below"
+								]
+							},
+							"defaultValue": "platinum"
+						},
+						{
+							"slug": "logos",
+							"label": "Logos (only when “pick below”)",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "name",
+										"label": "Name",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "logo",
+										"label": "Logo",
+										"type": "image"
+									},
+									{
+										"slug": "url",
+										"label": "Link (starts with /, https://, mailto: or #)",
+										"type": "string"
+									}
+								]
+							}
+						},
+						{
+							"slug": "buttons",
+							"label": "Buttons",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "label",
+										"label": "Text",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "url",
+										"label": "Link (starts with /, https://, mailto: or #)",
+										"type": "string"
+									}
+								],
+								"maxItems": 6
+							}
+						},
+						{
+							"slug": "background",
+							"label": "Background",
+							"type": "select",
+							"validation": {
+								"options": [
+									"white",
+									"light",
+									"navy",
+									"teal",
+									"slate",
+									"blush"
+								]
+							},
+							"defaultValue": "white"
+						},
+						{
+							"slug": "anchor_id",
+							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "members_directory",
+			"label": "Members directory",
+			"description": "All members grouped by tier, from the Organisations list",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "buttons",
+							"label": "Buttons",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "label",
+										"label": "Text",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "url",
+										"label": "Link (starts with /, https://, mailto: or #)",
+										"type": "string"
+									}
+								],
+								"maxItems": 6
+							}
+						},
+						{
+							"slug": "anchor_id",
+							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "people_grid",
+			"label": "People",
+			"description": "Photos and roles of people from the People list",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "text",
+							"label": "Text above the people",
+							"type": "text"
+						},
+						{
+							"slug": "group",
+							"label": "Which people",
+							"type": "select",
+							"validation": {
+								"options": [
+									"member-directors",
+									"project-directors",
+									"staff",
+									"security-contributors",
+									"infrastructure-contributors",
+									"rftt-reviewers"
+								]
+							},
+							"defaultValue": "staff"
+						},
+						{
+							"slug": "note",
+							"label": "Small print below the people",
+							"type": "text"
+						},
+						{
+							"slug": "anchor_id",
+							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "post_cards",
+			"label": "Latest news",
+			"description": "The most recent posts, optionally from one category or tag",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "category",
+							"label": "Category",
+							"type": "select",
+							"validation": {
+								"options": [
+									"all",
+									"news",
+									"blog",
+									"press"
+								]
+							},
+							"defaultValue": "all"
+						},
+						{
+							"slug": "tag",
+							"label": "Only posts with this tag (tag slug, optional)",
+							"type": "string"
+						},
+						{
+							"slug": "count",
+							"label": "How many",
+							"type": "integer",
+							"defaultValue": 4
+						},
+						{
+							"slug": "buttons",
+							"label": "Buttons",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "label",
+										"label": "Text",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "url",
+										"label": "Link (starts with /, https://, mailto: or #)",
+										"type": "string"
+									}
+								],
+								"maxItems": 6
+							}
+						},
+						{
+							"slug": "background",
+							"label": "Background",
+							"type": "select",
+							"validation": {
+								"options": [
+									"white",
+									"light",
+									"navy",
+									"teal",
+									"slate",
+									"blush"
+								]
+							},
+							"defaultValue": "white"
+						},
+						{
+							"slug": "anchor_id",
+							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "cards",
+			"label": "Cards",
+			"description": "A grid of cards with an optional image, text and link",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "text",
+							"label": "Text above the cards",
+							"type": "text"
+						},
+						{
+							"slug": "cards",
+							"label": "Cards",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "title",
+										"label": "Title",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "text",
+										"label": "Text",
+										"type": "text"
+									},
+									{
+										"slug": "image",
+										"label": "Image",
+										"type": "image"
+									},
+									{
+										"slug": "url",
+										"label": "Link (starts with /, https://, mailto: or #)",
+										"type": "string"
+									},
+									{
+										"slug": "link_label",
+										"label": "Link text",
+										"type": "string"
+									}
+								]
+							}
+						},
+						{
+							"slug": "style",
+							"label": "Style",
+							"type": "select",
+							"validation": {
+								"options": [
+									"boxed",
+									"plain"
+								]
+							},
+							"defaultValue": "boxed"
+						},
+						{
+							"slug": "background",
+							"label": "Background",
+							"type": "select",
+							"validation": {
+								"options": [
+									"white",
+									"light",
+									"navy",
+									"teal",
+									"slate",
+									"blush"
+								]
+							},
+							"defaultValue": "white"
+						},
+						{
+							"slug": "anchor_id",
+							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "cta",
+			"label": "Call to action",
+			"description": "A band with a question or invitation and buttons",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "text",
+							"label": "Text",
+							"type": "text"
+						},
+						{
+							"slug": "buttons",
+							"label": "Buttons",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "label",
+										"label": "Text",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "url",
+										"label": "Link (starts with /, https://, mailto: or #)",
+										"type": "string"
+									}
+								],
+								"maxItems": 6
+							}
+						},
+						{
+							"slug": "background_image",
+							"label": "Background photo (optional)",
+							"type": "image"
+						},
+						{
+							"slug": "background",
+							"label": "Background",
+							"type": "select",
+							"validation": {
+								"options": [
+									"white",
+									"light",
+									"navy",
+									"teal",
+									"slate",
+									"blush"
+								]
+							},
+							"defaultValue": "light"
+						},
+						{
+							"slug": "anchor_id",
+							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "quotes",
+			"label": "Quotes",
+			"description": "Testimonials or a highlighted quote, with optional photos",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "items",
+							"label": "Quotes",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "quote",
+										"label": "Quote",
+										"type": "text",
+										"required": true
+									},
+									{
+										"slug": "name",
+										"label": "Name",
+										"type": "string"
+									},
+									{
+										"slug": "role",
+										"label": "Role or organisation",
+										"type": "string"
+									},
+									{
+										"slug": "photo",
+										"label": "Photo",
+										"type": "image"
+									}
+								]
+							}
+						},
+						{
+							"slug": "background",
+							"label": "Background",
+							"type": "select",
+							"validation": {
+								"options": [
+									"white",
+									"light",
+									"navy",
+									"teal",
+									"slate",
+									"blush"
+								]
+							},
+							"defaultValue": "white"
+						},
+						{
+							"slug": "anchor_id",
+							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "photo",
+			"label": "Photo",
+			"description": "A wide photo with an optional caption",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "image",
+							"label": "Photo",
+							"type": "image",
+							"required": true
+						},
+						{
+							"slug": "caption",
+							"label": "Caption",
+							"type": "string"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "link_list",
+			"label": "Link list",
+			"description": "A heading followed by a row of links",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "links",
+							"label": "Links",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "label",
+										"label": "Text",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "url",
+										"label": "Link (starts with /, https://, mailto: or #)",
+										"type": "string"
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "faq",
+			"label": "Questions and answers",
+			"description": "Expandable questions and answers from the FAQs list",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "category",
+							"label": "Which questions",
+							"type": "select",
+							"validation": {
+								"options": [
+									"mission-purpose-leadership",
+									"definitions",
+									"finance-funding-membership",
+									"legal-administrative",
+									"decision-making-collaboration",
+									"transparency-communication",
+									"initiatives",
+									"rust-innovation-lab",
+									"rftt"
+								]
+							},
+							"defaultValue": "mission-purpose-leadership"
+						},
+						{
+							"slug": "items",
+							"label": "Extra questions for this page only",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "question",
+										"label": "Question",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "answer",
+										"label": "Answer (leave a blank line between paragraphs)",
+										"type": "text",
+										"required": true
+									}
+								]
+							}
+						},
+						{
+							"slug": "background",
+							"label": "Background",
+							"type": "select",
+							"validation": {
+								"options": [
+									"white",
+									"light",
+									"navy",
+									"teal",
+									"slate",
+									"blush"
+								]
+							},
+							"defaultValue": "white"
+						},
+						{
+							"slug": "anchor_id",
+							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "documents",
+			"label": "Documents",
+			"description": "Reports, minutes and other files from the Documents list",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "text",
+							"label": "Text above the documents",
+							"type": "text"
+						},
+						{
+							"slug": "category",
+							"label": "Which documents",
+							"type": "select",
+							"validation": {
+								"options": [
+									"board-meeting-minutes",
+									"rust-foundation-reports",
+									"informational-resources",
+									"financial-filings",
+									"partnered-publications",
+									"year-in-review"
+								]
+							},
+							"defaultValue": "rust-foundation-reports"
+						},
+						{
+							"slug": "style",
+							"label": "Style",
+							"type": "select",
+							"validation": {
+								"options": [
+									"cards",
+									"list"
+								]
+							},
+							"defaultValue": "cards"
+						},
+						{
+							"slug": "count",
+							"label": "How many (0 = all)",
+							"type": "integer",
+							"defaultValue": 0
+						},
+						{
+							"slug": "background",
+							"label": "Background",
+							"type": "select",
+							"validation": {
+								"options": [
+									"white",
+									"light",
+									"navy",
+									"teal",
+									"slate",
+									"blush"
+								]
+							},
+							"defaultValue": "white"
+						},
+						{
+							"slug": "anchor_id",
+							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "events",
+			"label": "Events",
+			"description": "Events from the Events list",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "show",
+							"label": "Which events",
+							"type": "select",
+							"validation": {
+								"options": [
+									"upcoming",
+									"past",
+									"all"
+								]
+							},
+							"defaultValue": "upcoming"
+						},
+						{
+							"slug": "count",
+							"label": "How many (0 = all)",
+							"type": "integer",
+							"defaultValue": 0
+						},
+						{
+							"slug": "anchor_id",
+							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "policies",
+			"label": "Policies",
+			"description": "Cards linking to every policy",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "anchor_id",
+							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "stats",
+			"label": "Numbers",
+			"description": "A row of big numbers with labels",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "items",
+							"label": "Numbers",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "value",
+										"label": "Number",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "label",
+										"label": "Label",
+										"type": "string",
+										"required": true
+									}
+								]
+							}
+						},
+						{
+							"slug": "background",
+							"label": "Background",
+							"type": "select",
+							"validation": {
+								"options": [
+									"white",
+									"light",
+									"navy",
+									"teal",
+									"slate",
+									"blush"
+								]
+							},
+							"defaultValue": "navy"
+						},
+						{
+							"slug": "anchor_id",
+							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "video",
+			"label": "Video",
+			"description": "An embedded YouTube video",
+			"category": "Rust Foundation",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "url",
+							"label": "YouTube link",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "anchor_id",
+							"label": "Section ID (lowercase, for “Jump to” links like #initiatives)",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						}
+					]
+				}
+			]
+		}
+	],
+	"collections": [
+		{
+			"slug": "pages",
+			"label": "Pages",
+			"labelSingular": "Page",
+			"icon": "file",
+			"urlPattern": "/{slug}/",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"seo",
+				"search"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "content",
+					"label": "Sections",
+					"type": "blocks",
+					"validation": {
+						"allowedTypes": [
+							"page_header",
+							"feature_band",
+							"statement",
+							"rich_text",
+							"split",
+							"logo_wall",
+							"members_directory",
+							"people_grid",
+							"post_cards",
+							"cards",
+							"cta",
+							"quotes",
+							"photo",
+							"link_list",
+							"faq",
+							"documents",
+							"events",
+							"policies",
+							"stats",
+							"video"
+						],
+						"maxItems": 40
+					}
+				}
+			]
+		},
+		{
+			"slug": "posts",
+			"label": "News & blog",
+			"labelSingular": "Post",
+			"icon": "newspaper",
+			"urlPattern": "/media/{slug}/",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"scheduling",
+				"seo",
+				"search"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "excerpt",
+					"label": "Summary (shown on cards and in search results)",
+					"type": "text",
+					"searchable": true
+				},
+				{
+					"slug": "featured_image",
+					"label": "Featured image",
+					"type": "image"
+				},
+				{
+					"slug": "content",
+					"label": "Content",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "external_url",
+					"label": "External article (press coverage: the post links straight to this URL)",
+					"type": "url"
+				}
+			]
+		},
+		{
+			"slug": "policies",
+			"label": "Policies",
+			"labelSingular": "Policy",
+			"icon": "scales",
+			"urlPattern": "/policy/{slug}/",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"seo",
+				"search"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "content",
+					"label": "Content",
+					"type": "portableText",
+					"searchable": true
+				}
+			]
+		},
+		{
+			"slug": "organizations",
+			"label": "Organisations",
+			"labelSingular": "Organisation",
+			"description": "Members, donors, sponsors and partners. The groups decide where the logo appears.",
+			"icon": "buildings",
+			"supports": [
+				"drafts",
+				"revisions"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Name",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "logo",
+					"label": "Logo",
+					"type": "image",
+					"required": true
+				},
+				{
+					"slug": "groups",
+					"label": "Shown as",
+					"type": "multiSelect",
+					"validation": {
+						"options": [
+							"platinum",
+							"gold",
+							"silver",
+							"associate",
+							"infrastructure-donor",
+							"security-sponsor",
+							"cloud-provider",
+							"scrc-founder",
+							"rftt-provider",
+							"interop-supporter",
+							"open-source-partnership"
+						]
+					}
+				},
+				{
+					"slug": "website",
+					"label": "Website",
+					"type": "url"
+				},
+				{
+					"slug": "joined",
+					"label": "Joined (e.g. November, 2021)",
+					"type": "string"
+				},
+				{
+					"slug": "bio",
+					"label": "About (leave a blank line between paragraphs)",
+					"type": "text"
+				},
+				{
+					"slug": "order",
+					"label": "Order (lower comes first)",
+					"type": "integer",
+					"defaultValue": 100
+				}
+			]
+		},
+		{
+			"slug": "people",
+			"label": "People",
+			"labelSingular": "Person",
+			"description": "Board, staff and contributors. The groups decide where the person appears.",
+			"icon": "users-three",
+			"supports": [
+				"drafts",
+				"revisions"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Name",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "role",
+					"label": "Role",
+					"type": "string"
+				},
+				{
+					"slug": "groups",
+					"label": "Shown in",
+					"type": "multiSelect",
+					"validation": {
+						"options": [
+							"member-directors",
+							"project-directors",
+							"staff",
+							"security-contributors",
+							"infrastructure-contributors",
+							"rftt-reviewers"
+						]
+					}
+				},
+				{
+					"slug": "photo",
+					"label": "Photo",
+					"type": "image"
+				},
+				{
+					"slug": "bio",
+					"label": "Biography (leave a blank line between paragraphs)",
+					"type": "text"
+				},
+				{
+					"slug": "order",
+					"label": "Order (lower comes first)",
+					"type": "integer",
+					"defaultValue": 100
+				}
+			]
+		},
+		{
+			"slug": "events",
+			"label": "Events",
+			"labelSingular": "Event",
+			"icon": "calendar",
+			"urlPattern": "/event/{slug}/",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"seo",
+				"search"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Name",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "starts",
+					"label": "Starts",
+					"type": "datetime",
+					"required": true
+				},
+				{
+					"slug": "ends",
+					"label": "Ends",
+					"type": "datetime"
+				},
+				{
+					"slug": "location",
+					"label": "Location (e.g. Barcelona, Spain)",
+					"type": "string"
+				},
+				{
+					"slug": "category",
+					"label": "Our involvement",
+					"type": "select",
+					"validation": {
+						"options": [
+							"hosted",
+							"sponsored",
+							"attending",
+							"speaking",
+							"suggested"
+						]
+					},
+					"defaultValue": "attending"
+				},
+				{
+					"slug": "website",
+					"label": "Event website",
+					"type": "url"
+				},
+				{
+					"slug": "image",
+					"label": "Banner image",
+					"type": "image"
+				},
+				{
+					"slug": "description",
+					"label": "Description",
+					"type": "portableText",
+					"searchable": true
+				}
+			]
+		},
+		{
+			"slug": "documents",
+			"label": "Documents",
+			"labelSingular": "Document",
+			"description": "Reports, board minutes, filings and other files.",
+			"icon": "file-pdf",
+			"supports": [
+				"drafts",
+				"revisions",
+				"search"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "category",
+					"label": "Category",
+					"type": "select",
+					"validation": {
+						"options": [
+							"board-meeting-minutes",
+							"rust-foundation-reports",
+							"informational-resources",
+							"financial-filings",
+							"partnered-publications",
+							"year-in-review"
+						]
+					},
+					"defaultValue": "rust-foundation-reports"
+				},
+				{
+					"slug": "file",
+					"label": "File",
+					"type": "file"
+				},
+				{
+					"slug": "link",
+					"label": "…or a link instead of a file",
+					"type": "url"
+				},
+				{
+					"slug": "summary",
+					"label": "Summary",
+					"type": "text",
+					"searchable": true
+				},
+				{
+					"slug": "date",
+					"label": "Date",
+					"type": "datetime"
+				}
+			]
+		},
+		{
+			"slug": "faqs",
+			"label": "FAQs",
+			"labelSingular": "FAQ",
+			"icon": "question",
+			"supports": [
+				"drafts",
+				"revisions",
+				"search"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Question",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "category",
+					"label": "Category",
+					"type": "select",
+					"validation": {
+						"options": [
+							"mission-purpose-leadership",
+							"definitions",
+							"finance-funding-membership",
+							"legal-administrative",
+							"decision-making-collaboration",
+							"transparency-communication",
+							"initiatives",
+							"rust-innovation-lab",
+							"rftt"
+						]
+					},
+					"defaultValue": "mission-purpose-leadership"
+				},
+				{
+					"slug": "answer",
+					"label": "Answer",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "order",
+					"label": "Order (lower comes first)",
+					"type": "integer",
+					"defaultValue": 100
+				}
+			]
+		}
+	],
+	"taxonomies": [
+		{
+			"name": "category",
+			"label": "Categories",
+			"labelSingular": "Category",
+			"hierarchical": true,
+			"collections": [
+				"posts"
+			],
+			"terms": [
+				{
+					"slug": "news",
+					"label": "News"
+				},
+				{
+					"slug": "blog",
+					"label": "Blog"
+				},
+				{
+					"slug": "press",
+					"label": "Press"
+				}
+			]
+		},
+		{
+			"name": "tag",
+			"label": "Tags",
+			"labelSingular": "Tag",
+			"hierarchical": false,
+			"collections": [
+				"posts"
+			],
+			"terms": []
+		}
+	],
+	"menus": []
+}

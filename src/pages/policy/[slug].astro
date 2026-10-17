@@ -1,0 +1,55 @@
+---
+import { getEmDashEntry, getSeoMeta } from "emdash";
+import RichText from "../../components/RichText.astro";
+import Base from "../../layouts/Base.astro";
+import { allEntries } from "../../utils/content";
+import { policyUrl } from "../../utils/links";
+import { formatDate } from "../../utils/text";
+
+export async function getStaticPaths() {
+	return (await allEntries("policies")).map((policy) => ({ params: { slug: policy.id } }));
+}
+
+const { entry: policy } = await getEmDashEntry("policies", Astro.params.slug!);
+if (!policy) return Astro.rewrite("/404");
+const seo = getSeoMeta(policy, { siteUrl: Astro.site?.origin ?? Astro.url.origin, path: policyUrl(policy.id) });
+---
+
+<Base
+	title={seo.title || policy.data.title}
+	description={seo.description}
+	robots={seo.robots}
+	content={{ collection: "policies", id: policy.data.id, slug: policy.id }}
+>
+	<header class="policy-hero bg-navy">
+		<div class="container--narrow">
+			<p class="policy-hero__eyebrow"><a href="/policies-resources/">Policies &amp; Resources</a></p>
+			<h1>{policy.data.title}</h1>
+			{policy.data.updatedAt && <p class="policy-hero__meta">Last updated {formatDate(policy.data.updatedAt)}</p>}
+		</div>
+	</header>
+	<article class="container--narrow policy">
+		<RichText value={policy.data.content} />
+	</article>
+</Base>
+
+<style>
+	.policy-hero {
+		padding-block: 3rem;
+	}
+
+	.policy-hero__eyebrow {
+		margin-bottom: 0.5rem;
+		font-size: 0.9rem;
+	}
+
+	.policy-hero__meta {
+		margin: 0;
+		font-size: 0.9rem;
+		opacity: 0.85;
+	}
+
+	.policy {
+		padding-block: 3rem 4rem;
+	}
+</style>

@@ -1,0 +1,72 @@
+---
+import Img from "../Img.astro";
+import { linkAttrs } from "../../utils/links";
+import { paragraphs } from "../../utils/text";
+
+const { value } = Astro.props;
+const position = value.image_position ?? "above";
+---
+
+<section id={value.anchor_id || undefined} class:list={["split section", `split--${position}`]}>
+	<div class="container split__grid">
+		<div class="split__image">
+			<Img image={value.image} />
+		</div>
+		<div class="split__text">
+			<h2>{value.headline}</h2>
+			{paragraphs(value.text).map((p) => <p>{p}</p>)}
+			{
+				value.buttons?.length > 0 && (
+					<div class="btn-row">
+						{value.buttons.map((button: { label: string; url?: string }) => (
+							<a {...linkAttrs(button.url)} class="btn btn--small">
+								{button.label}
+							</a>
+						))}
+					</div>
+				)
+			}
+		</div>
+	</div>
+</section>
+
+<style>
+	.split {
+		padding-block: clamp(2rem, 5vw, 3.5rem);
+	}
+
+	.split__grid {
+		display: grid;
+		gap: 2rem;
+		align-items: center;
+	}
+
+	.split__image :global(img) {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-height: 32rem;
+		object-fit: cover;
+	}
+
+	.split--above .split__text {
+		text-align: center;
+		max-width: 60rem;
+		margin-inline: auto;
+	}
+
+	.split--above .btn-row {
+		justify-content: center;
+	}
+
+	@media (min-width: 50rem) {
+		.split--left .split__grid,
+		.split--right .split__grid {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		.split--right .split__image {
+			order: 2;
+		}
+	}
+</style>

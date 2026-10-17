@@ -1,0 +1,72 @@
+---
+import OrgLogo from "../OrgLogo.astro";
+import { organizations } from "../../utils/content";
+import { linkAttrs } from "../../utils/links";
+
+const { value } = Astro.props;
+const TIERS = [
+	{ id: "platinum", label: "Platinum" },
+	{ id: "gold", label: "Gold" },
+	{ id: "silver", label: "Silver" },
+	{ id: "associate", label: "Associate" },
+];
+const tiers = Object.fromEntries(await Promise.all(TIERS.map(async (tier) => [tier.id, await organizations(tier.id)])));
+---
+
+<section id={value.anchor_id || undefined} class="section members">
+	<div class="container">
+		{value.headline && <h2 class="heading-center">{value.headline}</h2>}
+		{
+			TIERS.map((tier) => {
+				const inTier = tiers[tier.id];
+				return (
+					inTier.length > 0 && (
+						<div id={tier.id} class="members__tier">
+							<h2 class="heading-center">{tier.label}</h2>
+							<ul class:list={["logo-grid", { "logo-grid--large": tier.id === "platinum" }]}>
+								{inTier.map((member) => (
+									<li>
+										<OrgLogo
+											id={`members-${member.id}`}
+											name={member.data.title}
+											logo={member.data.logo}
+											website={member.data.website}
+											joined={member.data.joined}
+											bio={member.data.bio}
+										/>
+									</li>
+								))}
+							</ul>
+						</div>
+					)
+				);
+			})
+		}
+		{
+			value.buttons?.length > 0 && (
+				<div class="btn-row btn-row--center">
+					{value.buttons.map((button: { label: string; url?: string }) => (
+						<a {...linkAttrs(button.url)} class="btn btn--small">
+							{button.label}
+						</a>
+					))}
+				</div>
+			)
+		}
+	</div>
+</section>
+
+<style>
+	.members {
+		padding-block: 2rem 3rem;
+	}
+
+	.members__tier {
+		margin-bottom: 2rem;
+		scroll-margin-top: 1rem;
+	}
+
+	.members__tier h2 {
+		margin-bottom: 0.75rem;
+	}
+</style>

@@ -1,0 +1,81 @@
+---
+import Img from "../Img.astro";
+import { paragraphs } from "../../utils/text";
+
+const { value } = Astro.props;
+const items = value.items ?? [];
+---
+
+<section id={value.anchor_id || undefined} class:list={["section quotes", `bg-${value.background ?? "white"}`]}>
+	<div class="container">
+		{value.headline && <h2 class="heading-center">{value.headline}</h2>}
+		<div class:list={["quotes__list", { "quotes__list--single": items.length === 1 }]}>
+			{
+				items.map((item: { quote: string; name?: string; role?: string; photo?: never }) => (
+					<figure class="quote">
+						{item.photo && <Img image={item.photo} alt="" class="quote__photo" />}
+						<div>
+							<blockquote>
+								{paragraphs(item.quote).map((p) => (
+									<p>{p}</p>
+								))}
+							</blockquote>
+							{(item.name || item.role) && (
+								<figcaption>
+									{item.name && <strong>{item.name}</strong>}
+									{item.role && <span>{item.role}</span>}
+								</figcaption>
+							)}
+						</div>
+					</figure>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<style>
+	.quotes__list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+		gap: 1.5rem;
+	}
+
+	.quotes__list--single {
+		max-width: 56rem;
+		margin-inline: auto;
+	}
+
+	.quote {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 1.25rem;
+		align-items: start;
+		margin: 0;
+	}
+
+	.quote :global(.quote__photo) {
+		width: 6rem;
+		height: 6rem;
+		border-radius: 50%;
+		object-fit: cover;
+	}
+
+	blockquote {
+		margin: 0 0 0.75rem;
+		padding-left: 1rem;
+		border-left: 3px solid var(--rust);
+		font-family: var(--font-serif);
+		font-size: 1.1rem;
+	}
+
+	.quotes__list--single blockquote {
+		font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+	}
+
+	figcaption {
+		display: flex;
+		flex-direction: column;
+		font-size: 0.9rem;
+	}
+</style>

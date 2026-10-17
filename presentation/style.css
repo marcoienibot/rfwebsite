@@ -1,0 +1,342 @@
+/* Rust Foundation-ish look: near-black + white, with a rust-orange accent. */
+
+:root {
+  --rf-orange: #e43716;
+  --rf-orange-soft: #fdf0ec;
+  --rf-ink: #141414;
+  --rf-muted: #5a5a5a;
+  --rf-line: #e6e6e6;
+  --slidev-theme-primary: #e43716;
+}
+
+.slidev-layout {
+  color: var(--rf-ink);
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.slidev-layout h1 {
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+/* Small orange bar under the title of regular content slides. */
+.slidev-layout.default > h1::after {
+  content: '';
+  display: block;
+  width: 2.5rem;
+  height: 4px;
+  margin-top: 0.6rem;
+  border-radius: 2px;
+  background: var(--rf-orange);
+}
+
+.slidev-layout.default > h1 + p {
+  opacity: 1;
+  color: var(--rf-muted);
+  margin-top: 0.25rem;
+}
+
+.slidev-layout a {
+  color: var(--rf-orange);
+  border-bottom: 1px dashed currentColor;
+}
+
+.slidev-layout strong {
+  font-weight: 700;
+}
+
+.accent {
+  color: var(--rf-orange);
+}
+
+.muted {
+  color: var(--rf-muted);
+}
+
+.kicker {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rf-orange);
+  margin-bottom: 0.75rem;
+}
+
+/* ---------- Dark slides (cover, statements, end) ---------- */
+
+.slidev-layout.rf-dark {
+  background:
+    radial-gradient(circle at 88% 12%, rgba(228, 55, 22, 0.28), transparent 42%),
+    radial-gradient(circle at 5% 100%, rgba(228, 55, 22, 0.12), transparent 40%),
+    #111111;
+  color: #f2f2f2;
+}
+
+.slidev-layout.rf-dark h1 {
+  color: #ffffff;
+}
+
+.slidev-layout.rf-dark h1 + p {
+  opacity: 1;
+  color: #b8b8b8;
+}
+
+.slidev-layout.rf-dark .muted {
+  color: #a8a8a8;
+}
+
+.slidev-layout.rf-dark a {
+  color: #ff7a59;
+}
+
+.slidev-layout.cover h1 {
+  font-size: 3.6rem;
+  line-height: 1.05;
+}
+
+.byline {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 0.95rem;
+  color: #cfcfcf;
+}
+
+.slidev-layout.statement h1 {
+  font-size: 3rem;
+  line-height: 1.15;
+}
+
+.slidev-layout .lead {
+  max-width: 44rem;
+  margin: 2rem auto 0;
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.slidev-layout.center h1 {
+  font-size: 3.5rem;
+}
+
+/* ---------- Tiles ---------- */
+
+.tiles {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.tiles.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.tiles.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tiles.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.tile {
+  border: 1px solid var(--rf-line);
+  border-top: 3px solid var(--rf-orange);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  background: #ffffff;
+}
+
+.tile .tile-icon {
+  font-size: 1.6rem;
+  color: var(--rf-orange);
+  margin-bottom: 0.35rem;
+}
+
+.tile h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 0.3rem;
+  line-height: 1.25;
+}
+
+.tile p {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--rf-muted);
+  margin: 0;
+}
+
+.tile ul,
+.tile ol {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--rf-muted);
+}
+
+.tile ol {
+  list-style: decimal;
+}
+
+.tile li {
+  margin: 0.25rem 0;
+}
+
+.tile.soft {
+  background: var(--rf-orange-soft);
+}
+
+/* ---------- Big numbers ---------- */
+
+.stat {
+  text-align: center;
+  padding: 1.1rem 0.5rem;
+  border-radius: 12px;
+  background: var(--rf-orange-soft);
+}
+
+.stat .num {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--rf-orange);
+  line-height: 1;
+}
+
+.stat .label {
+  margin-top: 0.4rem;
+  font-weight: 600;
+}
+
+.stat .sub {
+  margin-top: 0.2rem;
+  font-size: 0.75rem;
+  color: var(--rf-muted);
+  line-height: 1.35;
+}
+
+/* ---------- Screenshots ---------- */
+
+.shot {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid var(--rf-line);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.shot.short {
+  max-height: 300px;
+}
+
+.caption {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--rf-muted);
+  text-align: center;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 2rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.split ul,
+.split ol {
+  font-size: 0.95rem;
+}
+
+.split li {
+  margin: 0.35rem 0;
+}
+
+/* ---------- Tables ---------- */
+
+.slidev-layout table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.slidev-layout th {
+  text-align: left;
+  font-weight: 700;
+  border-bottom: 2px solid var(--rf-orange);
+  padding: 0.4rem 0.6rem;
+}
+
+.slidev-layout td {
+  border-bottom: 1px solid var(--rf-line);
+  padding: 0.4rem 0.6rem;
+  vertical-align: top;
+  line-height: 1.4;
+}
+
+.slidev-layout td:first-child {
+  font-weight: 600;
+}
+
+.nowrap-first td:first-child {
+  white-space: nowrap;
+}
+
+.half-first td:first-child {
+  width: 45%;
+}
+
+.compact table {
+  font-size: 0.74rem;
+}
+
+.compact td,
+.compact th {
+  padding: 0.28rem 0.5rem;
+}
+
+/* ---------- Callouts ---------- */
+
+.note {
+  margin-top: 1rem;
+  padding: 0.6rem 0.9rem;
+  border-left: 4px solid var(--rf-orange);
+  background: var(--rf-orange-soft);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.9rem;
+}
+
+/* ---------- Checklist ---------- */
+
+.slidev-layout ol.checklist,
+.slidev-layout ol.checklist li {
+  list-style: none;
+}
+
+.slidev-layout ol.checklist {
+  padding: 0;
+  margin: 1rem 0 0;
+  counter-reset: step;
+}
+
+.checklist li {
+  counter-increment: step;
+  position: relative;
+  padding: 0.45rem 0 0.45rem 2.4rem;
+  border-bottom: 1px solid var(--rf-line);
+  font-size: 1rem;
+}
+
+.checklist li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 999px;
+  background: var(--rf-orange);
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+}

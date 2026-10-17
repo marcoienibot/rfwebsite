@@ -1,0 +1,57 @@
+---
+import { linkAttrs } from "../../utils/links";
+import { mediaSrc } from "../../utils/media";
+import { paragraphs } from "../../utils/text";
+
+const { value } = Astro.props;
+const photo = mediaSrc(value.background_image);
+---
+
+<section
+	id={value.anchor_id || undefined}
+	class:list={["cta", `bg-${value.background ?? "light"}`, { "cta--photo": photo }]}
+	style={photo ? `--cta-photo: url("${photo}")` : undefined}
+>
+	<div class="container">
+		<h2>{value.headline}</h2>
+		{paragraphs(value.text).map((p) => <p>{p}</p>)}
+		{
+			value.buttons?.length > 0 && (
+				<div class="btn-row btn-row--center">
+					{value.buttons.map((button: { label: string; url?: string }) => (
+						<a {...linkAttrs(button.url)} class="btn btn--small">
+							{button.label}
+						</a>
+					))}
+				</div>
+			)
+		}
+	</div>
+</section>
+
+<style>
+	.cta {
+		padding-block: clamp(2.5rem, 5vw, 3.5rem);
+		text-align: center;
+	}
+
+	.cta h2 {
+		font-size: clamp(1.6rem, 3vw, 2.25rem);
+	}
+
+	.cta p {
+		max-width: 50rem;
+		margin-inline: auto;
+	}
+
+	.cta--photo {
+		position: relative;
+		display: grid;
+		align-items: end;
+		min-height: 22rem;
+		color: var(--white);
+		background:
+			linear-gradient(90deg, rgb(40 96 127 / 0.95), rgb(40 96 127 / 0.55) 55%, rgb(255 255 255 / 0)),
+			var(--cta-photo) center / cover;
+	}
+</style>

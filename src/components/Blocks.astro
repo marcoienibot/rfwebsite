@@ -1,0 +1,52 @@
+---
+import { Blocks as EmDashBlocks } from "emdash/ui";
+import Cards from "./blocks/Cards.astro";
+import Cta from "./blocks/Cta.astro";
+import Documents from "./blocks/Documents.astro";
+import Events from "./blocks/Events.astro";
+import Faq from "./blocks/Faq.astro";
+import FeatureBand from "./blocks/FeatureBand.astro";
+import LinkList from "./blocks/LinkList.astro";
+import LogoWall from "./blocks/LogoWall.astro";
+import MembersDirectory from "./blocks/MembersDirectory.astro";
+import PageHeader from "./blocks/PageHeader.astro";
+import PeopleGrid from "./blocks/PeopleGrid.astro";
+import Photo from "./blocks/Photo.astro";
+import Policies from "./blocks/Policies.astro";
+import PostCards from "./blocks/PostCards.astro";
+import Quotes from "./blocks/Quotes.astro";
+import RichTextBlock from "./blocks/RichTextBlock.astro";
+import Split from "./blocks/Split.astro";
+import Statement from "./blocks/Statement.astro";
+import Stats from "./blocks/Stats.astro";
+import Video from "./blocks/Video.astro";
+
+interface Props {
+	value: unknown[] | null | undefined;
+}
+
+const components = {
+	page_header: PageHeader,
+	feature_band: FeatureBand,
+	statement: Statement,
+	rich_text: RichTextBlock,
+	split: Split,
+	logo_wall: LogoWall,
+	members_directory: MembersDirectory,
+	people_grid: PeopleGrid,
+	post_cards: PostCards,
+	cards: Cards,
+	cta: Cta,
+	photo: Photo,
+	link_list: LinkList,
+	faq: Faq,
+	documents: Documents,
+	events: Events,
+	policies: Policies,
+	quotes: Quotes,
+	stats: Stats,
+	video: Video,
+};
+---
+
+<EmDashBlocks value={Astro.props.value as never} components={components as never} />

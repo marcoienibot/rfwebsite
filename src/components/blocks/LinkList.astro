@@ -1,0 +1,57 @@
+---
+import { linkAttrs } from "../../utils/links";
+
+const { value } = Astro.props;
+---
+
+<section class="link-list">
+	<div class="container">
+		{value.headline && <h2>{value.headline}</h2>}
+		<ul>
+			{
+				value.links?.map((link: { label: string; url?: string }) => (
+					<li>
+						<a {...linkAttrs(link.url)}>{link.label}</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>
+
+<style>
+	.link-list {
+		padding-block: 2rem 3rem;
+		text-align: center;
+	}
+
+	h2 {
+		font-size: clamp(1.5rem, 2.6vw, 2rem);
+		margin-bottom: 0.4rem;
+	}
+
+	ul {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	li + li::before {
+		content: "|";
+		margin-inline: 0.4rem;
+		color: var(--ink);
+	}
+
+	a {
+		font-size: 0.85rem;
+		text-transform: uppercase;
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+</style>

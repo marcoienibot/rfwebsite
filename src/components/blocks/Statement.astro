@@ -1,0 +1,50 @@
+---
+import { linkAttrs } from "../../utils/links";
+import { paragraphs } from "../../utils/text";
+
+const { value } = Astro.props;
+const [first, ...rest] = paragraphs(value.text);
+---
+
+<section id={value.anchor_id || undefined} class:list={["statement section", `bg-${value.background ?? "light"}`]}>
+	<div class="container">
+		<p class="statement__lead">
+			{value.label && <strong>{value.label}</strong>}
+			{first}
+		</p>
+		{rest.map((p) => <p>{p}</p>)}
+		{
+			value.buttons?.length > 0 && (
+				<div class="btn-row btn-row--center">
+					{value.buttons.map((button: { label: string; url?: string }) => (
+						<a {...linkAttrs(button.url)} class="btn btn--small">
+							{button.label}
+						</a>
+					))}
+				</div>
+			)
+		}
+	</div>
+</section>
+
+<style>
+	.statement {
+		padding-block: 2.5rem;
+	}
+
+	.statement__lead {
+		font-size: 1.15rem;
+	}
+
+	.statement__lead strong {
+		margin-right: 0.35em;
+		font-family: var(--font-serif);
+		font-size: 1.6rem;
+		font-weight: 700;
+		text-transform: uppercase;
+	}
+
+	.btn-row {
+		margin-top: 1.5rem;
+	}
+</style>

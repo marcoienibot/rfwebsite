@@ -1,0 +1,17 @@
+---
+import PostListing, { PER_PAGE } from "../../../components/PostListing.astro";
+import Base from "../../../layouts/Base.astro";
+import { allPosts } from "../../../utils/content";
+
+export async function getStaticPaths() {
+	const pages = Math.ceil((await allPosts()).length / PER_PAGE);
+	return Array.from({ length: Math.max(0, pages - 1) }, (_, i) => ({ params: { page: String(i + 2) } }));
+}
+
+const page = Number(Astro.params.page);
+const posts = await allPosts();
+---
+
+<Base title={`Media Room – page ${page}`}>
+	<PostListing posts={posts} page={page} href={(n) => (n === 1 ? "/media/" : `/media/page/${n}/`)} />
+</Base>

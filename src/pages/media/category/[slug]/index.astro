@@ -1,0 +1,21 @@
+---
+import { getTaxonomyTerms } from "emdash";
+import PostListing from "../../../../components/PostListing.astro";
+import Base from "../../../../layouts/Base.astro";
+import { postsWhere } from "../../../../utils/content";
+
+export async function getStaticPaths() {
+	const terms = await getTaxonomyTerms("category");
+	return terms.map((term) => ({ params: { slug: term.slug } }));
+}
+
+const { slug } = Astro.params;
+const term = (await getTaxonomyTerms("category")).find((t) => t.slug === slug);
+if (!term) return Astro.rewrite("/404");
+const label = term.label;
+const posts = await postsWhere({ category: slug });
+---
+
+<Base title={label}>
+	<PostListing posts={posts} page={1} heading={label} href={(n) => (n === 1 ? `/media/category/${slug}/` : `/media/category/${slug}/page/${n}/`)} />
+</Base>

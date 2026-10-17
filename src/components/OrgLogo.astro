@@ -1,0 +1,120 @@
+---
+/**
+ * A logo tile. Clicking it opens a card with the organisation's details,
+ * like on the old site; logos without details link straight to the website.
+ */
+import Img from "./Img.astro";
+import { linkAttrs } from "../utils/links";
+import { paragraphs } from "../utils/text";
+
+interface Props {
+	id: string;
+	name: string;
+	logo: unknown;
+	website?: string | null;
+	joined?: string | null;
+	bio?: string | null;
+}
+
+const { id, name, logo, website, joined, bio } = Astro.props;
+const popoverId = `org-${id}`;
+const host = website ? new URL(website).hostname.replace(/^www\./, "") : undefined;
+---
+
+{
+	bio ? (
+		<>
+			<button type="button" class="org-logo" popovertarget={popoverId} title={name}>
+				<Img image={logo as never} alt={name} />
+			</button>
+			<div id={popoverId} popover class="org-card">
+				<button type="button" class="org-card__close" popovertarget={popoverId} popovertargetaction="hide">
+					<span class="visually-hidden">Close</span>×
+				</button>
+				<Img image={logo as never} alt="" class="org-card__logo" />
+				<h3>{name}</h3>
+				{joined && <p class="org-card__joined">Joined {joined}</p>}
+				{website && (
+					<a {...linkAttrs(website)} class="btn btn--small">
+						{host}
+					</a>
+				)}
+				{paragraphs(bio).map((p) => <p>{p}</p>)}
+			</div>
+		</>
+	) : website ? (
+		<a {...linkAttrs(website)} class="org-logo" title={name}>
+			<Img image={logo as never} alt={name} />
+		</a>
+	) : (
+		<span class="org-logo">
+			<Img image={logo as never} alt={name} />
+		</span>
+	)
+}
+
+<style>
+	.org-logo {
+		display: grid;
+		place-items: center;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		border: 0;
+		background: none;
+		cursor: pointer;
+	}
+
+	.org-logo:hover :global(img) {
+		transform: scale(1.04);
+	}
+
+	.org-logo :global(img) {
+		transition: transform 150ms;
+	}
+
+	.org-card {
+		width: min(100% - 2rem, 40rem);
+		max-height: 85vh;
+		padding: 2rem;
+		border: 0;
+		box-shadow: 0 10px 40px rgb(0 0 0 / 0.3);
+	}
+
+	.org-card::backdrop {
+		background: rgb(30 38 80 / 0.6);
+	}
+
+	.org-card :global(.org-card__logo) {
+		display: block;
+		max-width: 12rem;
+		max-height: 6rem;
+		width: auto;
+		margin-bottom: 1rem;
+		background: none !important;
+	}
+
+	.org-card h3 {
+		margin-bottom: 0.25rem;
+	}
+
+	.org-card__joined {
+		font-family: var(--font-serif);
+		font-weight: 700;
+	}
+
+	.org-card .btn {
+		margin-bottom: 1rem;
+	}
+
+	.org-card__close {
+		position: absolute;
+		top: 0.5rem;
+		right: 0.75rem;
+		border: 0;
+		background: none;
+		font-size: 2rem;
+		line-height: 1;
+		cursor: pointer;
+	}
+</style>

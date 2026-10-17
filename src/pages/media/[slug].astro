@@ -1,0 +1,184 @@
+---
+import { getEmDashEntry, getSeoMeta } from "emdash";
+import Img from "../../components/Img.astro";
+import RichText from "../../components/RichText.astro";
+import Base from "../../layouts/Base.astro";
+import { allPosts } from "../../utils/content";
+import { categoryUrl, postUrl, tagUrl } from "../../utils/links";
+import { mediaSrc } from "../../utils/media";
+import { formatDate, paragraphs } from "../../utils/text";
+
+export async function getStaticPaths() {
+	return (await allPosts()).map((post) => ({ params: { slug: post.id } }));
+}
+
+const { slug } = Astro.params;
+const { entry: post } = await getEmDashEntry("posts", slug!);
+if (!post) return Astro.rewrite("/404");
+
+const posts = await allPosts();
+const index = posts.findIndex((p) => p.id === post.id);
+const listed = posts[index];
+const newer = index > 0 ? posts[index - 1] : undefined;
+const older = index >= 0 ? posts[index + 1] : undefined;
+const categories = listed?.categories ?? [];
+const tags = listed?.tags ?? [];
+const author = post.data.byline;
+const seo = getSeoMeta(post, { siteUrl: Astro.site?.origin ?? Astro.url.origin, path: postUrl(post.id) });
+const external = post.data.external_url;
+---
+
+<Base
+	title={seo.title || post.data.title}
+	description={seo.description || post.data.excerpt}
+	image={seo.ogImage ?? mediaSrc(post.data.featured_image)}
+	robots={seo.robots}
+	content={{ collection: "posts", id: post.data.id, slug: post.id }}
+	pageType="article"
+>
+	{external && <meta slot="head" http-equiv="refresh" content={`0; url=${external}`} />}
+	<header class="post-hero bg-navy">
+		<div class="container--narrow">
+			<h1>{post.data.title}</h1>
+			<p class="post-hero__meta">
+				<time datetime={post.data.publishedAt?.toISOString()}>{formatDate(post.data.publishedAt)}</time>
+				{author && <> / <a href={`/media/author/${author.slug}/`}>{author.displayName}</a></>}
+			</p>
+		</div>
+	</header>
+
+	<article class="post container--narrow">
+		{
+			external ? (
+				<p class="post__external">
+					This article was published elsewhere: <a href={external}>read it on {new URL(external).hostname.replace(/^www\./, "")}</a>.
+				</p>
+			) : (
+				<RichText value={post.data.content} />
+			)
+		}
+	</article>
+
+	<footer class="post-footer container">
+		{
+			categories.length > 0 && (
+				<p class="post-footer__terms">
+					Posted in{" "}
+					{categories.map((term, i) => (
+						<>
+							{i > 0 && ", "}
+							<a href={categoryUrl(term.slug)}>{term.label}</a>
+						</>
+					))}
+				</p>
+			)
+		}
+		{
+			tags.length > 0 && (
+				<ul class="tags">
+					{tags.map((term) => (
+						<li>
+							<a class="tag" href={tagUrl(term.slug)}>
+								{term.label}
+							</a>
+						</li>
+					))}
+				</ul>
+			)
+		}
+		{
+			author?.bio && (
+				<section class="author">
+					{author.avatarStorageKey && (
+						<Img image={{ meta: { storageKey: author.avatarStorageKey } }} alt="" class="author__photo" />
+					)}
+					<div>
+						<h2 class="author__name">{author.displayName}</h2>
+						{paragraphs(author.bio).map((p) => <p>{p}</p>)}
+					</div>
+				</section>
+			)
+		}
+		<nav class="post-nav" aria-label="More posts">
+			{older && <a href={older.data.external_url || postUrl(older.id)} rel="prev">← {older.data.title}</a>}
+			{newer && <a href={newer.data.external_url || postUrl(newer.id)} rel="next">{newer.data.title} →</a>}
+		</nav>
+	</footer>
+</Base>
+
+<style>
+	.post-hero {
+		padding-block: clamp(3rem, 8vw, 6rem);
+		text-align: center;
+		background-image: url("/theme/cog.png"), url("/theme/cog.png"), var(--grain);
+		background-repeat: no-repeat;
+		background-position:
+			-3rem 60%,
+			right -4rem top -2rem,
+			0 0;
+		background-size: 16rem, 22rem, auto;
+		background-blend-mode: soft-light;
+	}
+
+	.post-hero h1 {
+		font-size: clamp(2rem, 4vw, 3rem);
+	}
+
+	.post-hero__meta {
+		margin: 0;
+		font-size: 0.95rem;
+	}
+
+	.post {
+		padding-block: 3rem;
+	}
+
+	.post__external {
+		font-size: 1.15rem;
+		text-align: center;
+	}
+
+	.post-footer__terms {
+		padding-block: 1.25rem;
+		border-block: 1px solid var(--blue-20);
+	}
+
+	.author {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 1.5rem;
+		margin-block: 2rem;
+		padding: 1.5rem;
+		background: #f5f5f5;
+		font-size: 0.9rem;
+	}
+
+	.author :global(.author__photo) {
+		width: 6rem;
+		height: 6rem;
+		object-fit: cover;
+	}
+
+	.author__name {
+		margin-bottom: 0.4rem;
+		font-size: 1.6rem;
+	}
+
+	.post-nav {
+		display: flex;
+		justify-content: space-between;
+		gap: 2rem;
+		padding-block: 1.25rem 4rem;
+		border-top: 1px solid var(--blue-20);
+		font-size: 0.9rem;
+	}
+
+	.post-nav a {
+		text-decoration: none;
+	}
+
+	.post-nav [rel="next"] {
+		margin-left: auto;
+		text-align: right;
+	}
+</style>

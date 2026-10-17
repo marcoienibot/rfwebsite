@@ -1,0 +1,114 @@
+---
+import { getEmDashEntry, getSeoMeta } from "emdash";
+import Img from "../../components/Img.astro";
+import RichText from "../../components/RichText.astro";
+import Base from "../../layouts/Base.astro";
+import { events, toDate } from "../../utils/content";
+import { linkAttrs } from "../../utils/links";
+import { mediaSrc } from "../../utils/media";
+import { formatDate } from "../../utils/text";
+
+export async function getStaticPaths() {
+	return (await events()).map((event) => ({ params: { slug: event.id } }));
+}
+
+const { entry: event } = await getEmDashEntry("events", Astro.params.slug!);
+if (!event) return Astro.rewrite("/404");
+const seo = getSeoMeta(event, { siteUrl: Astro.site?.origin ?? Astro.url.origin, path: `/event/${event.id}/` });
+const starts = toDate(event.data.starts);
+const ends = toDate(event.data.ends);
+const when = starts && ends && formatDate(ends) !== formatDate(starts) ? `${formatDate(starts)} – ${formatDate(ends)}` : formatDate(starts);
+const all = await events();
+const index = all.findIndex((e) => e.id === event.id);
+const previous = all[index - 1];
+const next = all[index + 1];
+---
+
+<Base
+	title={seo.title || event.data.title}
+	description={seo.description}
+	image={mediaSrc(event.data.image)}
+	content={{ collection: "events", id: event.data.id, slug: event.id }}
+>
+	<header class="event-hero bg-navy">
+		<div class="container event-hero__grid">
+			<div>
+				<p class="event-hero__eyebrow"><a href="/events/">Events</a></p>
+				<h1>{event.data.title}</h1>
+				<p class="event-hero__when">{when}</p>
+				{event.data.location && <p>{event.data.location}</p>}
+				{
+					event.data.website && (
+						<a {...linkAttrs(event.data.website)} class="btn">
+							Event website
+						</a>
+					)
+				}
+			</div>
+			{event.data.image && <Img image={event.data.image} alt="" loading="eager" class="event-hero__image" />}
+		</div>
+	</header>
+	<article class="container--narrow event-body">
+		<RichText value={event.data.description} />
+	</article>
+	<nav class="container event-nav" aria-label="More events">
+		{previous && <a href={`/event/${previous.id}/`}>← {previous.data.title}</a>}
+		{next && <a href={`/event/${next.id}/`} class="event-nav__next">{next.data.title} →</a>}
+	</nav>
+</Base>
+
+<style>
+	.event-hero {
+		padding-block: 3rem;
+	}
+
+	.event-hero__grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 2rem;
+		align-items: center;
+	}
+
+	.event-hero :global(.event-hero__image) {
+		width: 100%;
+		height: auto;
+	}
+
+	.event-hero__eyebrow {
+		margin-bottom: 0.5rem;
+		font-size: 0.9rem;
+	}
+
+	.event-hero__when {
+		margin-bottom: 0.25rem;
+		font-weight: 700;
+	}
+
+	.event-body {
+		padding-block: 2.5rem;
+	}
+
+	.event-nav {
+		display: flex;
+		justify-content: space-between;
+		gap: 2rem;
+		padding-block: 1.25rem 4rem;
+		border-top: 1px solid var(--blue-20);
+		font-size: 0.9rem;
+	}
+
+	.event-nav a {
+		text-decoration: none;
+	}
+
+	.event-nav__next {
+		margin-left: auto;
+		text-align: right;
+	}
+
+	@media (max-width: 45rem) {
+		.event-hero__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

@@ -1,0 +1,16 @@
+{
+	"name": "@rfwebsite/plugin-publish",
+	"private": true,
+	"version": "0.1.0",
+	"description": "Adds a Publish button to the EmDash admin that commits content to git and pushes it to GitHub",
+	"type": "module",
+	"main": "src/index.ts",
+	"exports": {
+		".": "./src/index.ts",
+		"./admin": "./src/admin.tsx"
+	},
+	"peerDependencies": {
+		"emdash": "*",
+		"react": "^19.0.0"
+	}
+}

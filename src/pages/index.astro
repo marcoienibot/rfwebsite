@@ -1,0 +1,18 @@
+---
+import { getContentSeo, getEmDashEntry } from "emdash";
+import Blocks from "../components/Blocks.astro";
+import Base from "../layouts/Base.astro";
+import { pageSeoDefaults } from "../utils/seo";
+
+const { entry: page } = await getEmDashEntry("pages", "home");
+const seo = page ? getContentSeo(page) : null;
+const defaults = pageSeoDefaults(page?.data.content);
+---
+
+<Base
+	title={seo?.title || undefined}
+	description={seo?.description || defaults.defaultDescription}
+	content={page ? { collection: "pages", id: page.data.id, slug: page.id } : undefined}
+>
+	<Blocks value={page?.data.content} />
+</Base>
