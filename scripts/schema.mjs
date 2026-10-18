@@ -46,6 +46,14 @@ const buttons = repeater(
 	{ maxItems: 6 },
 );
 
+// Long lists start collapsed, with a "Show all" button for the rest.
+const showFirst = {
+	slug: "show_first",
+	label: "Show only the first … and a “Show all” button for the rest (0 = show them all)",
+	type: "integer",
+	defaultValue: 0,
+};
+
 const BACKGROUNDS = ["white", "light", "navy", "teal", "slate", "blush"];
 
 // Which lists an organisation appears in (members by tier, donors, sponsors…)
@@ -154,6 +162,7 @@ const blockTypes = [
 			image("logo", "Logo"),
 			subLink("url", "Link"),
 		]),
+		select("layout", "Layout (a carousel shows one row with arrows, for long lists)", ["grid", "carousel"], "grid"),
 		buttons,
 		select("background", "Background", BACKGROUNDS, "white"),
 		anchor,
@@ -237,6 +246,7 @@ const blockTypes = [
 		select("category", "Which documents", DOCUMENT_CATEGORIES, "rust-foundation-reports"),
 		select("style", "Style", ["cards", "list"], "cards"),
 		{ slug: "count", label: "How many (0 = all)", type: "integer", defaultValue: 0 },
+		showFirst,
 		select("background", "Background", BACKGROUNDS, "white"),
 		anchor,
 	]),
@@ -244,6 +254,7 @@ const blockTypes = [
 		string("headline", "Headline"),
 		select("show", "Which events", ["upcoming", "past", "all"], "upcoming"),
 		{ slug: "count", label: "How many (0 = all)", type: "integer", defaultValue: 0 },
+		showFirst,
 		anchor,
 	]),
 	block("policies", "Policies", "Cards linking to every policy", [

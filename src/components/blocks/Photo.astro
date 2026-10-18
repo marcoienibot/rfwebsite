@@ -2,9 +2,10 @@
 import Img from "../Img.astro";
 
 const { value } = Astro.props;
+const { width, height } = value.image ?? {};
 ---
 
-<figure class="photo">
+<figure class="photo" style={width && height ? `--ratio: ${width / height}` : undefined}>
 	<Img image={value.image} />
 	{value.caption && <figcaption>{value.caption}</figcaption>}
 </figure>
@@ -15,11 +16,12 @@ const { value } = Astro.props;
 		margin: clamp(1.5rem, 4vw, 2.5rem) auto;
 	}
 
-	/* Whole image, never cropped; very tall or large photos are scaled down. */
+	/* Whole image, never cropped; very tall or large photos are scaled down.
+	   Capping the width (not the height) keeps the space reserved from the
+	   image's width and height before it loads, so the page doesn't jump. */
 	.photo :global(img) {
 		display: block;
-		width: auto;
-		max-width: 100%;
+		max-width: min(100%, 38rem * var(--ratio, 100));
 		height: auto;
 		max-height: 38rem;
 		margin-inline: auto;

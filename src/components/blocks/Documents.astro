@@ -1,5 +1,6 @@
 ---
 import Paragraphs from "../Paragraphs.astro";
+import ShowAll from "../ShowAll.astro";
 import { documents } from "../../utils/content";
 import { linkAttrs } from "../../utils/links";
 import { mediaSrc } from "../../utils/media";
@@ -9,6 +10,9 @@ const { value } = Astro.props;
 let docs = await documents(value.category ?? "rust-foundation-reports");
 if (value.count > 0) docs = docs.slice(0, value.count);
 const href = (doc: (typeof docs)[number]) => mediaSrc(doc.data.file as never) ?? doc.data.link ?? undefined;
+const listId = `docs-${value._key ?? value.category}`;
+// Long lists show the first few, with a "Show all" button for the rest.
+const shown = value.show_first > 0 ? value.show_first : docs.length;
 ---
 
 <section id={value.anchor_id || undefined} class:list={["section docs", `bg-${value.background ?? "white"}`]}>
@@ -17,18 +21,18 @@ const href = (doc: (typeof docs)[number]) => mediaSrc(doc.data.file as never) ??
 		<Paragraphs text={value.text} class="docs__text" />
 		{
 			value.style === "list" ? (
-				<ul class="docs__list">
-					{docs.map((doc) => (
-						<li>
+				<ul id={listId} class="docs__list">
+					{docs.map((doc, index) => (
+						<li hidden={index >= shown}>
 							<a {...linkAttrs(href(doc))}>{doc.data.title}</a>
 							{doc.date && <span class="docs__date">{formatDate(doc.date)}</span>}
 						</li>
 					))}
 				</ul>
 			) : (
-				<ul class="docs__cards">
-					{docs.map((doc) => (
-						<li class="docs__card">
+				<ul id={listId} class="docs__cards">
+					{docs.map((doc, index) => (
+						<li class="docs__card" hidden={index >= shown}>
 							<h3>
 								<a {...linkAttrs(href(doc))}>{doc.data.title}</a>
 							</h3>
@@ -41,6 +45,7 @@ const href = (doc: (typeof docs)[number]) => mediaSrc(doc.data.file as never) ??
 				</ul>
 			)
 		}
+		{docs.length > shown && <ShowAll list={listId} label={`Show all ${docs.length}`} />}
 	</div>
 </section>
 
@@ -84,6 +89,10 @@ const href = (doc: (typeof docs)[number]) => mediaSrc(doc.data.file as never) ??
 
 	.docs__card p {
 		font-size: 0.9rem;
+	}
+
+	.docs__card[hidden] {
+		display: none;
 	}
 
 	.docs__card .arrow-link {

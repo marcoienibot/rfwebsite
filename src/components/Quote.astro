@@ -1,0 +1,57 @@
+---
+import Paragraphs from "./Paragraphs.astro";
+import Img from "./Img.astro";
+
+export type QuoteItem = { quote: string; name?: string; role?: string; photo?: never };
+type Props = { item: QuoteItem };
+
+const { item } = Astro.props;
+---
+
+<figure class="quote">
+	{item.photo && <Img image={item.photo} alt="" class="quote__photo" />}
+	<div>
+		<blockquote>
+			<Paragraphs text={item.quote} />
+		</blockquote>
+		{
+			(item.name || item.role) && (
+				<figcaption>
+					{item.name && <strong>{item.name}</strong>}
+					{item.role && <span>{item.role}</span>}
+				</figcaption>
+			)
+		}
+	</div>
+</figure>
+
+<style>
+	.quote {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 1.25rem;
+		align-items: start;
+		margin: 0;
+	}
+
+	.quote :global(.quote__photo) {
+		width: 5rem;
+		height: 5rem;
+		border-radius: 50%;
+		object-fit: cover;
+	}
+
+	blockquote {
+		margin: 0 0 0.75rem;
+		padding-left: 1rem;
+		border-left: 3px solid var(--rust);
+		font-family: var(--font-serif);
+		font-size: 1.1rem;
+	}
+
+	figcaption {
+		display: flex;
+		flex-direction: column;
+		font-size: 0.9rem;
+	}
+</style>

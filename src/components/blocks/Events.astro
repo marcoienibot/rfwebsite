@@ -1,5 +1,6 @@
 ---
 import Img from "../Img.astro";
+import ShowAll from "../ShowAll.astro";
 import { events } from "../../utils/content";
 import { formatDate } from "../../utils/text";
 
@@ -11,6 +12,9 @@ let list = await events();
 if (value.show === "upcoming") list = list.filter((e) => (e.ends ?? e.starts).getTime() >= now);
 if (value.show === "past") list = list.filter((e) => (e.ends ?? e.starts).getTime() < now).reverse();
 if (value.count > 0) list = list.slice(0, value.count);
+const listId = `events-${value._key ?? value.show}`;
+// Long lists show the first few, with a "Show all" button for the rest.
+const shown = value.show_first > 0 ? value.show_first : list.length;
 
 const LABELS: Record<string, string> = {
 	hosted: "Hosted",
@@ -27,10 +31,10 @@ const range = (start: Date, end?: Date | null) =>
 	<div class="container">
 		{value.headline && <h2>{value.headline}</h2>}
 		{list.length === 0 && <p>No events to show right now.</p>}
-		<ul class="events__list">
+		<ul id={listId} class="events__list">
 			{
-				list.map((event) => (
-					<li class="event">
+				list.map((event, index) => (
+					<li class="event" hidden={index >= shown}>
 						<div class="event__date">
 							<span class="event__month">{event.starts.toLocaleString("en-US", { month: "short", timeZone: "UTC" })}</span>
 							<span class="event__day">{event.starts.getUTCDate()}</span>
@@ -50,6 +54,7 @@ const range = (start: Date, end?: Date | null) =>
 				))
 			}
 		</ul>
+		{list.length > shown && <ShowAll list={listId} label={`Show all ${list.length}`} />}
 		{value.show !== "past" && <p class="events__ical"><a href="/events.ics">Add our events to your calendar (iCal)</a></p>}
 	</div>
 </section>
@@ -77,6 +82,10 @@ const range = (start: Date, end?: Date | null) =>
 		align-items: center;
 		padding-block: 1.25rem;
 		border-bottom: 1px solid var(--blue-20);
+	}
+
+	.event[hidden] {
+		display: none;
 	}
 
 	.event__date {

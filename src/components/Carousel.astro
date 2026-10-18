@@ -1,0 +1,190 @@
+---
+/**
+ * One row of items paged with arrows and dots, like the old site's carousels.
+ * The slot is the list items; how many fit on a page comes from `--per-page`
+ * and the space between them from `--carousel-gap` (set them on the track
+ * class). Without JavaScript the row still scrolls sideways.
+ */
+interface Props {
+	label: string;
+	class?: string;
+}
+
+const { label, class: className } = Astro.props;
+const arrow = "M0 8h19M13 1.5 19.5 8 13 14.5";
+---
+
+<div class="carousel" role="region" aria-roledescription="carousel" aria-label={label} data-carousel>
+	<button type="button" class="carousel__arrow carousel__arrow--prev" aria-label="Previous" data-carousel-prev>
+		<svg viewBox="0 0 21 16" aria-hidden="true"><path d={arrow} /></svg>
+	</button>
+	<ul class:list={["carousel__track", className]} data-carousel-track>
+		<slot />
+	</ul>
+	<button type="button" class="carousel__arrow" aria-label="Next" data-carousel-next>
+		<svg viewBox="0 0 21 16" aria-hidden="true"><path d={arrow} /></svg>
+	</button>
+	<div class="carousel__dots" data-carousel-dots></div>
+</div>
+
+<script>
+	const behavior = matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth";
+
+	for (const carousel of document.querySelectorAll<HTMLElement>("[data-carousel]")) {
+		const track = carousel.querySelector<HTMLElement>("[data-carousel-track]")!;
+		const dots = carousel.querySelector<HTMLElement>("[data-carousel-dots]")!;
+		// A page is the visible width plus the gap before the next item.
+		const step = () => track.clientWidth + parseFloat(getComputedStyle(track).columnGap || "0");
+		const maxScroll = () => track.scrollWidth - track.clientWidth;
+		const pages = () => Math.max(1, Math.ceil(maxScroll() / step() - 0.01) + 1);
+		const offset = (page: number) => Math.min(page * step(), maxScroll());
+		// The page the arrows or dots are scrolling to, so that clicks during
+		// the smooth scroll count from there rather than from halfway.
+		let target: number | undefined;
+		const current = () =>
+			target ?? (track.scrollLeft >= maxScroll() - 1 ? pages() - 1 : Math.round(track.scrollLeft / step()));
+		const goTo = (page: number) => {
+			const count = pages();
+			target = (page + count) % count;
+			track.scrollTo({ left: offset(target), behavior });
+			update();
+		};
+
+		const update = () => {
+			if (target !== undefined && Math.abs(track.scrollLeft - offset(target)) < 2) target = undefined;
+			const count = pages();
+			carousel.toggleAttribute("data-single-page", count === 1);
+			if (dots.children.length !== count) {
+				dots.replaceChildren(
+					...Array.from({ length: count }, (_, page) => {
+						const dot = document.createElement("button");
+						dot.type = "button";
+						dot.className = "carousel__dot";
+						dot.setAttribute("aria-label", `Page ${page + 1} of ${count}`);
+						dot.addEventListener("click", () => goTo(page));
+						return dot;
+					}),
+				);
+			}
+			const active = current();
+			[...dots.children].forEach((dot, page) =>
+				page === active ? dot.setAttribute("aria-current", "true") : dot.removeAttribute("aria-current"),
+			);
+		};
+
+		carousel.querySelector("[data-carousel-prev]")!.addEventListener("click", () => goTo(current() - 1));
+		carousel.querySelector("[data-carousel-next]")!.addEventListener("click", () => goTo(current() + 1));
+		track.addEventListener("scroll", update, { passive: true });
+		for (const type of ["pointerdown", "wheel"]) track.addEventListener(type, () => (target = undefined), { passive: true });
+		new ResizeObserver(() => {
+			target = undefined;
+			update();
+		}).observe(track);
+	}
+</script>
+
+<style>
+	.carousel {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		align-items: center;
+		gap: 1rem;
+		margin-block: 1.25rem 2rem;
+	}
+
+	.carousel__track {
+		--gap: var(--carousel-gap, 1.25rem);
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+		gap: var(--gap);
+		max-width: none;
+		margin: 0;
+		padding: 0.25rem 0;
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+		list-style: none;
+	}
+
+	.carousel__track::-webkit-scrollbar {
+		display: none;
+	}
+
+	.carousel__track > :global(*) {
+		flex: 0 0 calc((100% - (var(--per-page, 1) - 1) * var(--gap)) / var(--per-page, 1));
+		scroll-snap-align: start;
+	}
+
+	.carousel__arrow {
+		display: grid;
+		place-items: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		padding: 0;
+		border: 1px solid currentColor;
+		border-radius: 50%;
+		color: inherit;
+		background: none;
+		cursor: pointer;
+	}
+
+	.carousel__arrow:hover {
+		background: color-mix(in srgb, currentColor 12%, transparent);
+	}
+
+	.carousel__arrow svg {
+		width: 1.1rem;
+		height: 1.1rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.5;
+	}
+
+	.carousel__arrow--prev svg {
+		scale: -1 1;
+	}
+
+	.carousel__dots {
+		grid-column: 1 / -1;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.75rem;
+	}
+
+	.carousel__dots :global(.carousel__dot) {
+		width: 1.25rem;
+		height: 1.25rem;
+		padding: 0;
+		border: 1px solid var(--rust-50);
+		border-radius: 50%;
+		background: none;
+		cursor: pointer;
+	}
+
+	.carousel__dots :global(.carousel__dot[aria-current]) {
+		background: var(--rust-50);
+	}
+
+	/* Everything fits: no paging. The arrows keep their space so items don't jump. */
+	.carousel[data-single-page] .carousel__arrow {
+		visibility: hidden;
+	}
+
+	.carousel[data-single-page] .carousel__dots {
+		display: none;
+	}
+
+	/* Too many dots to be useful on phones (the old site hid them too). */
+	@media (max-width: 47.99rem) {
+		.carousel__dots {
+			display: none;
+		}
+
+		.carousel {
+			gap: 0.5rem;
+		}
+	}
+</style>

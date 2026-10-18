@@ -1,4 +1,5 @@
 ---
+import Carousel from "../Carousel.astro";
 import PostCard from "../PostCard.astro";
 import { allPosts, postsWhere } from "../../utils/content";
 import { linkAttrs } from "../../utils/links";
@@ -18,9 +19,22 @@ const posts = picked.length
 <section id={value.anchor_id || undefined} class:list={["section", `bg-${value.background ?? "white"}`]}>
 	<div class="container">
 		<h2 class="heading-center">{value.headline}</h2>
-		<div class:list={["post-grid", { "post-grid--scroll": posts.length > 4 }]}>
-			{posts.map((post) => <PostCard post={post} />)}
-		</div>
+		{
+			/* Longer lists page through four at a time, like the old carousels. */
+			posts.length > 4 ? (
+				<Carousel label={value.headline} class="post-grid post-grid--carousel">
+					{posts.map((post) => (
+						<li>
+							<PostCard post={post} />
+						</li>
+					))}
+				</Carousel>
+			) : (
+				<div class:list={["post-grid", { "post-grid--few": posts.length < 4 }]}>
+					{posts.map((post) => <PostCard post={post} />)}
+				</div>
+			)
+		}
 		{
 			value.buttons?.length > 0 && (
 				<div class="btn-row btn-row--center more">

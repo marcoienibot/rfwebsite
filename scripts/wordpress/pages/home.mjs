@@ -59,6 +59,7 @@ export default async ({ image }) => ({
 		{
 			_type: "logo_wall",
 			source: "silver",
+			layout: "carousel",
 			buttons: [{ label: "Browse Full Membership Base", url: "/members/" }],
 		},
 		{

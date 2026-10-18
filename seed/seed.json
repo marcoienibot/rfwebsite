@@ -454,6 +454,18 @@
 							}
 						},
 						{
+							"slug": "layout",
+							"label": "Layout (a carousel shows one row with arrows, for long lists)",
+							"type": "select",
+							"validation": {
+								"options": [
+									"grid",
+									"carousel"
+								]
+							},
+							"defaultValue": "grid"
+						},
+						{
 							"slug": "buttons",
 							"label": "Buttons",
 							"type": "repeater",
@@ -1146,6 +1158,12 @@
 							"defaultValue": 0
 						},
 						{
+							"slug": "show_first",
+							"label": "Show only the first … and a “Show all” button for the rest (0 = show them all)",
+							"type": "integer",
+							"defaultValue": 0
+						},
+						{
 							"slug": "background",
 							"label": "Background",
 							"type": "select",
@@ -1204,6 +1222,12 @@
 						{
 							"slug": "count",
 							"label": "How many (0 = all)",
+							"type": "integer",
+							"defaultValue": 0
+						},
+						{
+							"slug": "show_first",
+							"label": "Show only the first … and a “Show all” button for the rest (0 = show them all)",
 							"type": "integer",
 							"defaultValue": 0
 						},

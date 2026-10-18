@@ -1,12 +1,11 @@
 ---
+import Carousel from "../Carousel.astro";
+import LogoTile, { type Logo } from "../LogoTile.astro";
 import Paragraphs from "../Paragraphs.astro";
-import Img from "../Img.astro";
-import OrgLogo from "../OrgLogo.astro";
 import { organizations } from "../../utils/content";
 import { linkAttrs } from "../../utils/links";
 
 const { value } = Astro.props;
-type Logo = { name: string; logo?: unknown; url?: string; id?: string; joined?: string | null; bio?: string | null };
 let logos: Logo[] = value.logos ?? [];
 const picked = !value.source || value.source === "pick below";
 if (!picked) {
@@ -19,6 +18,7 @@ if (!picked) {
 		bio: org.data.bio,
 	}));
 }
+const label = value.headline || (picked ? "Logos" : value.source.replaceAll("-", " ").replace(/^./, (c: string) => c.toUpperCase()));
 ---
 
 <section
@@ -28,23 +28,18 @@ if (!picked) {
 	<div class="container">
 		{value.headline && <h2 class="heading-center">{value.headline}</h2>}
 		<Paragraphs text={value.text} class="logos__text" />
-		<ul class:list={["logo-grid", { "logo-grid--showcase": picked }]}>
-			{
-				logos.map((item) => (
-					<li>
-						{item.id ? (
-							<OrgLogo id={item.id} name={item.name} logo={item.logo} website={item.url} joined={item.joined} bio={item.bio} />
-						) : item.url ? (
-							<a {...linkAttrs(item.url)} title={item.name}>
-								<Img image={item.logo as never} alt={item.name} />
-							</a>
-						) : (
-							<Img image={item.logo as never} alt={item.name} />
-						)}
-					</li>
-				))
-			}
-		</ul>
+		{
+			/* A carousel keeps long walls (like the silver members) to one row. */
+			value.layout === "carousel" ? (
+				<Carousel label={label} class="logo-grid logo-grid--carousel">
+					{logos.map((item) => <LogoTile item={item} />)}
+				</Carousel>
+			) : (
+				<ul class:list={["logo-grid", { "logo-grid--showcase": picked }]}>
+					{logos.map((item) => <LogoTile item={item} />)}
+				</ul>
+			)
+		}
 		{
 			value.buttons?.length > 0 && (
 				<div class="btn-row btn-row--center">
