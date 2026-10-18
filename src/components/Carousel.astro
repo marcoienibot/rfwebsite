@@ -114,6 +114,9 @@ const arrow = "M0 8h19M13 1.5 19.5 8 13 14.5";
 
 	.carousel__track > :global(*) {
 		flex: 0 0 calc((100% - (var(--per-page, 1) - 1) * var(--gap)) / var(--per-page, 1));
+		/* Keep intrinsic text widths from changing the page size used by the controls. */
+		min-width: 0;
+		overflow-wrap: anywhere;
 		scroll-snap-align: start;
 	}
 
