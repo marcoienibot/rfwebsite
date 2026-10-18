@@ -65,11 +65,14 @@ Edit `scripts/schema.mjs` and run `node scripts/schema.mjs`. A fresh database pi
 `seed/seed.json`. On the existing database, make the same change in the admin (Content types),
 or apply the seed with `npx emdash seed seed/seed.json --database content/data.db --on-conflict update`.
 
-Removing a field or a select option from a block type is a breaking change, so add a new version of
-the block in `scripts/schema.mjs` (see the comment above `block()`) and keep the old versions.
-Blocks already stored stay on their version until you migrate them: update each entry through the
-content API with `migrateBlocks: true`, keeping each block's `_key` and changing its `_version` and
-fields to the new version's.
+Removing a field or a select option from a block type is a breaking change (EmDash's
+[Change a block schema](https://docs.emdashcms.com/guides/blocks/#change-a-block-schema) lists the
+others), so add a new version of the block in `scripts/schema.mjs` (see the comment above `block()`)
+and keep the old versions. Blocks already stored stay on their version until you migrate them:
+update each entry through the content API with `migrateBlocks: true`, keeping each block's `_key`
+and changing its `_version` and fields to the new version's, then publish the entry, like `update()`
+in `scripts/wordpress/update-content.mjs` does. A save only writes a draft, and the site is built
+from published content.
 
 ### Re-running the WordPress migration
 
