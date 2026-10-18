@@ -34,7 +34,7 @@ const range = (start: Date, end?: Date | null) =>
 		<ul id={listId} class="events__list">
 			{
 				list.map((event, index) => (
-					<li class="event" hidden={index >= shown}>
+					<li class="event" data-show-all-extra={index >= shown ? "" : undefined}>
 						<div class="event__date">
 							<span class="event__month">{event.starts.toLocaleString("en-US", { month: "short", timeZone: "UTC" })}</span>
 							<span class="event__day">{event.starts.getUTCDate()}</span>

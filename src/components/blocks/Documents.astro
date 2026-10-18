@@ -23,7 +23,7 @@ const shown = value.show_first > 0 ? value.show_first : docs.length;
 			value.style === "list" ? (
 				<ul id={listId} class="docs__list">
 					{docs.map((doc, index) => (
-						<li hidden={index >= shown}>
+						<li data-show-all-extra={index >= shown ? "" : undefined}>
 							<a {...linkAttrs(href(doc))}>{doc.data.title}</a>
 							{doc.date && <span class="docs__date">{formatDate(doc.date)}</span>}
 						</li>
@@ -32,7 +32,7 @@ const shown = value.show_first > 0 ? value.show_first : docs.length;
 			) : (
 				<ul id={listId} class="docs__cards">
 					{docs.map((doc, index) => (
-						<li class="docs__card" hidden={index >= shown}>
+						<li class="docs__card" data-show-all-extra={index >= shown ? "" : undefined}>
 							<h3>
 								<a {...linkAttrs(href(doc))}>{doc.data.title}</a>
 							</h3>
