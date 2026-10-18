@@ -262,15 +262,17 @@ const year = new Date().getFullYear();
 			customElements.whenDefined("pagefind-modal").then(() => {
 				const modal = document.querySelector<HTMLElement & { open(): void }>("pagefind-modal");
 				if (!searchLink || !modal) return;
+				// The search page has its own field (Pagefind defines all its elements at once, so it has
+				// been rendered by now). There the icon selects its query so that typing starts a new search.
+				const pageField = document.querySelector<HTMLInputElement>("[data-search-field] input");
 				const openSearch = () => {
-					// The search page has its own field. Select its query so that typing starts a new search.
-					const pageField = document.querySelector<HTMLInputElement>("[data-search-field] input");
 					if (pageField) {
 						pageField.focus();
 						pageField.select();
 					} else modal.open();
 				};
-				searchLink.setAttribute("aria-haspopup", "dialog");
+				// Only announce a dialog where the icon opens one.
+				if (!pageField) searchLink.setAttribute("aria-haspopup", "dialog");
 				searchLink.setAttribute("aria-keyshortcuts", "/ Control+K Meta+K");
 				searchLink.addEventListener("click", (event) => {
 					// Modified clicks still open the search page in a new tab or window.
