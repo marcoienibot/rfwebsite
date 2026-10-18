@@ -97,16 +97,16 @@ export const FAQ_CATEGORIES = [
 ];
 export const EVENT_CATEGORIES = ["hosted", "sponsored", "attending", "speaking", "suggested"];
 
+// Each list of fields is one version of the block type, oldest first.
 // Removing a field or a select option is a breaking change, which needs a new
-// version of the block type. `previous` keeps the fields of the earlier
-// versions (oldest first): old revisions still use them.
-const block = (slug, label, description, fields, previous = []) => ({
+// version. Keep the old versions: old revisions still use them.
+const block = (slug, label, description, ...versions) => ({
 	slug,
 	label,
 	description,
 	category: "Rust Foundation",
-	currentVersion: previous.length + 1,
-	versions: [...previous, fields].map((versionFields, i) => ({ version: i + 1, fields: versionFields })),
+	currentVersion: versions.length,
+	versions: versions.map((fields, i) => ({ version: i + 1, fields })),
 });
 
 const documentsFields = (categories) => [
@@ -201,6 +201,17 @@ const blockTypes = [
 		"post_cards",
 		"Latest news",
 		"The most recent posts, optionally only those with one tag",
+		// Version 1 could also show only one category of posts (News, Blog or Press).
+		[
+			string("headline", "Headline", { required: true }),
+			select("category", "Category", ["all", "news", "blog", "press"], "all"),
+			string("tag", "Only posts with this tag (tag slug, optional)"),
+			text("posts", "Or pick posts: one post link or slug per line (overrides category and tag)"),
+			{ slug: "count", label: "How many", type: "integer", defaultValue: 4 },
+			buttons,
+			select("background", "Background", BACKGROUNDS, "white"),
+			anchor,
+		],
 		[
 			string("headline", "Headline", { required: true }),
 			string("tag", "Only posts with this tag (tag slug, optional)"),
@@ -209,19 +220,6 @@ const blockTypes = [
 			buttons,
 			select("background", "Background", BACKGROUNDS, "white"),
 			anchor,
-		],
-		// Version 1 could also show only one category of posts (News, Blog or Press).
-		[
-			[
-				string("headline", "Headline", { required: true }),
-				select("category", "Category", ["all", "news", "blog", "press"], "all"),
-				string("tag", "Only posts with this tag (tag slug, optional)"),
-				text("posts", "Or pick posts: one post link or slug per line (overrides category and tag)"),
-				{ slug: "count", label: "How many", type: "integer", defaultValue: 4 },
-				buttons,
-				select("background", "Background", BACKGROUNDS, "white"),
-				anchor,
-			],
 		],
 	),
 	block("cards", "Cards", "A grid of cards with an optional image, text and link", [
@@ -279,10 +277,10 @@ const blockTypes = [
 		"documents",
 		"Documents",
 		"Reports, minutes and other files from the Documents list",
-		documentsFields(DOCUMENT_CATEGORIES),
 		// Version 1 also had the Publications page's "partnered-publications" and
 		// "year-in-review" categories, now part of "rust-foundation-reports".
-		[documentsFields([...DOCUMENT_CATEGORIES, "partnered-publications", "year-in-review"])],
+		documentsFields([...DOCUMENT_CATEGORIES, "partnered-publications", "year-in-review"]),
+		documentsFields(DOCUMENT_CATEGORIES),
 	),
 	block("events", "Events", "Events from the Events list", [
 		string("headline", "Headline"),
