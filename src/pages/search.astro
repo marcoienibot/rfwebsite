@@ -21,25 +21,25 @@ import Base from "../layouts/Base.astro";
 			)
 		}
 	</section>
-</Base>
 
-<script>
-	customElements.whenDefined("pagefind-input").then(() => {
-		const instance = window.PagefindComponents.getInstanceManager().getInstance("page");
-		// Links to /search/?q=… (from the post listings) arrive with results. Otherwise the
-		// cursor waits in the empty search field.
-		const query = new URLSearchParams(location.search).get("q");
-		if (query) instance.triggerSearch(query);
-		else document.querySelector<HTMLInputElement>("[data-search-field] input")?.focus();
-		// Keep the query in the URL so that a search can be shared, reloaded and returned to.
-		instance.on("search", (term) => {
-			const url = new URL(location.href);
-			if (term) url.searchParams.set("q", term);
-			else url.searchParams.delete("q");
-			history.replaceState(history.state, "", url);
+	<script>
+		customElements.whenDefined("pagefind-input").then(() => {
+			const instance = window.PagefindComponents.getInstanceManager().getInstance("page");
+			// Links to /search/?q=… (from the post listings) arrive with results. Otherwise the
+			// cursor waits in the empty search field.
+			const query = new URLSearchParams(location.search).get("q");
+			if (query) instance.triggerSearch(query);
+			else document.querySelector<HTMLInputElement>("[data-search-field] input")?.focus();
+			// Keep the query in the URL so that a search can be shared, reloaded and returned to.
+			instance.on("search", (term) => {
+				const url = new URL(location.href);
+				if (term) url.searchParams.set("q", term);
+				else url.searchParams.delete("q");
+				history.replaceState(history.state, "", url);
+			});
 		});
-	});
-</script>
+	</script>
+</Base>
 
 <style>
 	.search-hero {
