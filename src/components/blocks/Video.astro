@@ -1,35 +1,18 @@
 ---
+import { videoPlayer } from "../../utils/video";
+import VideoEmbed from "../VideoEmbed.astro";
+
 const { value } = Astro.props;
-const id = String(value.url ?? "").match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/)?.[1];
+const player = videoPlayer(value.url);
 ---
 
 {
-	id && (
+	player && (
 		<section id={value.anchor_id || undefined} class="section video">
 			<div class="container--narrow">
 				{value.headline && <h2 class="heading-center">{value.headline}</h2>}
-				<div class="video__frame">
-					<iframe
-						src={`https://www.youtube-nocookie.com/embed/${id}`}
-						title={value.headline || "YouTube video"}
-						loading="lazy"
-						allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-						allowfullscreen
-					/>
-				</div>
+				<VideoEmbed player={player} title={value.headline} />
 			</div>
 		</section>
 	)
 }
-
-<style>
-	.video__frame {
-		aspect-ratio: 16 / 9;
-	}
-
-	iframe {
-		width: 100%;
-		height: 100%;
-		border: 0;
-	}
-</style>

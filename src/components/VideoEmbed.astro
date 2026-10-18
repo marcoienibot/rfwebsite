@@ -1,0 +1,114 @@
+---
+/**
+ * A YouTube or Vimeo video that loads only when the visitor clicks play.
+ * Until then nothing is requested from YouTube or Vimeo, so they can't set
+ * cookies or store anything in the browser, and the site needs no cookie banner.
+ */
+import type { VideoPlayer } from "../utils/video";
+
+interface Props {
+	player: VideoPlayer;
+	title?: string;
+}
+
+const { player, title } = Astro.props;
+// Links the note to the play button. Random, as a page can have several videos.
+const noteId = `video-embed-note-${crypto.randomUUID()}`;
+---
+
+<div class="video-embed bg-navy" data-pagefind-ignore data-video-embed={player.embedUrl} data-video-title={title || `${player.provider} video`}>
+	<button type="button" class="video-embed__play" aria-describedby={noteId}>
+		<svg class="video-embed__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5v14l11-7z"></path></svg>
+		<span>Play video{title && <span class="visually-hidden">: {title}</span>}</span>
+	</button>
+	<p id={noteId} class="video-embed__note">
+		Playing loads the video from {player.provider}, which may set cookies.{" "}
+		<a href={player.watchUrl} target="_blank" rel="noopener">Watch on {player.provider}</a>
+	</p>
+</div>
+
+<script>
+	for (const embed of document.querySelectorAll<HTMLElement>("[data-video-embed]")) {
+		embed.querySelector("button")?.addEventListener("click", () => {
+			const iframe = document.createElement("iframe");
+			iframe.src = embed.dataset.videoEmbed!;
+			iframe.title = embed.dataset.videoTitle!;
+			iframe.allow = "autoplay; encrypted-media; fullscreen; picture-in-picture";
+			iframe.allowFullscreen = true;
+			embed.replaceChildren(iframe);
+			iframe.focus();
+		});
+	}
+</script>
+
+<style>
+	/* 16:9, but taller when larger text needs more room. */
+	.video-embed {
+		display: flex;
+		flex-direction: column;
+		aspect-ratio: 16 / 9;
+		background-image: url("/theme/cog.png"), var(--grain);
+		background-repeat: no-repeat, repeat;
+		background-position:
+			right -4rem bottom -5rem,
+			0 0;
+		background-size: 18rem, auto;
+	}
+
+	.video-embed__play {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 0.6rem;
+		padding: 1rem;
+		border: 0;
+		font: 400 1.05rem/1.33 var(--font-sans);
+		color: inherit;
+		background: none;
+		cursor: pointer;
+	}
+
+	.video-embed__play:focus-visible {
+		outline-offset: -0.5rem;
+	}
+
+	.video-embed__icon {
+		--size: clamp(3rem, 10vw, 4.5rem);
+		width: var(--size);
+		height: var(--size);
+		padding: calc(var(--size) * 0.24);
+		border-radius: 50%;
+		fill: currentColor;
+		background: var(--rust);
+		box-shadow: var(--shadow);
+		transition:
+			color 200ms,
+			background-color 200ms;
+	}
+
+	.video-embed__play:hover .video-embed__icon {
+		color: var(--rust);
+		background: var(--white);
+	}
+
+	.video-embed__play:hover span {
+		text-decoration: underline;
+	}
+
+	.video-embed__note {
+		margin: 0;
+		padding: 0.6rem 1rem;
+		font-size: 0.8rem;
+		line-height: 1.4;
+		text-align: center;
+	}
+
+	.video-embed :global(iframe) {
+		display: block;
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+</style>

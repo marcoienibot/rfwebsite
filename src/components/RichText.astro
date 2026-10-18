@@ -1,6 +1,8 @@
 ---
 import { PortableText } from "emdash/ui";
 import PtButtons from "./PtButtons.astro";
+import PtEmbed from "./PtEmbed.astro";
+import PtIframe from "./PtIframe.astro";
 import PtImage from "./PtImage.astro";
 
 interface Props {
@@ -14,7 +16,7 @@ const { value, class: className } = Astro.props;
 {
 	value && value.length > 0 && (
 		<div class:list={["prose", className]}>
-			<PortableText value={value as never} components={{ type: { image: PtImage, buttons: PtButtons } }} />
+			<PortableText value={value as never} components={{ type: { image: PtImage, buttons: PtButtons, embed: PtEmbed, iframe: PtIframe } }} />
 		</div>
 	)
 }

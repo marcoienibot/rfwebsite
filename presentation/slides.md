@@ -517,7 +517,7 @@ GitHub Desktop is also a backup way to publish: Commit, then Push. If the admin 
 | History and rollback | Revisions per page or post | Revisions, plus a history of the whole site with rollback |
 | Search and events | Plugins (WordPress search, The Events Calendar) | Built in: site search, and an Events list in the admin |
 | Forms | Gravity Forms installed, but none in use | Not needed today; a form service if we ever need one |
-| Analytics, cookie banner | Google Analytics + SEOPress banner | Not added yet: one snippet |
+| Cookie banner, analytics | Banner needed for Google Analytics (SEOPress) | No cookies, so no banner. Analytics still to add: a cookie-free tool keeps it that way |
 | Add-ons | Huge plugin ecosystem | Young, smaller ecosystem |
 
 </div>
@@ -527,9 +527,9 @@ Here's everything side by side. I've tried to make this fair, so there are rows 
 
 WordPress wins on: editing from anywhere, several people editing at once, instant publishing, and the size of the plugin ecosystem.
 
-Search and events are already covered in the new setup. Forms turned out not to be an issue: the current site doesn't actually use any (contact is by email and the training application is a Typeform link). Analytics and the cookie banner still need to be added, which is a small job.
+Search and events are already covered in the new setup. Forms turned out not to be an issue: the current site doesn't actually use any (contact is by email and the training application is a Typeform link). Analytics still needs to be added, which is a small job.
 
-The new setup wins on: cost, security, speed and history.
+The new setup wins on: cost, security, speed, history, and no cookie banner.
 
 So the question for us is: are the advantages on the right worth the convenience we give up on the left? The next slides go through both sides.
 -->
@@ -542,7 +542,7 @@ So the question for us is: are the advantages on the right worth the convenience
   <div class="tile">
     <ph-lightning class="tile-icon" />
     <h3>Very fast pages</h3>
-    <p>Pre-built pages, served from servers around the world.</p>
+    <p>Pre-built pages, served from servers around the world. Traffic spikes can't take the site down.</p>
   </div>
   <div class="tile">
     <ph-shield-check class="tile-icon" />
@@ -555,9 +555,9 @@ So the question for us is: are the advantages on the right worth the convenience
     <p>GitHub Pages costs nothing. No WP Engine bill.</p>
   </div>
   <div class="tile">
-    <ph-trend-up class="tile-icon" />
-    <h3>Handles traffic spikes</h3>
-    <p>A big announcement can't take the site down.</p>
+    <ph-cookie class="tile-icon" />
+    <h3>No cookie banner</h3>
+    <p>No cookies and no tracking, so visitors don't get a consent pop-up.</p>
   </div>
   <div class="tile">
     <ph-clock-counter-clockwise class="tile-icon" />
@@ -584,10 +584,10 @@ So the question for us is: are the advantages on the right worth the convenience
 <!--
 The upsides, in one place.
 
-- Speed: pages are ready-made and served from a worldwide network, so they load fast for everyone.
+- Speed: pages are ready-made and served from a worldwide network, so they load fast for everyone. And a big announcement or a traffic spike can't take the site down.
 - Security: there's no live server running WordPress, no database, no login page. There is simply much less that can be attacked, and nothing for anyone to patch.
 - Cost: hosting is free.
-- Reliability: a big announcement or a traffic spike can't take the site down.
+- No cookie banner: the new site doesn't set any cookies or track visitors. The fonts are served by us, and YouTube videos only load when a visitor presses play. So there's nothing to ask consent for. Today's site needs a banner because of Google Analytics and its YouTube embeds.
 - History: every change is recorded and can be undone.
 - Ownership: the content lives in our own repository. If we ever want to move away from EmDash or GitHub, we take everything with us.
 - Developers like working with this stack, which makes it easier to get help, including from volunteers.
@@ -629,7 +629,7 @@ Now the downsides. I'd rather you hear them from me now than discover them later
 | The catch | What we do about it |
 |---|---|
 | **Things that need a server** (forms, search, calendars) | Search is built in (it runs in the visitor's browser). Events are a list in the admin. The site has no forms today; a form service (Tally, Formspree, HubSpot) covers that if needed |
-| **Analytics and the cookie banner** aren't there yet | Add one snippet: Google Analytics like today, or a cookie-free tool such as Plausible (then no banner is needed) |
+| **Analytics** isn't there yet | Add one snippet. A cookie-free tool such as Plausible keeps the site banner-free; Google Analytics like today would bring the cookie banner back |
 | **Large files in the history**: every publish stores a new copy of the content database (~13 MB) | Fine for years of normal use; a developer can clean the history up if it ever gets big |
 | **EmDash is young** (version 1.x, 2026), with a much smaller plugin ecosystem than WordPress | Open source (MIT) and made by Cloudflare. The site itself is standard Astro, and our content lives in our own repository, so we're never locked in |
 
@@ -643,7 +643,7 @@ A static website can't run code on a server when a visitor clicks something. For
 - Search: done. It's built when the site is published and runs in the visitor's browser. Try /search on the demo.
 - Events: done. Events are a list in the admin, like members and people, and the events page and event pages are generated from it.
 - Forms: the current site doesn't actually use any. Contact is by email, and the training application is a Typeform link, which keeps working.
-- Analytics and the cookie banner still need adding. That's a small job, and if we pick a cookie-free analytics tool we don't even need the banner.
+- Analytics still needs adding. That's a small job. The site doesn't need a cookie banner today, and a cookie-free analytics tool keeps it that way. Google Analytics would mean adding a banner again.
 
 Two honest caveats: every publish stores a new copy of the content database in the history, which is fine for a long time but means the project folder grows; and EmDash is new, with a small ecosystem. It's open source, from Cloudflare, the site is plain Astro and the content is ours, so the risk is limited.
 -->
@@ -710,7 +710,7 @@ And the design and content stay exactly the same, and the public website can sta
   </div>
 </div>
 
-<div class="note">Old URLs keep working (same addresses, plus redirects for moved pages). <strong>Still open:</strong> analytics and cookie banner, a review by the marketing team, and switching the domain.</div>
+<div class="note">Old URLs keep working (same addresses, plus redirects for moved pages). <strong>Still open:</strong> analytics, a review by the marketing team, and switching the domain.</div>
 
 <!--
 Where are we today?
@@ -719,7 +719,7 @@ All of the content has been migrated automatically from the current site: 310 po
 
 Addresses stay the same, so links from search engines and other sites keep working, and old addresses that moved have redirects.
 
-What's still open: analytics and the cookie banner, a proper review by you, the people who know the content best, and eventually pointing rustfoundation.org at the new site.
+What's still open: analytics, a proper review by you, the people who know the content best, and eventually pointing rustfoundation.org at the new site.
 -->
 
 ---
@@ -767,7 +767,7 @@ Remember to revert the demo changes afterwards.
   <div class="tile">
     <ph-list-checks class="tile-icon" />
     <h3>2. Analytics and review</h3>
-    <p>Choose analytics (Google Analytics like today, or a cookie-free tool) and review the rebuilt pages.</p>
+    <p>Choose analytics and review the rebuilt pages.</p>
   </div>
   <div class="tile">
     <ph-signpost class="tile-icon" />

@@ -1,0 +1,27 @@
+---
+/**
+ * Portable Text embed. Replaces EmDash's renderer for YouTube and Vimeo, which
+ * loads the player (and its cookies) with the page, with a video that loads
+ * only when the visitor clicks play. Other embeds use EmDash's renderer.
+ */
+import type { ComponentProps } from "astro/types";
+import { Embed } from "emdash/ui";
+import { videoPlayer } from "../utils/video";
+import VideoEmbed from "./VideoEmbed.astro";
+
+type Props = ComponentProps<typeof Embed>;
+
+const { node } = Astro.props;
+const player = videoPlayer(node.url);
+---
+
+{
+	player ? (
+		<figure>
+			<VideoEmbed player={player} title={node.caption} />
+			{node.caption && <figcaption>{node.caption}</figcaption>}
+		</figure>
+	) : (
+		<Embed node={node} />
+	)
+}
