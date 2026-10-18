@@ -264,7 +264,7 @@ const year = new Date().getFullYear();
 				if (!searchLink || !modal) return;
 				const openSearch = () => {
 					// The search page has its own field. Select its query so that typing starts a new search.
-					const pageField = document.querySelector<HTMLInputElement>("main pagefind-input input");
+					const pageField = document.querySelector<HTMLInputElement>("[data-search-field] input");
 					if (pageField) {
 						pageField.focus();
 						pageField.select();

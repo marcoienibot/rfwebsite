@@ -11,7 +11,7 @@ import Base from "../layouts/Base.astro";
 	</section>
 	<section class="container--narrow search">
 		<!-- Pagefind's UI is loaded by Base.astro. Its own instance keeps this page's query apart from the header's search dialog. -->
-		<pagefind-input instance="page"></pagefind-input>
+		<pagefind-input instance="page" data-search-field></pagefind-input>
 		<pagefind-summary instance="page"></pagefind-summary>
 		<pagefind-results instance="page"></pagefind-results>
 		<noscript>Search needs JavaScript.</noscript>
@@ -30,7 +30,7 @@ import Base from "../layouts/Base.astro";
 		// cursor waits in the empty search field.
 		const query = new URLSearchParams(location.search).get("q");
 		if (query) instance.triggerSearch(query);
-		else document.querySelector<HTMLInputElement>(".search input")?.focus();
+		else document.querySelector<HTMLInputElement>("[data-search-field] input")?.focus();
 		// Keep the query in the URL so that a search can be shared, reloaded and returned to.
 		instance.on("search", (term) => {
 			const url = new URL(location.href);
