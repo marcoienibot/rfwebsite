@@ -75,8 +75,8 @@ fields to the new version's. A save only writes a draft, so then publish the ent
 (`POST /_emdash/api/content/{collection}/{id}/publish`), but only if its `status` was `published`
 and it had no `draftRevisionId` before your save. Otherwise publishing would make a draft entry or
 an editor's unpublished changes public: leave the entry to its editor, whose next publish includes
-the migration. Until then the live page still uses the old version, so the block's component must
-keep handling it.
+the migration. Until then, and whenever an editor restores an older revision, pages show the old
+version, so the block's component should still render it sensibly.
 
 ### Re-running the WordPress migration
 
