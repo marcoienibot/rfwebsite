@@ -53,7 +53,6 @@ export const menus = [
 					link("Blog", "/media/category/blog/"),
 					link("Press", "/media/category/press/"),
 					link("Publications", "/publications/"),
-					link("Search", "/search/"),
 				],
 			},
 			{
