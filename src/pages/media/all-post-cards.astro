@@ -1,0 +1,36 @@
+---
+/**
+ * Every post as a card, for the Media Room filters: they load this page and
+ * show the cards that match. Not a page for visitors (no layout, not indexed).
+ */
+import PostCard from "../../components/PostCard.astro";
+import { allPosts } from "../../utils/content";
+
+const posts = await allPosts();
+const month = (date: Date | null | undefined) =>
+	date ? `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}` : "";
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="robots" content="noindex" />
+		<title>All posts</title>
+	</head>
+	<body>
+		{
+			posts.map((post) => (
+				<div
+					data-post
+					data-category={post.categories.map((term) => term.slug).join(" ")}
+					data-author={(post.data.bylines ?? []).map((credit) => credit.byline.slug).join(" ")}
+					data-month={month(post.data.publishedAt)}
+					data-text={[post.data.title, post.data.excerpt, ...post.tags.map((term) => term.label)].join(" ").toLowerCase()}
+				>
+					<PostCard post={post} headingLevel="h2" />
+				</div>
+			))
+		}
+	</body>
+</html>
