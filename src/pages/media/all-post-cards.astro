@@ -18,12 +18,13 @@ const month = (date: Date | null | undefined) =>
 		<meta name="robots" content="noindex" />
 		<title>All posts</title>
 	</head>
-	<body>
+	<body data-post-index>
 		{
 			posts.map((post) => (
 				<div
 					data-post
 					data-category={post.categories.map((term) => term.slug).join(" ")}
+					data-tag={post.tags.map((term) => term.slug).join(" ")}
 					data-author={(post.data.bylines ?? []).map((credit) => credit.byline.slug).join(" ")}
 					data-month={month(post.data.publishedAt)}
 					data-text={[post.data.title, post.data.excerpt, ...post.tags.map((term) => term.label)].join(" ").toLowerCase()}
