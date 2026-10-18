@@ -50,6 +50,13 @@ const items: QuoteItem[] = value.items ?? [];
 		align-items: start;
 	}
 
+	/* Arrow gutters leave too little room for a portrait beside mobile text. */
+	@media (max-width: 35.99rem) {
+		.quotes :global(.quotes__carousel .quote) {
+			grid-template-columns: 1fr;
+		}
+	}
+
 	@media (min-width: 62rem) {
 		.quotes :global(.quotes__carousel) {
 			--per-page: 2;
