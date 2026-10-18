@@ -71,8 +71,8 @@ others), so add a new version of the block in `scripts/schema.mjs` (see the comm
 and keep the old versions. Blocks already stored stay on their version until you migrate them: get
 each entry from the content API and update it with `migrateBlocks: true`, keeping each block's
 `_key` and changing its `_version` and fields to the new version's. A save only writes a draft, so
-then publish the entry, like `update()` in `scripts/wordpress/update-content.mjs` does, but only if
-its `status` was `published` and it had no `draftRevisionId` before your save. Otherwise publishing
+then publish the entry (`POST /_emdash/api/content/{collection}/{id}/publish`), but only if its
+`status` was `published` and it had no `draftRevisionId` before your save. Otherwise publishing
 would make a draft entry or an editor's unpublished changes public: leave the entry to its editor,
 whose next publish includes the migration.
 
