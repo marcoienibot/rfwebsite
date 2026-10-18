@@ -55,9 +55,9 @@ This guide is for the people who update the website's content. No coding needed.
 - **Scheduled posts** go live at the next nightly rebuild after their date, or at the next publish.
 - **Search** only works on the public website, because the search index is built when the site is
   published.
-- **Videos.** To add a YouTube or Vimeo video, type `/youtube`, `/vimeo` or `/embed` in the text
-  and paste the video's link or embed code, or add a **Video** section to a page. The video only
-  loads when a visitor presses play, which is why the website needs no cookie banner.
+- **Videos.** To add a video, type `/youtube`, `/vimeo` or `/embed` in the text and paste the
+  video's link or embed code. On a page, you can also add a **Video** section with a YouTube link.
+  The video only loads when a visitor presses play, which is why the website needs no cookie banner.
 - **HTML blocks.** If you add an `/html` block, open its **⋮** menu and set **On the site** to
   **Inline**, and don't paste embed code (videos, forms, maps) into it. Otherwise the block can
   load other websites with the page, and the website would then need a cookie banner.
