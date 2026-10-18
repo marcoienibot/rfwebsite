@@ -587,7 +587,7 @@ The upsides, in one place.
 - Speed: pages are ready-made and served from a worldwide network, so they load fast for everyone. And a big announcement or a traffic spike can't take the site down.
 - Security: there's no live server running WordPress, no database, no login page. There is simply much less that can be attacked, and nothing for anyone to patch.
 - Cost: hosting is free.
-- No cookie banner: the new site doesn't set any cookies or track visitors. The fonts are served by us, and YouTube videos only load when a visitor presses play. So there's nothing to ask consent for. Today's banner is only there because of Google Analytics.
+- No cookie banner: the new site doesn't set any cookies or track visitors. The fonts are served by us, and YouTube videos only load when a visitor presses play. So there's nothing to ask consent for. Today's site needs a banner because of Google Analytics and its YouTube embeds.
 - History: every change is recorded and can be undone.
 - Ownership: the content lives in our own repository. If we ever want to move away from EmDash or GitHub, we take everything with us.
 - Developers like working with this stack, which makes it easier to get help, including from volunteers.
@@ -643,7 +643,7 @@ A static website can't run code on a server when a visitor clicks something. For
 - Search: done. It's built when the site is published and runs in the visitor's browser. Try /search on the demo.
 - Events: done. Events are a list in the admin, like members and people, and the events page and event pages are generated from it.
 - Forms: the current site doesn't actually use any. Contact is by email, and the training application is a Typeform link, which keeps working.
-- Analytics still needs adding. That's a small job. The site doesn't need a cookie banner today, and with a cookie-free analytics tool it never will. Google Analytics would mean adding a banner again.
+- Analytics still needs adding. That's a small job. The site doesn't need a cookie banner today, and a cookie-free analytics tool keeps it that way. Google Analytics would mean adding a banner again.
 
 Two honest caveats: every publish stores a new copy of the content database in the history, which is fine for a long time but means the project folder grows; and EmDash is new, with a small ecosystem. It's open source, from Cloudflare, the site is plain Astro and the content is ours, so the risk is limited.
 -->
