@@ -67,15 +67,16 @@ or apply the seed with `npx emdash seed seed/seed.json --database content/data.d
 
 Removing a field or a select option from a block type is a breaking change (EmDash's
 [Change a block schema](https://docs.emdashcms.com/guides/blocks/#change-a-block-schema) lists the
-others), so add a new version of the block in `scripts/schema.mjs` (see the comment above `block()`)
-and keep the old versions. Blocks already stored stay on their version until you migrate them: get
-each entry from the content API and update it with `migrateBlocks: true`, keeping each block's
-`_key` and changing its `_version` and fields to the new version's. A save only writes a draft, so
-then publish the entry (`POST /_emdash/api/content/{collection}/{id}/publish`), but only if its
-`status` was `published` and it had no `draftRevisionId` before your save. Otherwise publishing
-would make a draft entry or an editor's unpublished changes public: leave the entry to its editor,
-whose next publish includes the migration. Until then the live page still uses the old version,
-so the block's component must keep handling it.
+others), so add a new version of the block in `scripts/schema.mjs` (see the comment above
+`block()`), keep the old versions, and apply the seed: the admin can't add block versions. Blocks
+already stored stay on their version until you migrate them: get each entry from the content API and
+update it with `migrateBlocks: true`, keeping each block's `_key` and changing its `_version` and
+fields to the new version's. A save only writes a draft, so then publish the entry
+(`POST /_emdash/api/content/{collection}/{id}/publish`), but only if its `status` was `published`
+and it had no `draftRevisionId` before your save. Otherwise publishing would make a draft entry or
+an editor's unpublished changes public: leave the entry to its editor, whose next publish includes
+the migration. Until then the live page still uses the old version, so the block's component must
+keep handling it.
 
 ### Re-running the WordPress migration
 
