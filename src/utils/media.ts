@@ -6,7 +6,6 @@ export interface ImageValue {
 	alt?: string;
 	width?: number;
 	height?: number;
-	dominantColor?: string;
 	meta?: { storageKey?: string; [key: string]: unknown };
 }
 

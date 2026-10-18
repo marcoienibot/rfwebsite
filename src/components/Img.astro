@@ -10,8 +10,6 @@ interface Props {
 }
 
 const { image, alt, class: className, loading = "lazy" } = Astro.props;
-// Keep transparent artwork transparent. A permanent dominant-color background
-// obscures white emblems and adds colored rectangles behind logos and icons.
 const src = mediaSrc(image);
 ---
 
