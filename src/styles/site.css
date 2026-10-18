@@ -474,7 +474,7 @@ a.tag:hover {
 }
 
 /* Search (Pagefind's UI: the header's search dialog and the search page) -- */
-/* Pagefind resets inherited styles on its elements; only these variables reach them. */
+/* Pagefind resets inherited styles on its elements, so only its --pf-* variables can style them. */
 /* Set on body, not :root, where Pagefind sets its defaults and stylesheet order would decide. */
 body {
 	--pf-font: var(--font-sans);
