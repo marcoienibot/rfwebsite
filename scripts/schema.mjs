@@ -278,8 +278,18 @@ const blockTypes = [
 		"Documents",
 		"Reports, minutes and other files from the Documents list",
 		// Version 1 also had the Publications page's "partnered-publications" and
-		// "year-in-review" categories, now part of "rust-foundation-reports".
-		documentsFields([...DOCUMENT_CATEGORIES, "partnered-publications", "year-in-review"]),
+		// "year-in-review" categories, now part of "rust-foundation-reports". Its
+		// list is spelled out, not built from DOCUMENT_CATEGORIES: a version must
+		// never change once it is in the database, and applying the seed fails if
+		// it loses an option.
+		documentsFields([
+			"board-meeting-minutes",
+			"rust-foundation-reports",
+			"informational-resources",
+			"financial-filings",
+			"partnered-publications",
+			"year-in-review",
+		]),
 		documentsFields(DOCUMENT_CATEGORIES),
 	),
 	block("events", "Events", "Events from the Events list", [
