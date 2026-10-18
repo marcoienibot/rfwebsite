@@ -42,8 +42,10 @@ const noteId = `video-embed-note-${crypto.randomUUID()}`;
 </script>
 
 <style>
+	/* 16:9, but taller when larger text needs more room. */
 	.video-embed {
-		position: relative;
+		display: flex;
+		flex-direction: column;
 		aspect-ratio: 16 / 9;
 		background-image: url("/theme/cog.png"), var(--grain);
 		background-repeat: no-repeat, repeat;
@@ -54,15 +56,13 @@ const noteId = `video-embed-note-${crypto.randomUUID()}`;
 	}
 
 	.video-embed__play {
-		position: absolute;
-		inset: 0;
+		flex: 1;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		gap: 0.6rem;
-		width: 100%;
-		padding: 0 0 2rem;
+		padding: 1rem;
 		border: 0;
 		font: 400 1.05rem/1.33 var(--font-sans);
 		color: inherit;
@@ -97,20 +97,12 @@ const noteId = `video-embed-note-${crypto.randomUUID()}`;
 		text-decoration: underline;
 	}
 
-	/* Over the button, so clicks on the text still start the video. */
 	.video-embed__note {
-		position: absolute;
-		inset: auto 0 0;
 		margin: 0;
 		padding: 0.6rem 1rem;
 		font-size: 0.8rem;
 		line-height: 1.4;
 		text-align: center;
-		pointer-events: none;
-	}
-
-	.video-embed__note a {
-		pointer-events: auto;
 	}
 
 	.video-embed :global(iframe) {
