@@ -19,8 +19,7 @@ interface Props {
 }
 
 const { node } = Astro.props;
-// "video" and "audio" are files from the media library.
-const player = node.provider === "video" || node.provider === "audio" ? undefined : videoPlayer(node.url);
+const player = videoPlayer(node.url);
 ---
 
 {
