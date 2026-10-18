@@ -127,6 +127,8 @@ export interface PageContentRichTextV1Block {
   _version: 1;
   _key: string;
   "headline"?: string | null;
+  "authors"?: { "name": string; "role"?: string | null; "photo"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null }[] | null;
+  "authors_position"?: "above the text" | "below the text" | null;
   "body"?: PortableTextBlock[] | null;
   "background"?: "white" | "light" | "navy" | "teal" | "slate" | "blush" | null;
   "width"?: "narrow" | "wide" | null;
@@ -367,6 +369,7 @@ export interface People {
   groups?: ("member-directors" | "project-directors" | "staff" | "security-contributors" | "infrastructure-contributors" | "rftt-reviewers")[];
   photo?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
   bio?: string;
+  links?: string;
   order?: number;
   createdAt: Date;
   updatedAt: Date;

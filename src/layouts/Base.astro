@@ -5,6 +5,7 @@ import { createPublicPageContext } from "emdash/page";
 import { EmDashBodyEnd, EmDashBodyStart, EmDashHead } from "emdash/ui";
 import { linkAttrs } from "../utils/links";
 import { resolveSiteIdentity } from "../utils/site";
+import { socialIcon } from "../utils/social";
 import "../styles/site.css";
 
 interface Props {
@@ -55,19 +56,6 @@ const pageCtx = createPublicPageContext({
 const announcementLink = announcement?.items[0];
 const year = new Date().getFullYear();
 
-const SOCIAL_ICONS: Record<string, string> = {
-	linkedin:
-		"M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z",
-	bluesky:
-		"M5.2 2.6C7.95 4.67 10.92 8.85 12 11.1c1.08-2.25 4.05-6.43 6.8-8.5 1.99-1.49 5.2-2.64 5.2 1.03 0 .73-.42 6.15-.67 7.03-.85 3.05-3.96 3.83-6.73 3.36 4.84.82 6.07 3.56 3.41 6.29-5.05 5.18-7.26-1.3-7.82-2.96l-.19-.55-.19.55c-.56 1.66-2.77 8.14-7.82 2.96-2.66-2.73-1.43-5.47 3.41-6.29-2.77.47-5.88-.31-6.73-3.36C.42 9.78 0 4.36 0 3.63 0-.04 3.21 1.11 5.2 2.6z",
-	mastodon:
-		"M23.27 5.31C22.9 2.56 20.5.4 17.64 0 17.16-.08 15.34-.33 11.14-.33h-.03c-4.21 0-5.11.25-5.6.33C2.73.38.21 2.36-.4 5.15c-.3 1.37-.33 2.9-.27 4.29.08 2 .1 4 .28 5.99.13 1.32.35 2.63.66 3.92.58 2.37 2.92 4.34 5.21 5.14 2.45.84 5.09.98 7.62.4.28-.06.55-.14.83-.22.61-.2 1.33-.42 1.86-.8l.02-.02v-1.88s0-.01-.02-.01c-1.6.38-3.25.57-4.9.57-2.83 0-3.6-1.35-3.81-1.91-.17-.48-.28-.99-.33-1.5 0-.02.01-.03.02-.03 1.58.38 3.19.57 4.81.57h1.17c1.63-.04 3.35-.13 4.95-.44l.12-.03c2.53-.48 4.94-2 5.18-5.83.01-.15.03-1.58.03-1.73 0-.53.17-3.78-.03-5.77zm-3.8 9.33h-2.66V8.21c0-1.36-.57-2.05-1.72-2.05-1.27 0-1.9.82-1.9 2.44v3.53h-2.64V8.6c0-1.62-.63-2.44-1.9-2.44-1.14 0-1.71.69-1.71 2.05v6.43H4.28V8.02c0-1.36.35-2.43 1.04-3.23.71-.8 1.65-1.2 2.81-1.2 1.35 0 2.36.52 3.04 1.55L11.83 6.24l.66-1.1c.68-1.03 1.7-1.55 3.04-1.55 1.16 0 2.1.4 2.81 1.2.69.8 1.04 1.87 1.04 3.23v6.62z",
-	github:
-		"M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3",
-	youtube:
-		"M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z",
-};
-const socialIcon = (label: string) => SOCIAL_ICONS[label.toLowerCase().replace(/[^a-z]/g, "")];
 ---
 
 <!doctype html>
@@ -119,6 +107,7 @@ const socialIcon = (label: string) => SOCIAL_ICONS[label.toLowerCase().replace(/
 						aria-expanded="false"
 						aria-controls="site-menu"
 						data-menu-toggle
+						hidden
 					>
 						<span class="visually-hidden">Menu</span>
 						<svg class="menu-toggle__open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
@@ -126,7 +115,7 @@ const socialIcon = (label: string) => SOCIAL_ICONS[label.toLowerCase().replace(/
 					</button>
 				</div>
 			</div>
-			<nav id="site-menu" class="mega" aria-label="Main" hidden>
+			<nav id="site-menu" class="mega" aria-label="Main">
 				{
 					primary?.items.map((column) => {
 						const isButtonColumn = column.cssClasses?.includes("button");
@@ -223,13 +212,34 @@ const socialIcon = (label: string) => SOCIAL_ICONS[label.toLowerCase().replace(/
 		<EmDashBodyEnd page={pageCtx} />
 
 		<script>
+			const header = document.querySelector<HTMLElement>(".site-header");
+			const bar = header?.querySelector<HTMLElement>(".site-header__bar");
 			const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
 			const menu = document.getElementById("site-menu");
+			// Keep navigation available when JavaScript is disabled or fails to load.
+			if (toggle && menu) {
+				menu.hidden = true;
+				toggle.hidden = false;
+			}
 			toggle?.addEventListener("click", () => {
 				const open = toggle.getAttribute("aria-expanded") !== "true";
 				toggle.setAttribute("aria-expanded", String(open));
 				if (menu) menu.hidden = !open;
+				// Opened from the compact bar, the menu drops down below it.
+				header?.classList.toggle("site-header--overlay", open && header.classList.contains("site-header--stuck"));
 			});
+
+			// Once the header has scrolled out of view, a compact copy of its bar stays at the top.
+			if (header && bar) {
+				new IntersectionObserver(([entry]) => {
+					const stuck = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+					if (stuck === header.classList.contains("site-header--stuck")) return;
+					// Keep the space of both the bar and any open menu when they become fixed.
+					if (stuck) header.style.setProperty("--header-height", `${header.offsetHeight}px`);
+					header.classList.toggle("site-header--stuck", stuck);
+					header.classList.toggle("site-header--overlay", stuck && toggle?.getAttribute("aria-expanded") === "true");
+				}).observe(header);
+			}
 			document.addEventListener("keydown", (event) => {
 				if (event.key === "Escape" && toggle?.getAttribute("aria-expanded") === "true") {
 					toggle.click();
@@ -303,6 +313,7 @@ const socialIcon = (label: string) => SOCIAL_ICONS[label.toLowerCase().replace(/
 	}
 
 	.site-header {
+		--compact-bar-height: 4.5rem;
 		color: var(--white);
 		background: var(--navy) url("/theme/header-pattern.png") no-repeat right -2rem top -3rem / auto 22rem;
 	}
@@ -319,6 +330,46 @@ const socialIcon = (label: string) => SOCIAL_ICONS[label.toLowerCase().replace(/
 		display: block;
 		width: clamp(5.5rem, 12vw, 11.25rem);
 		height: auto;
+	}
+
+	.site-header--stuck {
+		min-height: var(--header-height);
+	}
+
+	.site-header--stuck .site-header__bar {
+		position: fixed;
+		inset: 0 0 auto;
+		z-index: 50;
+		height: var(--compact-bar-height);
+		padding-block: 0;
+		background: inherit;
+		box-shadow: 0 2px 12px rgb(0 0 0 / 0.25);
+		animation: header-slide-in 0.25s ease-out;
+	}
+
+	.site-header--stuck .site-header__logo img {
+		width: 4.4rem;
+	}
+
+	.site-header--overlay .mega {
+		position: fixed;
+		inset: var(--compact-bar-height) 0 auto;
+		z-index: 49;
+		max-height: calc(100dvh - var(--compact-bar-height));
+		overflow-y: auto;
+		background: var(--navy);
+	}
+
+	@keyframes header-slide-in {
+		from {
+			transform: translateY(-100%);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.site-header--stuck .site-header__bar {
+			animation: none;
+		}
 	}
 
 	.site-header__actions {
@@ -345,6 +396,10 @@ const socialIcon = (label: string) => SOCIAL_ICONS[label.toLowerCase().replace(/
 
 	.menu-toggle[aria-expanded="true"] {
 		background: var(--rust);
+	}
+
+	.menu-toggle[hidden] {
+		display: none;
 	}
 
 	.menu-toggle__close,

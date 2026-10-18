@@ -1,0 +1,56 @@
+---
+/** "Written by": the authors of a text section, with their photos. */
+import Img from "./Img.astro";
+import type { ImageValue } from "../utils/media";
+
+interface Props {
+	authors: { name: string; role?: string | null; photo?: ImageValue | null }[] | null | undefined;
+}
+
+const authors = (Astro.props.authors ?? []).filter((author) => author?.name);
+---
+
+{
+	authors.length > 0 && (
+		<ul class="authors">
+			{authors.map((author) => (
+				<li class="authors__item">
+					{author.photo && <Img image={author.photo} alt="" class="authors__photo" />}
+					<p>
+						<strong>{author.name}</strong>
+						{author.role && <em>{author.role}</em>}
+					</p>
+				</li>
+			))}
+		</ul>
+	)
+}
+
+<style>
+	.authors {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem 2.5rem;
+		margin: 0 0 1.5rem;
+		padding: 0;
+		list-style: none;
+	}
+
+	.authors__item {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.authors :global(.authors__photo) {
+		width: 5.5rem;
+		height: 5.5rem;
+		object-fit: cover;
+	}
+
+	.authors p {
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+	}
+</style>

@@ -12,7 +12,8 @@ import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 
-import { convertHtml, decodeEntities, setOldLinks, setResourceLinks, stripTags, uniqueSlug } from "./convert.mjs";
+import { convertHtml, decodeEntities, stripTags, uniqueSlug } from "./convert.mjs";
+import { loadLinks } from "./links.mjs";
 import { MediaLibrary, imageValue, mediaUrl } from "./media.mjs";
 import { buildPages } from "./pages.mjs";
 import { scrapeFaqs, scrapeOrganizations, scrapePeople } from "./scrape.mjs";
@@ -23,7 +24,7 @@ const DATABASE = "content/data.db";
 
 const load = async (name) => JSON.parse(await readFile(join(cacheDir, `${name}.json`), "utf8"));
 
-const [posts, policies, categories, tags, users, wpMedia, externalLinks, wpEvents, wpDocuments] = await Promise.all([
+const [posts, policies, categories, tags, users, wpMedia, externalLinks, wpEvents] = await Promise.all([
 	load("posts"),
 	load("policy"),
 	load("categories"),
@@ -32,24 +33,8 @@ const [posts, policies, categories, tags, users, wpMedia, externalLinks, wpEvent
 	load("media"),
 	load("external-links"),
 	load("events"),
-	load("documents"),
 ]);
-
-setOldLinks(await load("old-links").catch(() => ({})));
-
-// Documents whose old target is broken or isn't a file.
-const DOCUMENT_TARGET_FIXES = {
-	// The live resource page is empty; the survey was announced in this post.
-	"https://rustfoundation.org/resource/slsa-a-survey-of-software-supply-chain-security-practices-and-beliefs-2023/":
-		"https://rustfoundation.org/media/new-slsa-survey-reveals-real-world-developer-approaches-to-software-supply-chain-security/",
-	// 404 on the live site; this is the current deck.
-	"https://rustfoundation.org/wp-content/uploads/2025/07/Membership-Overview-Deck.pdf":
-		"https://rustfoundation.org/wp-content/uploads/2025/10/Membership-Overview-Deck.pdf",
-};
-for (const doc of wpDocuments) {
-	doc.target = DOCUMENT_TARGET_FIXES[doc.target] ?? DOCUMENT_TARGET_FIXES[doc.link] ?? doc.target;
-}
-setResourceLinks(Object.fromEntries(wpDocuments.map((doc) => [doc.link, doc.target])));
+const wpDocuments = await loadLinks(cacheDir);
 
 const media = new MediaLibrary({ baseUrl, cacheDir });
 await media.login();
@@ -145,6 +130,7 @@ for (const person of await scrapePeople(cacheDir)) {
 			groups: person.groups,
 			photo: person.photo ? imageValue(await media.add(person.photo, person.name), person.name) : undefined,
 			bio: person.bio || undefined,
+			links: person.links.join("\n") || undefined,
 			order: person.order,
 		},
 	});

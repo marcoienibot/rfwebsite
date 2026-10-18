@@ -4,7 +4,8 @@ import Blocks from "./Blocks.astro";
 import PageHeader from "./blocks/PageHeader.astro";
 import Pagination from "./Pagination.astro";
 import PostCard from "./PostCard.astro";
-import type { Post } from "../utils/content";
+import { allPosts, authors, type Post } from "../utils/content";
+import { authorUrl, categoryUrl } from "../utils/links";
 
 export const PER_PAGE = 12;
 
@@ -33,6 +34,20 @@ const featured = page === 1 ? pinned : undefined;
 const { entry: mediaPage } = await getEmDashEntry("pages", "media");
 const blocks = mediaPage?.data.content ?? [];
 const header = blocks.find((block) => block._type === "page_header");
+
+// Filters (over every post, like the old site's Media Room).
+const everyPost = await allPosts();
+const categoryOptions = new Map(everyPost.flatMap((post) => post.categories.map((term) => [term.slug, term.label])));
+const authorOptions = [...(await authors())].sort(([, a], [, b]) => a.localeCompare(b));
+const monthFormat = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "long", timeZone: "UTC" });
+const months = new Map<string, string>();
+for (const post of everyPost) {
+	const date = post.data.publishedAt;
+	if (date) months.set(`${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`, monthFormat.format(date));
+}
+const currentCategory = Astro.url.pathname.match(/\/media\/category\/([^/]+)/)?.[1] ?? "";
+const currentAuthor = Astro.url.pathname.match(/\/media\/author\/([^/]+)/)?.[1] ?? "";
+const currentTag = Astro.url.pathname.match(/\/media\/tag\/([^/]+)/)?.[1] ?? "";
 ---
 
 {
@@ -45,12 +60,58 @@ const header = blocks.find((block) => block._type === "page_header");
 
 <section class="listing">
 	<div class="container">
-		{featured && <PostCard post={featured} featured headingLevel="h2" />}
-		<div class="post-grid listing__grid">
-			{pagePosts.map((post) => <PostCard post={post} headingLevel="h2" />)}
+		<form class="filters" action="/search/" method="get" role="search" aria-label="Filter posts" data-filters hidden>
+			<a href="/media/all-post-cards/" hidden data-filters-index></a>
+			{currentTag && <input type="hidden" name="tag" value={currentTag} />}
+			<label>
+				Category
+				<select name="category">
+					<option value="">All categories</option>
+					{[...categoryOptions].map(([slug, label]) => <option value={slug} selected={slug === currentCategory}>{label}</option>)}
+				</select>
+			</label>
+			<label>
+				Author
+				<select name="author">
+					<option value="">All authors</option>
+					{authorOptions.map(([slug, name]) => <option value={slug} selected={slug === currentAuthor}>{name}</option>)}
+				</select>
+			</label>
+			<label>
+				Keyword search
+				<input type="search" name="q" />
+			</label>
+			<label>
+				Publication date
+				<select name="date">
+					<option value="">All</option>
+					{[...months].map(([value, label]) => <option value={value}>{label}</option>)}
+				</select>
+			</label>
+			<button type="submit" class="btn">Filter</button>
+		</form>
+		<noscript>
+			<p>Filtering needs JavaScript. Browse by category or author, or use the page links below.</p>
+			<nav aria-label="Post categories" class="btn-row">
+				{[...categoryOptions].map(([slug, label]) => <a href={categoryUrl(slug)}>{label}</a>)}
+			</nav>
+			<details>
+				<summary>Browse by author</summary>
+				<ul>{authorOptions.map(([slug, name]) => <li><a href={authorUrl(slug)}>{name}</a></li>)}</ul>
+			</details>
+		</noscript>
+		<p class="filters__status" role="status" data-filters-status></p>
+		<div class="filters__results" hidden data-filters-results>
+			<div class="post-grid listing__grid"></div>
 		</div>
-		{pagePosts.length === 0 && !featured && <p>No posts yet.</p>}
-		<Pagination current={page} last={last} href={href} />
+		<div data-filters-listing>
+			{featured && <PostCard post={featured} featured headingLevel="h2" />}
+			<div class="post-grid listing__grid">
+				{pagePosts.map((post) => <PostCard post={post} headingLevel="h2" />)}
+			</div>
+			{pagePosts.length === 0 && !featured && <p>No posts yet.</p>}
+			<Pagination current={page} last={last} href={href} />
+		</div>
 		<p class="listing__note">
 			Please direct all media inquiries to <a href="mailto:media@rustfoundation.org">media@rustfoundation.org</a>.
 			Thank you!
@@ -58,9 +119,144 @@ const header = blocks.find((block) => block._type === "page_header");
 	</div>
 </section>
 
+<script>
+	const form = document.querySelector<HTMLFormElement>("[data-filters]");
+	const results = document.querySelector<HTMLElement>("[data-filters-results]");
+	const status = document.querySelector<HTMLElement>("[data-filters-status]");
+	const listing = document.querySelector<HTMLElement>("[data-filters-listing]");
+	const index = form?.querySelector<HTMLAnchorElement>("[data-filters-index]")?.href;
+	const defaults = form ? new FormData(form) : new FormData();
+	let cards: Promise<HTMLElement[]> | undefined;
+	let request = 0;
+
+	// Cache successful downloads; a failed request must be retryable.
+	const loadCards = () =>
+		(cards ??= fetch(index!)
+			.then(async (res) => {
+				if (!res.ok) throw new Error(`Post index: HTTP ${res.status}`);
+				const doc = new DOMParser().parseFromString(await res.text(), "text/html");
+				if (!doc.querySelector("[data-post-index]")) throw new Error("Missing post index");
+				return [...doc.querySelectorAll<HTMLElement>("[data-post]")];
+			})
+			.catch((error) => {
+				cards = undefined;
+				throw error;
+			}));
+
+	async function applyFilters(params: URLSearchParams) {
+		if (!form || !results || !status || !listing) return;
+		const currentRequest = ++request;
+		const category = params.get("category") ?? "";
+		const author = params.get("author") ?? "";
+		const tag = params.get("tag") ?? "";
+		const words = (params.get("q") ?? "").toLowerCase().split(/\s+/).filter(Boolean);
+		const date = params.get("date") ?? "";
+		results.hidden = true;
+		listing.hidden = false;
+		status.textContent = "";
+		// Unfiltered archives keep their own pagination and featured card.
+		if (!words.length && !date && ["category", "author", "tag"].every(
+			(name) => (params.get(name) ?? "") === (defaults.get(name) ?? ""),
+		)) return;
+
+		status.textContent = "Loading posts…";
+		try {
+			const loaded = await loadCards();
+			// Clearing or changing filters while the download runs supersedes this result.
+			if (currentRequest !== request) return;
+			const matching = loaded.filter(
+				(card) =>
+					(!category || card.dataset.category!.split(" ").includes(category)) &&
+					(!author || card.dataset.author!.split(" ").includes(author)) &&
+					(!tag || card.dataset.tag!.split(" ").includes(tag)) &&
+					(!date || card.dataset.month === date) &&
+					words.every((word) => card.dataset.text!.includes(word)),
+			);
+			const grid = results.querySelector(".post-grid")!;
+			grid.replaceChildren(...matching.map((card) => document.importNode(card.firstElementChild!, true)));
+			status.textContent = matching.length === 0
+				? "No posts match these filters."
+				: `${matching.length} ${matching.length === 1 ? "post" : "posts"} found.`;
+			// Keywords match titles, summaries and tags; site search reads whole posts.
+			if (words.length > 0) {
+				const search = new URL(form.action);
+				search.searchParams.set("q", params.get("q")!);
+				const link = Object.assign(document.createElement("a"), { href: search.href, textContent: "Search the full text of all posts and pages" });
+				status.append(" ", link, ".");
+			}
+			results.hidden = false;
+			listing.hidden = true;
+		} catch {
+			if (currentRequest === request) status.textContent = "Could not load filtered posts. Showing the original listing; select Filter to retry.";
+		}
+	}
+
+	if (form && index) {
+		const formParams = () => new URLSearchParams([...new FormData(form)].map(([name, value]) => [name, value.toString()]));
+		form.addEventListener("submit", (event) => {
+			event.preventDefault();
+			const params = formParams();
+			// An empty category/author overrides the archive's default and must survive reloads.
+			const urlParams = new URLSearchParams([...params].filter(([name, value]) => value || defaults.get(name)));
+			history.replaceState(null, "", urlParams.size ? `?${urlParams}` : location.pathname);
+			void applyFilters(params);
+		});
+		form.hidden = false;
+		// Ignore unrelated query parameters (e.g. campaign tracking).
+		const params = new URLSearchParams(location.search);
+		let filtered = false;
+		for (const [name, value] of params) {
+			const field = form.elements.namedItem(name);
+			if (field instanceof HTMLInputElement || field instanceof HTMLSelectElement) {
+				field.value = value;
+				filtered = true;
+			}
+		}
+		if (filtered) void applyFilters(formParams());
+	}
+</script>
+
 <style>
 	.listing {
 		padding-block: 2rem 4rem;
+	}
+
+	.filters {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+		align-items: end;
+		gap: 1rem 1.25rem;
+		margin-bottom: 2rem;
+	}
+
+	.filters label {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		font-size: 0.9rem;
+	}
+
+	.filters :is(select, input) {
+		width: 100%;
+		min-height: 2.5rem;
+		padding: 0.4rem 0.6rem;
+		border: 1px solid var(--blue-20);
+		border-radius: 0;
+		font: inherit;
+		color: var(--ink);
+		background: var(--white);
+	}
+
+	.filters .btn {
+		justify-self: start;
+	}
+
+	.filters[hidden] {
+		display: none;
+	}
+
+	.filters__status {
+		margin-bottom: 1rem;
 	}
 
 	.listing__note {

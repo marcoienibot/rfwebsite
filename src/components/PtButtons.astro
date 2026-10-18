@@ -1,0 +1,47 @@
+---
+/**
+ * Portable Text row of buttons (WordPress button blocks), styled like the
+ * site's other buttons instead of EmDash's default ones.
+ */
+import { sanitizeHref } from "emdash";
+import { linkAttrs } from "../utils/links";
+
+interface Props {
+	node: {
+		buttons?: { _key: string; text: string; url?: string; style?: "default" | "outline" | "fill" }[];
+		justify?: "left" | "center" | "right";
+	};
+}
+
+const { node } = Astro.props;
+---
+
+<div class:list={["pt-buttons btn-row", node.justify && `pt-buttons--${node.justify}`]}>
+	{
+		(node.buttons ?? []).map((button) => {
+			const href = button.url ? sanitizeHref(button.url) : undefined;
+			const className = ["btn", button.style === "outline" && "btn--outline"];
+			return href ? (
+				<a {...linkAttrs(href)} class:list={className}>
+					{button.text}
+				</a>
+			) : (
+				<span class:list={className}>{button.text}</span>
+			);
+		})
+	}
+</div>
+
+<style>
+	.pt-buttons {
+		margin: 1.5em 0;
+	}
+
+	.pt-buttons--center {
+		justify-content: center;
+	}
+
+	.pt-buttons--right {
+		justify-content: flex-end;
+	}
+</style>

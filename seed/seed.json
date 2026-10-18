@@ -249,6 +249,43 @@
 							"type": "string"
 						},
 						{
+							"slug": "authors",
+							"label": "Written by (shown with their photo)",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "name",
+										"label": "Name",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "role",
+										"label": "Role",
+										"type": "string"
+									},
+									{
+										"slug": "photo",
+										"label": "Photo",
+										"type": "image"
+									}
+								]
+							}
+						},
+						{
+							"slug": "authors_position",
+							"label": "Where “Written by” appears",
+							"type": "select",
+							"validation": {
+								"options": [
+									"above the text",
+									"below the text"
+								]
+							},
+							"defaultValue": "above the text"
+						},
+						{
 							"slug": "body",
 							"label": "Text",
 							"type": "portableText"
@@ -1614,6 +1651,11 @@
 				{
 					"slug": "bio",
 					"label": "Biography (blank line = new paragraph, “- ” = list item, [text](https://…) = link)",
+					"type": "text"
+				},
+				{
+					"slug": "links",
+					"label": "Profile links shown as icons: one URL per line (LinkedIn, GitHub, Mastodon, X, Bluesky…)",
 					"type": "text"
 				},
 				{

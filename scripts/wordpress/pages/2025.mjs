@@ -26,8 +26,15 @@ export default async ({ image, file, richText }) => ({
 				<p>Rust’s momentum this year has been extraordinary. More and more critical systems depend on it, and adoption continues to accelerate across industries. That growth brings both opportunity and responsibility. For the Rust Foundation, it means doubling down on support for maintainers, security, infrastructure, and the communities that shape Rust’s culture and values. I hope the reflections on this page make clear just how seriously we take that role.</p>
 				<p>With gratitude,</p>
 				<img src="${U}/2025/12/Rebecca.png.png" alt="Rebecca Rumbul’s signature">
-				<p><em>Dr Rebecca Rumbul,<br>Executive Director &amp; CEO, the Rust Foundation</em></p>
 			`),
+			authors: [
+				{
+					name: "Dr Rebecca Rumbul",
+					role: "Executive Director & CEO, the Rust Foundation",
+					photo: await image(`${U}/2025/12/Untitled-design-1.png`, "Dr Rebecca Rumbul"),
+				},
+			],
+			authors_position: "below the text",
 		},
 		{
 			_type: "rich_text",
@@ -65,8 +72,10 @@ export default async ({ image, file, richText }) => ({
 			_type: "rich_text",
 			anchor_id: "infra",
 			headline: "Infrastructure Support",
+			authors: [
+				{ name: "Marco Ieni", role: "Rust Foundation Infrastructure Engineer", photo: await image(`${U}/2024/07/head.jpg`, "Marco Ieni") },
+			],
 			body: await richText(`
-				<p><strong>Marco Ieni</strong><br><em>Rust Foundation Infrastructure Engineer</em></p>
 				<p>Rust requires stable, scalable infrastructure to keep everything running smoothly. A lot of that work is invisible by design: if infrastructure works well, nobody notices. But when it doesn’t? The entire ecosystem can grind to a halt.</p>
 				<p>In 2025, I collaborated with the rest of the Rust Project infra team to improve Rust’s infrastructure while reducing friction for maintainers. Their help was invaluable to me. In particular, I’d like to thank my former colleague, Jan David Nose, for his collaboration prior to moving on from the Foundation to pursue new opportunities.</p>
 				<h3>Our Goal</h3>
@@ -88,9 +97,11 @@ export default async ({ image, file, richText }) => ({
 			_type: "rich_text",
 			anchor_id: "security",
 			headline: "Security",
+			authors: [
+				{ name: "Adam Harvey", role: "Software Developer", photo: await image(`${U}/2023/09/adam.jpg`, "Adam Harvey") },
+				{ name: "Walter Pearce", role: "Security Engineer", photo: await image(`${U}/2023/09/walter.png`, "Walter Pearce") },
+			],
 			body: await richText(`
-				<p><strong>Adam Harvey</strong><br><em>Software Developer</em></p>
-				<p><strong>Walter Pearce</strong><br><em>Security Engineer</em></p>
 				<p>We spent 2025 working within the Rust Project, Rust ecosystem, and in collaboration with other language ecosystems via initiatives including <a href="https://alpha-omega.dev/">Alpha-Omega</a> and <a href="https://openssf.org/">OpenSSF</a> to respond to present and emerging threats, building tools that will be necessary for Rust to remain secure in the future, and developing and evangelising best practices for Rustaceans everywhere.</p>
 				<h3>Our Goal</h3>
 				<p>Ensuring that the Rust ecosystem uses and promotes the best security practices, both in terms of Rust itself and the broader world of crates.</p>
@@ -111,8 +122,10 @@ export default async ({ image, file, richText }) => ({
 			_type: "rich_text",
 			anchor_id: "project",
 			headline: "Project Support",
+			authors: [
+				{ name: "Lori Lorusso", role: "Director of Outreach", photo: await image(`${U}/2025/08/Lori-Lorusso.png`, "Lori Lorusso") },
+			],
 			body: await richText(`
-				<p><strong>Lori Lorusso</strong><br><em>Director of Outreach</em></p>
 				<p>2025 was a big year for the Rust Project as it celebrated its 10th anniversary, with the Foundation joining the excitement at the All Hands and contributing $100,000 to help fund the event. It was also a significant year for the Foundation as we said a fond farewell to Paul Lenz, Director of Finance, and welcomed… me! My new role as Director of Outreach was created to handle part of Paul’s former funding-coordination work while serving as a liaison between the Foundation, the Project, and the broader tech community. Since starting in August, I’ve been connecting with Rust users in a variety of industries and engaging with Project Members whose passion for enhancing and innovating in Rust has been inspiring. I look forward to meeting more Project Members and continuing to bring the Project, Rust users, and the Foundation closer together in 2026 and beyond.</p>
 				<h3>Our Goal</h3>
 				<p>Direct financial support of Rust Project members and to foster community and partnership between the Project, the Foundation, and the users of Rust.</p>
@@ -131,8 +144,10 @@ export default async ({ image, file, richText }) => ({
 			_type: "rich_text",
 			anchor_id: "interop",
 			headline: "Rust & C++ Interoperability",
+			authors: [
+				{ name: "Jon Bauman", role: "Interoperability Engineer", photo: await image(`${U}/2024/06/RustConf-2024-Montreal-Day-2-378.jpg`, "Jon Bauman") },
+			],
 			body: await richText(`
-				<p><strong>Jon Bauman</strong><br><em>Interoperability Engineer</em></p>
 				<p>As Rust gains maturity and finds broader application in all system software contexts, it is increasingly used alongside C++. The importance of ergonomic and efficient interoperability is growing, and as calls for transitions to memory-safe languages continue to rise, the essentiality of effectively using Rust and C++ together to meet performance and safety goals is coming into focus.</p>
 				<p>In the year since the <a href="https://github.com/rustfoundation/interop-initiative/blob/main/problem-statement.md">C++/Rust Interoperability Problem Statement</a> was published, there have been remarkable successes in “<a href="https://github.com/rustfoundation/interop-initiative/blob/main/problem-statement.md#social-interoperability">the most ambitious and least certain</a>” strategy of engaging with the C++ community and ISO standardization committee (<a href="https://en.wikipedia.org/wiki/C%2B%2B#Standardization">WG21</a>) directly, culminating in the “<a href="https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p3874r0.pdf">Safety Strategy Requirements for C++</a>” proposal.</p>
 				<p><a href="https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p3651r0.pdf">Though WG21 has taken the issue of memory safety extremely seriously</a>, building the necessary consensus around a solution applicable to the many billions of lines of legacy C++ has proven difficult. Through collaboration, relationship-building, and mutual education, the interop initiative pursued a mutually productive course for both languages as well as their interoperability: focus on committing to adding memory safety to C++ so it remains a viable choice for new development. Pursuing this <a href="https://stroustrup.com/SELLrationale.pdf">subset-of-superset approach</a> advocated by <a href="https://en.wikipedia.org/wiki/Bjarne_Stroustrup">Bjarne Stroustrup</a> for over 20 years (also the basis for Rust’s safe/unsafe dichotomy) has the potential to deliver a future where interoperability between the languages can occur with end-to-end memory safety.</p>
@@ -154,8 +169,10 @@ export default async ({ image, file, richText }) => ({
 			_type: "rich_text",
 			anchor_id: "crates",
 			headline: "crates.io",
+			authors: [
+				{ name: "Tobias Bieniek", role: "crates.io Engineer", photo: await image(`${U}/2023/09/tobias.jpg`, "Tobias Bieniek") },
+			],
 			body: await richText(`
-				<p><strong>Tobias Bieniek</strong><br><em>crates.io Engineer</em></p>
 				<p>As the Rust Foundation’s crates.io engineer, my work this year focused on making the platform more secure, faster, and easier to maintain. With the Rust ecosystem growing rapidly, keeping crates.io reliable while shipping meaningful improvements is a constant balancing act. I spent 2025 delivering new features, strengthening security, and modernizing core systems to ensure crates.io can scale with Rust’s continued growth.</p>
 				<h3>Our Goal</h3>
 				<p>To keep crates.io fast, secure, and reliable as the ecosystem grows, while reducing friction for both crate authors and contributors.</p>
@@ -180,8 +197,10 @@ export default async ({ image, file, richText }) => ({
 			_type: "rich_text",
 			anchor_id: "safety",
 			headline: "Safety-Critical Rust Consortium",
+			authors: [
+				{ name: "Joel Marcey", role: "Director of Technology", photo: await image(`${U}/2023/09/joel.jpg`, "Joel Marcey") },
+			],
 			body: await richText(`
-				<p><strong>Joel Marcey</strong><br><em>Director of Technology</em></p>
 				<p>As Rust gains traction in industries where failure is not an option, organizations increasingly need pathways to adopt Rust in safety-critical systems. The Safety-Critical Rust Consortium brings together companies, experts, and stakeholders to coordinate priorities, deepen shared understanding, and accelerate the development of tools and practices needed for Rust in high-assurance environments.</p>
 				<h3>Our Goal</h3>
 				<p>To support the responsible use of the Rust programming language in safety-critical software systems whose failure can impact human life or cause severe environmental or property harm.</p>
@@ -200,8 +219,10 @@ export default async ({ image, file, richText }) => ({
 			_type: "rich_text",
 			anchor_id: "community",
 			headline: "Global Community Engagement",
+			authors: [
+				{ name: "Ernest Kissiedu", role: "Global Rust Communities Coordinator", photo: await image(`${U}/2024/02/Screenshot-2024-09-23-at-10.54.47\u202fAM.png`, "Ernest Kissiedu") },
+			],
 			body: await richText(`
-				<p><strong>Ernest Kissiedu</strong><br><em>Global Rust Communities Coordinator</em></p>
 				<p>Working with Rust communities worldwide has been a genuinely inspiring part of my ongoing work with the Rust Foundation. Every region has its own stories, challenges, and strengths — and supporting organizers as they build those local connections has made it even clearer how essential community leadership is to Rust’s long-term health. In 2025, my focus was not only on helping communities grow sustainably, but also on shaping a more intentional global strategy for how the Foundation supports organizers, especially in regions where Rust adoption is accelerating.</p>
 				<h3>Our Goal</h3>
 				<p>To ensure Rust communities everywhere have the resources, visibility, and support they need to grow, connect, and lead.</p>
@@ -219,8 +240,10 @@ export default async ({ image, file, richText }) => ({
 			_type: "rich_text",
 			anchor_id: "learning",
 			headline: "Rust Learning",
+			authors: [
+				{ name: "Tina Krauss", role: "Program Manager", photo: await image(`${U}/2025/07/T02VDQSMWFP-U092YNPTRR9-1c763615528b-512.jpg`, "Tina Krauss") },
+			],
 			body: await richText(`
-				<p><strong>Tina Krauss</strong><br><em>Program Manager</em></p>
 				<p>Joining the Foundation this past summer gave me the chance to jump right into one of our emerging areas of work: Rust learning. My first few months were spent researching what it would take for the Foundation to support clearer, more consistent learning pathways — not by reinventing what the community already does well, but by understanding how we can complement it. That early groundwork helped shape our initial development efforts this year, including the exploration of a Rust Foundation Trusted Training Program. More to share in 2026!</p>
 				<h3>Our Goal</h3>
 				<p>To understand where the Foundation can meaningfully support and expand the ecosystem of Rust learning — especially for contributors, production users, and organizations adopting Rust at scale.</p>
@@ -239,8 +262,10 @@ export default async ({ image, file, richText }) => ({
 			_type: "rich_text",
 			anchor_id: "events",
 			headline: "Events",
+			authors: [
+				{ name: "Gracie Gregory", role: "Director of Communications & Marketing", photo: await image(`${U}/2023/09/IMG_6037-e1727072197210.jpg`, "Gracie Gregory") },
+			],
 			body: await richText(`
-				<p><strong>Gracie Gregory</strong><br><em>Director of Communications &amp; Marketing</em></p>
 				<p>Helping shape and drive our events this year has been one of the most interesting and challenging parts of my work at the Foundation. Over time, I’ve learned that RustConf and Rust Global aren’t just events that come and go— they’re places where people finally meet face to face, share ideas, and get reconnected with why they care about Rust in the first place. As Rust’s ecosystem continues to grow more global and more professional, it’s become even clearer how important it is for the Foundation to create spaces that bring people together, spark collaboration, and help Rust communities feel seen and supported.</p>
 				<h3>Our Goal</h3>
 				<p>To strengthen the future of Rust Foundation events so they serve not only as celebrations of Rust’s achievements, but also as intentional spaces for collaboration, meaningful networking, job discovery, adoption-focused dialogue, and cultivate community leadership.</p>

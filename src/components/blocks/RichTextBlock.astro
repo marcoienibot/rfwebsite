@@ -1,7 +1,9 @@
 ---
+import Authors from "../Authors.astro";
 import RichText from "../RichText.astro";
 
 const { value } = Astro.props;
+const authorsBelow = value.authors_position === "below the text";
 ---
 
 <section
@@ -13,12 +15,16 @@ const { value } = Astro.props;
 			value.collapsible && value.headline ? (
 				<details class="rich__details">
 					<summary>{value.headline}</summary>
+					{!authorsBelow && <Authors authors={value.authors} />}
 					<RichText value={value.body} />
+					{authorsBelow && <Authors authors={value.authors} />}
 				</details>
 			) : (
 				<>
 					{value.headline && <h2 class="rich__headline">{value.headline}</h2>}
+					{!authorsBelow && <Authors authors={value.authors} />}
 					<RichText value={value.body} />
+					{authorsBelow && <Authors authors={value.authors} />}
 				</>
 			)
 		}

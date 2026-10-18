@@ -138,6 +138,12 @@ const blockTypes = [
 	]),
 	block("rich_text", "Text", "Headings, paragraphs, lists, links and images", [
 		string("headline", "Headline"),
+		repeater("authors", "Written by (shown with their photo)", [
+			string("name", "Name", { required: true }),
+			string("role", "Role"),
+			image("photo", "Photo"),
+		]),
+		select("authors_position", "Where “Written by” appears", ["above the text", "below the text"], "above the text"),
 		{ slug: "body", label: "Text", type: "portableText" },
 		select("background", "Background", BACKGROUNDS, "white"),
 		select("width", "Width", ["narrow", "wide"], "narrow"),
@@ -354,6 +360,7 @@ const collections = [
 			{ slug: "groups", label: "Shown in", type: "multiSelect", validation: { options: PEOPLE_GROUPS } },
 			image("photo", "Photo"),
 			text("bio", `Biography ${PARAGRAPHS}`),
+			text("links", "Profile links shown as icons: one URL per line (LinkedIn, GitHub, Mastodon, X, Bluesky…)"),
 			{ slug: "order", label: "Order (lower comes first)", type: "integer", defaultValue: 100 },
 		],
 	},

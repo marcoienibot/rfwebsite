@@ -70,6 +70,9 @@ scripts/wordpress/migrate.sh   # replaces content/ with a fresh import of rustfo
 To re-apply only the page definitions in `scripts/wordpress/pages/` (and event data) to the
 existing content, keeping everything edited in the admin, run
 `node scripts/wordpress/update-content.mjs .cache/wordpress [page-slug…]` while `npm run dev` is running.
+After a fix to the converter or the scraper, `--posts post-slug…` converts the named posts and
+policies again (it replaces their content), and `--people` updates biographies and profile links
+(biographies edited in the admin are left alone).
 
 ### Custom domain
 
