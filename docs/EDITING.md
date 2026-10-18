@@ -55,3 +55,7 @@ This guide is for the people who update the website's content. No coding needed.
 - **Scheduled posts** go live at the next nightly rebuild after their date, or at the next publish.
 - **Search** only works on the public website, because the search index is built when the site is
   published.
+- **Videos.** To add a YouTube or Vimeo video, type `/youtube`, `/vimeo` or `/embed` in the text
+  and paste the video's link or embed code, or add a **Video** section to a page. The video only
+  loads when a visitor presses play, which is why the website needs no cookie banner. Don't paste
+  embed code into an `/html` block: the video would then load with the page.
