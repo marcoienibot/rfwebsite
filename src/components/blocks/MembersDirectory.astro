@@ -25,7 +25,7 @@ const tiers: Record<string, Awaited<ReturnType<typeof organizations>>> = Object.
 					inTier.length > 0 && (
 						<div id={tier.id} class="members__tier">
 							<h2 class="heading-center">{tier.label}</h2>
-							<ul class:list={["logo-grid", { "logo-grid--large": tier.id === "platinum" }]}>
+							<ul class="logo-grid">
 								{inTier.map((member) => (
 									<li>
 										<OrgLogo

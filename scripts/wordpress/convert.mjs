@@ -63,7 +63,9 @@ export function localizeHref(href, documents) {
 	const match = href.match(/^https?:\/\/(?:www\.)?rustfoundation\.org(\/.*)?$/);
 	if (!match) return href;
 	const path = match[1] || "/";
-	if (path.startsWith("/wp-content/")) return href;
+	// Resource URLs not resolved to an imported document must keep pointing
+	// at the source site; there is no general /resource/ route in the port.
+	if (path.startsWith("/wp-content/") || path.startsWith("/resource/")) return href;
 	return path;
 }
 

@@ -388,34 +388,40 @@ a.tag:hover {
 	scroll-snap-align: start;
 }
 
+/* At most 7 logos per row, like the old site. */
 .logo-grid {
+	--logo-width: 9.5rem;
+	--logo-height: 6.3rem;
+	--logo-gap: 1.25rem;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
-	gap: 1.25rem 2.5rem;
-	margin: 1.25rem 0 2rem;
+	gap: var(--logo-gap);
+	max-width: calc(7 * var(--logo-width) + 6 * var(--logo-gap));
+	margin: 1.25rem auto 2rem;
 	padding: 0;
 	list-style: none;
 }
 
-.logo-grid li {
-	display: grid;
-	place-items: center;
-	width: 8.5rem;
-	height: 4rem;
+/* Hand-picked logos (community groups, our own logo) are shown bigger, as on the old site. */
+.logo-grid--showcase {
+	--logo-width: 15rem;
+	--logo-height: 7.5rem;
 }
 
-.logo-grid--large li {
-	width: 10rem;
-	height: 4.5rem;
+.logo-grid > li {
+	display: grid;
+	place-items: center;
+	width: var(--logo-width);
+	height: var(--logo-height);
 }
 
 .logo-grid img {
-	max-width: 100%;
-	max-height: 100%;
+	display: block;
+	max-width: var(--logo-width);
+	max-height: var(--logo-height);
 	width: auto;
 	height: auto;
 	object-fit: contain;
-	background: none !important;
 }

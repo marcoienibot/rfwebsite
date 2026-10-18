@@ -31,7 +31,7 @@ const featured = page === 1 ? pinned : undefined;
 // The "Media Room" header is editable: it's the `media` page in the admin.
 // Archives reuse its buttons with their own title.
 const { entry: mediaPage } = await getEmDashEntry("pages", "media");
-const blocks = (mediaPage?.data.content ?? []) as Array<{ _type: string; [key: string]: unknown }>;
+const blocks = mediaPage?.data.content ?? [];
 const header = blocks.find((block) => block._type === "page_header");
 ---
 
