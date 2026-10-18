@@ -57,8 +57,6 @@ const host = website ? new URL(website).hostname.replace(/^www\./, "") : undefin
 	.org-logo {
 		display: grid;
 		place-items: center;
-		/* Let the image shrink inside the fixed-height logo tile. */
-		grid-template: minmax(0, 1fr) / minmax(0, 1fr);
 		width: 100%;
 		height: 100%;
 		padding: 0;

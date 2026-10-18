@@ -389,6 +389,8 @@ a.tag:hover {
 }
 
 .logo-grid {
+	--logo-width: 8.5rem;
+	--logo-height: 4rem;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
@@ -399,22 +401,21 @@ a.tag:hover {
 	list-style: none;
 }
 
-.logo-grid > li {
-	display: grid;
-	grid-template: minmax(0, 1fr) / minmax(0, 1fr);
-	place-items: center;
-	width: 8.5rem;
-	height: 4rem;
+.logo-grid--large {
+	--logo-width: 10rem;
+	--logo-height: 4.5rem;
 }
 
-.logo-grid--large > li {
-	width: 10rem;
-	height: 4.5rem;
+.logo-grid > li {
+	display: grid;
+	place-items: center;
+	width: var(--logo-width);
+	height: var(--logo-height);
 }
 
 .logo-grid img {
-	max-width: 100%;
-	max-height: 100%;
+	max-width: var(--logo-width);
+	max-height: var(--logo-height);
 	width: auto;
 	height: auto;
 	object-fit: contain;
