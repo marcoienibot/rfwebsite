@@ -260,7 +260,7 @@ const year = new Date().getFullYear();
 			// Pagefind's UI has loaded (or without JavaScript, or in `astro dev`) it links to /search/.
 			const searchLink = document.querySelector<HTMLAnchorElement>("[data-search-open]");
 			customElements.whenDefined("pagefind-modal").then(() => {
-				const modal = document.querySelector<HTMLElement & { open(): void }>("pagefind-modal");
+				const modal = document.querySelector("pagefind-modal");
 				if (!searchLink || !modal) return;
 				// The search page has its own field (Pagefind defines all its elements at once, so it has
 				// been rendered by now). There the icon selects its query so that typing starts a new search.
