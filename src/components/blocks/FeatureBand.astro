@@ -67,11 +67,9 @@ const { value } = Astro.props;
 		place-items: center;
 	}
 
+	/* The artwork already includes its circle or rounded-square frame. */
 	.band__image :global(img) {
 		width: clamp(9rem, 20vw, 14rem);
-		display: block;
-		height: auto;
-		/* The artwork already includes its circle or rounded-square frame. */
 	}
 
 	@media (max-width: 45rem) {
