@@ -14,7 +14,7 @@ interface Props {
 const { player, title } = Astro.props;
 ---
 
-<div class="video-embed" data-video-embed={player.embedUrl} data-video-title={title || `${player.provider} video`}>
+<div class="video-embed bg-navy" data-video-embed={player.embedUrl} data-video-title={title || `${player.provider} video`}>
 	<button type="button" class="video-embed__play">
 		<svg class="video-embed__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5v14l11-7z"></path></svg>
 		<span>Play video{title && <span class="visually-hidden">: {title}</span>}</span>
@@ -43,15 +43,12 @@ const { player, title } = Astro.props;
 	.video-embed {
 		position: relative;
 		aspect-ratio: 16 / 9;
-		color: var(--white);
-		background-color: var(--navy);
 		background-image: url("/theme/cog.png"), var(--grain);
 		background-repeat: no-repeat, repeat;
 		background-position:
 			right -4rem bottom -5rem,
 			0 0;
 		background-size: 18rem, auto;
-		background-blend-mode: soft-light;
 	}
 
 	.video-embed__play {
@@ -111,7 +108,6 @@ const { player, title } = Astro.props;
 	}
 
 	.video-embed__note a {
-		color: inherit;
 		pointer-events: auto;
 	}
 
