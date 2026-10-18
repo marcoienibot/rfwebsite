@@ -19,7 +19,7 @@ const player = videoPlayer(node.src);
 {
 	player ? (
 		<figure>
-			<VideoEmbed player={player} />
+			<VideoEmbed player={player} title={node.title} />
 		</figure>
 	) : (
 		<Iframe node={node} />

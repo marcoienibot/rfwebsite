@@ -12,14 +12,16 @@ interface Props {
 }
 
 const { player, title } = Astro.props;
+// Links the note to the play button. Random, as a page can have several videos.
+const noteId = `video-embed-note-${crypto.randomUUID()}`;
 ---
 
 <div class="video-embed bg-navy" data-pagefind-ignore data-video-embed={player.embedUrl} data-video-title={title || `${player.provider} video`}>
-	<button type="button" class="video-embed__play">
+	<button type="button" class="video-embed__play" aria-describedby={noteId}>
 		<svg class="video-embed__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5v14l11-7z"></path></svg>
 		<span>Play video{title && <span class="visually-hidden">: {title}</span>}</span>
 	</button>
-	<p class="video-embed__note">
+	<p id={noteId} class="video-embed__note">
 		Playing loads the video from {player.provider}, which may set cookies.{" "}
 		<a href={player.watchUrl} target="_blank" rel="noopener">Watch on {player.provider}</a>
 	</p>

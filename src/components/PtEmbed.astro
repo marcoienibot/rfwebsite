@@ -18,7 +18,7 @@ const player = videoPlayer(node.url);
 {
 	player ? (
 		<figure>
-			<VideoEmbed player={player} />
+			<VideoEmbed player={player} title={node.caption} />
 			{node.caption && <figcaption>{node.caption}</figcaption>}
 		</figure>
 	) : (
