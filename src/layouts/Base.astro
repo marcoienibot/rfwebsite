@@ -71,12 +71,8 @@ const year = new Date().getFullYear();
 		<EmDashHead page={pageCtx} />
 		{
 			// Pagefind's search UI is written next to the index by `astro build`; `astro dev` has neither.
-			!import.meta.env.DEV && (
-				<>
-					<link rel="stylesheet" href="/pagefind/pagefind-component-ui.css" />
-					<script is:inline defer src="/pagefind/pagefind-component-ui.js"></script>
-				</>
-			)
+			// Its script is at the end of the body.
+			!import.meta.env.DEV && <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css" />
 		}
 		<slot name="head" />
 	</head>
@@ -222,8 +218,6 @@ const year = new Date().getFullYear();
 			</div>
 		</footer>
 
-		{!import.meta.env.DEV && <pagefind-modal reset-on-close></pagefind-modal>}
-
 		<EmDashBodyEnd page={pageCtx} />
 
 		<script>
@@ -304,6 +298,19 @@ const year = new Date().getFullYear();
 				localStorage.setItem(bannerKey, "dismissed");
 			});
 		</script>
+
+		{
+			// Pagefind works out where its files are (and the base of result links) from the `src` of the
+			// script that defines its elements, which the build rewrites for the sub-path. So it must be a
+			// classic script (not a module) that runs once its elements are in the page. It comes after the
+			// site's own script so that it doesn't hold that one back.
+			!import.meta.env.DEV && (
+				<>
+					<pagefind-modal reset-on-close></pagefind-modal>
+					<script is:inline defer src="/pagefind/pagefind-component-ui.js"></script>
+				</>
+			)
+		}
 	</body>
 </html>
 
