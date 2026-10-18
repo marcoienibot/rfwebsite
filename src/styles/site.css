@@ -39,7 +39,8 @@
 
 html {
 	scroll-behavior: smooth;
-	scroll-padding-top: 1.5rem;
+	/* Clear of the compact header that stays at the top. */
+	scroll-padding-top: 6rem;
 	-webkit-text-size-adjust: 100%;
 }
 

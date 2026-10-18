@@ -211,13 +211,29 @@ const year = new Date().getFullYear();
 		<EmDashBodyEnd page={pageCtx} />
 
 		<script>
+			const header = document.querySelector<HTMLElement>(".site-header");
+			const bar = header?.querySelector<HTMLElement>(".site-header__bar");
 			const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
 			const menu = document.getElementById("site-menu");
 			toggle?.addEventListener("click", () => {
 				const open = toggle.getAttribute("aria-expanded") !== "true";
 				toggle.setAttribute("aria-expanded", String(open));
 				if (menu) menu.hidden = !open;
+				// Opened from the compact bar, the menu drops down below it.
+				header?.classList.toggle("site-header--overlay", open && header.classList.contains("site-header--stuck"));
 			});
+
+			// Once the header has scrolled out of view, a compact copy of its bar stays at the top.
+			if (header && bar) {
+				new IntersectionObserver(([entry]) => {
+					const stuck = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+					if (stuck === header.classList.contains("site-header--stuck")) return;
+					// The bar leaves the header: keep its space so the page doesn't move.
+					if (stuck) header.style.setProperty("--bar-height", `${bar.offsetHeight}px`);
+					header.classList.toggle("site-header--stuck", stuck);
+					if (!stuck) header.classList.remove("site-header--overlay");
+				}).observe(header);
+			}
 			document.addEventListener("keydown", (event) => {
 				if (event.key === "Escape" && toggle?.getAttribute("aria-expanded") === "true") {
 					toggle.click();
@@ -291,6 +307,7 @@ const year = new Date().getFullYear();
 	}
 
 	.site-header {
+		--compact-bar-height: 4.5rem;
 		color: var(--white);
 		background: var(--navy) url("/theme/header-pattern.png") no-repeat right -2rem top -3rem / auto 22rem;
 	}
@@ -307,6 +324,46 @@ const year = new Date().getFullYear();
 		display: block;
 		width: clamp(5.5rem, 12vw, 11.25rem);
 		height: auto;
+	}
+
+	.site-header--stuck {
+		padding-top: var(--bar-height);
+	}
+
+	.site-header--stuck .site-header__bar {
+		position: fixed;
+		inset: 0 0 auto;
+		z-index: 50;
+		height: var(--compact-bar-height);
+		padding-block: 0;
+		background: inherit;
+		box-shadow: 0 2px 12px rgb(0 0 0 / 0.25);
+		animation: header-slide-in 0.25s ease-out;
+	}
+
+	.site-header--stuck .site-header__logo img {
+		width: 4.4rem;
+	}
+
+	.site-header--overlay .mega {
+		position: fixed;
+		inset: var(--compact-bar-height) 0 auto;
+		z-index: 49;
+		max-height: calc(100dvh - var(--compact-bar-height));
+		overflow-y: auto;
+		background: var(--navy);
+	}
+
+	@keyframes header-slide-in {
+		from {
+			transform: translateY(-100%);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.site-header--stuck .site-header__bar {
+			animation: none;
+		}
 	}
 
 	.site-header__actions {
