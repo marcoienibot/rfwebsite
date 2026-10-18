@@ -1,0 +1,27 @@
+---
+/**
+ * Portable Text iframe, which the editor's /youtube, /vimeo and /embed
+ * commands create. Replaces EmDash's renderer for YouTube and Vimeo players,
+ * which loads them (and their cookies) with the page, with a video that loads
+ * only when the visitor clicks play. Other iframes use EmDash's renderer.
+ */
+import type { ComponentProps } from "astro/types";
+import { Iframe } from "emdash/ui";
+import { videoPlayer } from "../utils/video";
+import VideoEmbed from "./VideoEmbed.astro";
+
+type Props = ComponentProps<typeof Iframe>;
+
+const { node } = Astro.props;
+const player = videoPlayer(node.src);
+---
+
+{
+	player ? (
+		<figure>
+			<VideoEmbed player={player} />
+		</figure>
+	) : (
+		<Iframe node={node} />
+	)
+}

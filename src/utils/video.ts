@@ -7,7 +7,7 @@ export interface VideoPlayer {
 	watchUrl: string;
 }
 
-const YOUTUBE_ID = /(?:youtube\.com\/(?:watch\?(?:[^#]*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/;
+const YOUTUBE_ID = /(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:[^#]*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/;
 const VIMEO_ID = /vimeo\.com\/(?:video\/)?(\d+)/;
 
 export function videoPlayer(url: unknown): VideoPlayer | undefined {
