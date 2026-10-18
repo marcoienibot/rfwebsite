@@ -1,0 +1,48 @@
+---
+/**
+ * A button that reveals the rest of a long list. Mark the list items after
+ * the first few with `data-show-all-extra`, give the list an id, and put this
+ * after it. All items stay visible until the button is ready.
+ */
+interface Props {
+	list: string;
+	label: string;
+}
+
+const { list, label } = Astro.props;
+---
+
+<div class="show-all" hidden>
+	<button type="button" class="btn btn--small" aria-controls={list} aria-expanded="false" data-show-all>{label}</button>
+</div>
+
+<script>
+	for (const button of document.querySelectorAll<HTMLButtonElement>("[data-show-all]")) {
+		const list = document.getElementById(button.getAttribute("aria-controls")!);
+		const control = button.closest<HTMLElement>(".show-all");
+		if (!list || !control) continue;
+		const extra = [...list.querySelectorAll<HTMLElement>(":scope > [data-show-all-extra]")];
+		if (!extra.length) continue;
+
+		button.addEventListener("click", () => {
+			for (const item of extra) item.hidden = false;
+			// Keep keyboard users where the new items start.
+			extra[0]?.querySelector("a")?.focus();
+			control.remove();
+		});
+		for (const item of extra) item.hidden = true;
+		control.hidden = false;
+	}
+</script>
+
+<style>
+	.show-all {
+		display: flex;
+		justify-content: center;
+		margin-top: 1.5rem;
+	}
+
+	.show-all[hidden] {
+		display: none;
+	}
+</style>

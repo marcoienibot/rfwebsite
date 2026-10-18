@@ -159,6 +159,7 @@ export interface PageContentLogoWallV1Block {
   "text"?: string | null;
   "source"?: "platinum" | "gold" | "silver" | "associate" | "infrastructure-donor" | "security-sponsor" | "cloud-provider" | "scrc-founder" | "rftt-provider" | "interop-supporter" | "open-source-partnership" | "all members" | "pick below" | null;
   "logos"?: { "name": string; "logo"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null; "url"?: string | null }[] | null;
+  "layout"?: "grid" | "carousel" | null;
   "buttons"?: { "label": string; "url"?: string | null }[] | null;
   "background"?: "white" | "light" | "navy" | "teal" | "slate" | "blush" | null;
   "anchor_id"?: string | null;
@@ -288,6 +289,7 @@ export interface PageContentDocumentsV1Block {
   "category"?: "board-meeting-minutes" | "rust-foundation-reports" | "informational-resources" | "financial-filings" | "partnered-publications" | "year-in-review" | null;
   "style"?: "cards" | "list" | null;
   "count"?: number | null;
+  "show_first"?: number | null;
   "background"?: "white" | "light" | "navy" | "teal" | "slate" | "blush" | null;
   "anchor_id"?: string | null;
 }
@@ -301,6 +303,7 @@ export interface PageContentEventsV1Block {
   "headline"?: string | null;
   "show"?: "upcoming" | "past" | "all" | null;
   "count"?: number | null;
+  "show_first"?: number | null;
   "anchor_id"?: string | null;
 }
 

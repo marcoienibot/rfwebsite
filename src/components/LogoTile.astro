@@ -1,0 +1,25 @@
+---
+/** One logo of a logo wall: an organisation (with its details card) or a hand-picked logo. */
+import Img from "./Img.astro";
+import OrgLogo from "./OrgLogo.astro";
+import { linkAttrs } from "../utils/links";
+
+export type Logo = { name: string; logo?: unknown; url?: string; id?: string; joined?: string | null; bio?: string | null };
+type Props = { item: Logo };
+
+const { item } = Astro.props;
+---
+
+<li>
+	{
+		item.id ? (
+			<OrgLogo id={item.id} name={item.name} logo={item.logo} website={item.url} joined={item.joined} bio={item.bio} />
+		) : item.url ? (
+			<a {...linkAttrs(item.url)} title={item.name}>
+				<Img image={item.logo as never} alt={item.name} />
+			</a>
+		) : (
+			<Img image={item.logo as never} alt={item.name} />
+		)
+	}
+</li>

@@ -1,34 +1,30 @@
 ---
-import Paragraphs from "../Paragraphs.astro";
-import Img from "../Img.astro";
+import Carousel from "../Carousel.astro";
+import Quote, { type QuoteItem } from "../Quote.astro";
 
 const { value } = Astro.props;
-const items = value.items ?? [];
+const items: QuoteItem[] = value.items ?? [];
 ---
 
 <section id={value.anchor_id || undefined} class:list={["section quotes", `bg-${value.background ?? "white"}`]}>
 	<div class="container">
 		{value.headline && <h2 class="heading-center">{value.headline}</h2>}
-		<div class:list={["quotes__list", { "quotes__list--single": items.length === 1 }]}>
-			{
-				items.map((item: { quote: string; name?: string; role?: string; photo?: never }) => (
-					<figure class="quote">
-						{item.photo && <Img image={item.photo} alt="" class="quote__photo" />}
-						<div>
-							<blockquote>
-								<Paragraphs text={item.quote} />
-							</blockquote>
-							{(item.name || item.role) && (
-								<figcaption>
-									{item.name && <strong>{item.name}</strong>}
-									{item.role && <span>{item.role}</span>}
-								</figcaption>
-							)}
-						</div>
-					</figure>
-				))
-			}
-		</div>
+		{
+			/* Longer lists page through two at a time, like the old carousel. */
+			items.length > 4 ? (
+				<Carousel label={value.headline || "Quotes"} class="quotes__carousel">
+					{items.map((item) => (
+						<li>
+							<Quote item={item} />
+						</li>
+					))}
+				</Carousel>
+			) : (
+				<div class:list={["quotes__list", { "quotes__list--single": items.length === 1 }]}>
+					{items.map((item) => <Quote item={item} />)}
+				</div>
+			)
+		}
 	</div>
 </section>
 
@@ -44,36 +40,26 @@ const items = value.items ?? [];
 		margin-inline: auto;
 	}
 
-	.quote {
-		display: grid;
-		grid-template-columns: auto 1fr;
-		gap: 1.25rem;
-		align-items: start;
-		margin: 0;
-	}
-
-	.quote :global(.quote__photo) {
-		width: 5rem;
-		height: 5rem;
-		border-radius: 50%;
-		object-fit: cover;
-	}
-
-	blockquote {
-		margin: 0 0 0.75rem;
-		padding-left: 1rem;
-		border-left: 3px solid var(--rust);
-		font-family: var(--font-serif);
-		font-size: 1.1rem;
-	}
-
-	.quotes__list--single blockquote {
+	.quotes__list--single :global(blockquote) {
 		font-size: clamp(1.25rem, 2.2vw, 1.6rem);
 	}
 
-	figcaption {
-		display: flex;
-		flex-direction: column;
-		font-size: 0.9rem;
+	.quotes :global(.quotes__carousel) {
+		--per-page: 1;
+		--carousel-gap: 2.5rem;
+		align-items: start;
+	}
+
+	/* Arrow gutters leave too little room for a portrait beside mobile text. */
+	@media (max-width: 35.99rem) {
+		.quotes :global(.quotes__carousel .quote) {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (min-width: 62rem) {
+		.quotes :global(.quotes__carousel) {
+			--per-page: 2;
+		}
 	}
 </style>

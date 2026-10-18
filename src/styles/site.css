@@ -374,18 +374,37 @@ a.tag:hover {
 	gap: 0.75rem;
 }
 
-/* Longer hand-picked lists scroll sideways, like the old carousels. */
-.post-grid--scroll {
-	grid-auto-flow: column;
-	grid-template-columns: none;
-	grid-auto-columns: minmax(min(85%, 18rem), calc(25% - 0.6rem));
-	overflow-x: auto;
-	scroll-snap-type: x mandatory;
-	padding-bottom: 0.75rem;
+/* A short row of cards is centred, each as wide as in a full row of four. */
+.post-grid--few {
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), calc(25% - 0.5625rem)));
+	justify-content: center;
 }
 
-.post-grid--scroll > * {
-	scroll-snap-align: start;
+/* Post cards in a carousel: up to 4 per page. */
+.post-grid--carousel {
+	--per-page: 1;
+}
+
+.post-grid--carousel > li > * {
+	height: 100%;
+}
+
+@media (min-width: 36rem) {
+	.post-grid--carousel {
+		--per-page: 2;
+	}
+}
+
+@media (min-width: 48rem) {
+	.post-grid--carousel {
+		--per-page: 3;
+	}
+}
+
+@media (min-width: 62rem) {
+	.post-grid--carousel {
+		--per-page: 4;
+	}
 }
 
 /* At most 7 logos per row, like the old site. */
@@ -424,4 +443,31 @@ a.tag:hover {
 	width: auto;
 	height: auto;
 	object-fit: contain;
+}
+
+/* A logo wall shown as a carousel: one row, up to 7 logos per page. */
+.logo-grid--carousel {
+	--per-page: 2;
+}
+
+.logo-grid--carousel img {
+	max-width: 100%;
+}
+
+@media (min-width: 36rem) {
+	.logo-grid--carousel {
+		--per-page: 3;
+	}
+}
+
+@media (min-width: 48rem) {
+	.logo-grid--carousel {
+		--per-page: 5;
+	}
+}
+
+@media (min-width: 75rem) {
+	.logo-grid--carousel {
+		--per-page: 7;
+	}
 }

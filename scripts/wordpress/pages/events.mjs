@@ -29,6 +29,7 @@ export default async ({ image, richText }) => ({
 			headline: "Previous Events",
 			show: "past",
 			count: 0,
+			show_first: 5,
 		},
 		{
 			_type: "rich_text",

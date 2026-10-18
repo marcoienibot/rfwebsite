@@ -42,6 +42,7 @@ export default async () => ({
 			category: "board-meeting-minutes",
 			style: "list",
 			count: 0,
+			show_first: 12,
 		},
 		{
 			_type: "documents",
