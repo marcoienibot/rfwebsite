@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+<title>Rust Foundation</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/</link>
+<description>News, blog posts and press from the Rust Foundation</description>
+<item>
+<title>Rust Foundation Board Updates | October 2026</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/rust-foundation-board-updates-october-2026/</link>
+<guid isPermaLink="false">01M55RFE1FAHE7Q28D7ANKRP4P</guid>
+<pubDate>Tue, 13 Oct 2026 16:06:40 GMT</pubDate>
+<category>Blog</category>
+<description>Meet our newest board members: Project Directors Jana Dönszelmann and Nia Deckers, and Jess Wass, Meta’s new representative.</description>
+</item>
+<item>
+<title>A Fond Farewell To Three Rust Foundation Colleagues</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/a-fond-farewell-to-three-rust-foundation-colleagues/</link>
+<guid isPermaLink="false">01M55RFE1WS5PHYTGNVAY0HHR7</guid>
+<pubDate>Fri, 02 Oct 2026 14:59:56 GMT</pubDate>
+<category>Blog</category>
+<description>Organizations are always changing and the Rust Foundation is no exception. This month we have some big changes to share, as we say goodbye to three of our colleagues: Gracie…</description>
+</item>
+<item>
+<title>Open Source For U: Rust Foundation Launches Trusted Training Program To Standardise Ecosystem Education</title>
+<link>https://www.opensourceforu.com/2026/06/rust-foundation-launches-training-program/</link>
+<guid isPermaLink="false">01M55RFE2H9C5BENYQNVP5C6FA</guid>
+<pubDate>Fri, 02 Oct 2026 04:28:03 GMT</pubDate>
+<category>Press</category>
+
+</item>
+<item>
+<title>The New Stack: Trust in Rust: Foundation debuts official training to tackle steep learning curve</title>
+<link>https://thenewstack.io/rust-foundation-training-certification/</link>
+<guid isPermaLink="false">01M55RFE2X9XMX6MK7KNBVM11J</guid>
+<pubDate>Fri, 02 Oct 2026 04:24:22 GMT</pubDate>
+<category>Press</category>
+
+</item>
+<item>
+<title>Welcoming the Josh Project to the Rust Innovation Lab</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/welcoming-the-josh-project-to-the-rust-innovation-lab/</link>
+<guid isPermaLink="false">01M55RFE3926PFK4BT6J6H5PBT</guid>
+<pubDate>Thu, 01 Oct 2026 23:11:36 GMT</pubDate>
+<category>Blog</category>
+<description>The Rust Innovation Lab (RIL), housed under the Rust Foundation, is pleased to announce the arrival of its newest board-approved project, Josh (“Just One Single History”): a Rust-based platform for…</description>
+</item>
+<item>
+<title>Your AI Agent is Writing Rust… But Is It Good? Explore On This Upcoming Livestream.</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/your-ai-agent-is-writing-rust-but-is-it-good-explore-on-this-upcoming-livestream/</link>
+<guid isPermaLink="false">01M55RFE3JADAZ8B5Q6KS285NR</guid>
+<pubDate>Fri, 25 Sep 2026 17:58:59 GMT</pubDate>
+<category>Blog</category>
+<description>AI coding agents are making it easier for people to start writing Rust, but is the code they’re writing good? What does good look like? And how can you make…</description>
+</item>
+<item>
+<title>Meet Arlo Siemsen: Distribution Engineer for the Rust Supply Chain</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/meet-arlo-siemsen-distribution-engineer-for-the-rust-supply-chain/</link>
+<guid isPermaLink="false">01M55RFE3YCA5AVK3B08EBNXZA</guid>
+<pubDate>Wed, 23 Sep 2026 19:45:21 GMT</pubDate>
+<category>Blog</category>
+<description>Since 2022, the Rust Foundation has run a Security Initiative aimed at the parts of the Rust ecosystem that no individual maintainer can reasonably be expected to cover alone: threat…</description>
+</item>
+<item>
+<title>Rust Foundation Welcomes New Members: CodSpeed, Haevek, Perplexity, and Software Stewardship Lab</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/rust-foundation-welcomes-new-members-codspeed-haevek-perplexity-and-software-stewardship-lab/</link>
+<guid isPermaLink="false">01M55RFE48J56BF8GEFM7KV9Q0</guid>
+<pubDate>Wed, 23 Sep 2026 18:51:59 GMT</pubDate>
+<category>News</category>
+<description>DOVER, DELAWARE, September 23, 2026 – The Rust Foundation, an independent, nonprofit organization dedicated to advancing the performance, safety, and sustainability of the Rust programming language, is pleased to welcome…</description>
+</item>
+<item>
+<title>Announcing a Maintainer in Residence: Scott Schafer for the Cargo team</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/announcing-a-maintainer-in-residence-scott-schafer-for-the-cargo-team/</link>
+<guid isPermaLink="false">01M55RFE4JYSQQSMBSZS1W7K7R</guid>
+<pubDate>Tue, 22 Sep 2026 18:19:09 GMT</pubDate>
+<category>Blog</category>
+<description>This blog post has been cross-posted with permission from its original source: blog.rust-lang.org By Jakub Beránek on behalf of the Rust Project Funding team At the end of August, we announced our first…</description>
+</item>
+<item>
+<title>Guest Post: A Decade of Rustls</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/guest-post-a-decade-of-rustls/</link>
+<guid isPermaLink="false">01M55RFE4WZJGRB5Q1WKT2R0WA</guid>
+<pubDate>Fri, 11 Sep 2026 15:23:26 GMT</pubDate>
+<category>Blog</category>
+<description>This year marks ten years of Rustls. In this post, we reflect on a decade of the project: where it started, how it has grown, and where it’s heading next.…</description>
+</item>
+<item>
+<title>Guest Post: Peeriot releases Myrmic Developer Preview at RustConf 2026</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/guest-post-peeriot-releases-myrmic-developer-preview-at-rustconf-2026/</link>
+<guid isPermaLink="false">01M55RFE5CKBT1M7A1QMAW3NB0</guid>
+<pubDate>Thu, 10 Sep 2026 13:43:04 GMT</pubDate>
+<category>Blog</category>
+<description>Note: This post has been translated from German by the author. Peeriot today launched the developer preview of Myrmic at RustConf 2026: an open, Rust- based runtime for building stateful…</description>
+</item>
+<item>
+<title>Guest Post: Rust Is Tier-1 Language at Microsoft</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/guest-post-rust-is-tier-1-language-at-microsoft/</link>
+<guid isPermaLink="false">01M55RFE60ENT0F0TET159MK9F</guid>
+<pubDate>Thu, 10 Sep 2026 13:33:14 GMT</pubDate>
+<category>Blog</category>
+<description>By now it’s no surprise that Rust is of strategic importance to Microsoft. From bold mission statements when Azure CTO Mark Russinovich outlined our future strategy for native code, to…</description>
+</item>
+<item>
+<title>Rust Foundation Announces Solana Foundation and NVIDIA as Platinum Members</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/rust-foundation-announces-solana-foundation-and-nvidia-as-platinum-members/</link>
+<guid isPermaLink="false">01M55RFE6ANSAQZ2NZC8DAAB4V</guid>
+<pubDate>Wed, 09 Sep 2026 13:08:25 GMT</pubDate>
+<category>News</category>
+<description>Two of the most active ecosystems in crypto and AI infrastructure join the Rust Foundation at its highest membership level, deepening support for the language powering next-generation computing MONTREAL, CANADA…</description>
+</item>
+<item>
+<title>Rust/C++ Interop Initiative: Progress Update, September 2026</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/rust-cpp-interop-initiative-progress-update/</link>
+<guid isPermaLink="false">01M55RFE6K25XBE95H1E3SQH5J</guid>
+<pubDate>Fri, 04 Sep 2026 16:39:17 GMT</pubDate>
+<category>Blog</category>
+<description>I’ve been working on a wide range of interop tasks since February, and I’m excited to share some progress updates with the Rust community.</description>
+</item>
+<item>
+<title>Rust Foundation Trusted Training Spotlight: Doulos</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/rust-foundation-trusted-training-spotlight-doulos/</link>
+<guid isPermaLink="false">01M55RFE6WQYF20T0D189C1ZH2</guid>
+<pubDate>Wed, 02 Sep 2026 21:14:22 GMT</pubDate>
+<category>Blog</category>
+<description>Doulos, an independent technical training provider with offices in the UK, USA, and Germany, brings 35 years of engineering education experience to its Rust courses. In this installment of our…</description>
+</item>
+<item>
+<title>Welcoming Rust Program Manager, Tomáš Šedovič, to the Rust Foundation Team!</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/welcoming-rust-program-manager-tomas-sedovic-to-the-rust-foundation-team/</link>
+<guid isPermaLink="false">01M55RFE74Q9PV3EGC35N5CARR</guid>
+<pubDate>Wed, 02 Sep 2026 19:13:17 GMT</pubDate>
+<category>Blog</category>
+<description>The Rust Foundation is thrilled to welcome Tomáš Šedovič @tomassedovic (he/him) to our team as a full-time Rust Program Manager. The Leadership Council created this role as part of its…</description>
+</item>
+<item>
+<title>How the Rust Standard Library Verification Contest Scaled Past Manual Proof Engineering</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/how-the-rust-standard-library-verification-contest-scaled-past-manual-proof-engineering/</link>
+<guid isPermaLink="false">01M55RFE7B9MPMX8BGGS0W6XZ9</guid>
+<pubDate>Tue, 01 Sep 2026 17:28:18 GMT</pubDate>
+<category>Blog</category>
+<description>This article was written with support from Rahul Kumar (Senior Applied Scientist Manager, AWS) &amp; Felipe Monteiro (Senior Applied Scientist, AWS) When the Rust Foundation and AWS launched the verification…</description>
+</item>
+<item>
+<title>Welcoming Jess Izen as Engineer in Residence at the Rust Foundation</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/welcoming-jess-izen-as-engineer-in-residence-at-the-rust-foundation/</link>
+<guid isPermaLink="false">01M55RFE7KKETKBPVT7VJ65JQ9</guid>
+<pubDate>Thu, 27 Aug 2026 16:44:39 GMT</pubDate>
+<category>Blog</category>
+<description>The Rust Foundation is pleased to welcome Jess Izen (@jlizen) as our new Engineer in Residence. For the next year, Jess will work full time as part of the Foundation’s…</description>
+</item>
+<item>
+<title>Congratulations to the First Round of Rust Project Maintainers in Residence</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/congratulations-to-the-first-round-of-rust-project-maintainers-in-residence/</link>
+<guid isPermaLink="false">01M55RFE7VCR3PPR6ZC8SKVASV</guid>
+<pubDate>Wed, 26 Aug 2026 15:01:36 GMT</pubDate>
+<category>Blog</category>
+<description>We are pleased to join in the celebration of the inaugural cohort of the Rust Maintainers in Residence (MiR) program, made possible through the Rust Foundation Maintainers Fund (RFMF). Cheers…</description>
+</item>
+<item>
+<title>Rust Project and Rust Foundation Announce First Maintainers in Residence</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/rust-project-and-rust-foundation-announce-first-maintainers-in-residence/</link>
+<guid isPermaLink="false">01M55RFE86FVRB3M8TN3P8QTMV</guid>
+<pubDate>Wed, 26 Aug 2026 15:01:13 GMT</pubDate>
+<category>News</category>
+<description>New program directs $350,000 toward maintainers supporting critical Rust infrastructure DOVER, Delaware, USA – August 26, 2026 – The Rust Project and Rust Foundation today announced the inaugural cohort of…</description>
+</item>
+<item>
+<title>JetBrains Partners with the Rust Foundation for an AI Livestream Series</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/jetbrains-partners-with-the-rust-foundation-for-an-ai-livestream-series/</link>
+<guid isPermaLink="false">01M55RFE8YFKSCMJ98W5SZ7THY</guid>
+<pubDate>Tue, 25 Aug 2026 17:18:11 GMT</pubDate>
+<category>Blog</category>
+<description>A little over a month ago we saw this tweet from Vitaly, who is the Head of Rust Ecosystem at JetBrains. JetBrains is one of our members, developer of RustRover,…</description>
+</item>
+<item>
+<title>Built with Rust: Processing Foundation</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/built-with-rust-processing-foundation/</link>
+<guid isPermaLink="false">01M55RFE9815WQP9S2HKMR0PJW</guid>
+<pubDate>Fri, 21 Aug 2026 19:38:09 GMT</pubDate>
+<category>Blog</category>
+<description>How Processing Foundation’s Rust R&amp;D is changing what’s possible in the browser. Built With Rust is a new series from the Rust Foundation, spotlighting how Rust Commercial Network member organizations…</description>
+</item>
+<item>
+<title>Experimenting with Function Overloading in Rust: Why It Matters</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/experimenting-with-function-overloading-in-rust-why-it-matters/</link>
+<guid isPermaLink="false">01M55RFE9PVCBCFN3JXYJFEGBX</guid>
+<pubDate>Wed, 19 Aug 2026 18:31:08 GMT</pubDate>
+<category>Blog</category>
+<description>Rust is experimenting with function overloading as part of the Rust/C++ Interoperability Initiative, which makes Rust and C++ work better together. The Rust Foundation’s goal is to support a range of interop languages and tooling over time.</description>
+</item>
+<item>
+<title>June 2026 Project Director Update</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/june-2026-project-director-update/</link>
+<guid isPermaLink="false">01M55RFE9Y7S3KTTQRK1X6Q8TC</guid>
+<pubDate>Mon, 17 Aug 2026 19:10:34 GMT</pubDate>
+<category>Blog</category>
+<description>Contributed by Project Directors Carol Nichols and David Wood | View on the Inside Rust blog This post covers the Rust Foundation board meeting that took place on June 9,…</description>
+</item>
+<item>
+<title>Rust Foundation Trusted Training Spotlight: Wyliodrin</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/rust-foundation-trusted-training-spotlight-wyliodrin/</link>
+<guid isPermaLink="false">01M55RFEA59F4W8HCGRTZ3HVPE</guid>
+<pubDate>Fri, 14 Aug 2026 18:56:45 GMT</pubDate>
+<category>Blog</category>
+<description>Wyliodrin, an embedded Rust specialist based in Romania and France, brings a distinctive credential to its training: the team is also a core contributor to TockOS, one of the projects…</description>
+</item>
+<item>
+<title>Built With Rust: ExpressVPN</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/built-with-rust-expressvpn/</link>
+<guid isPermaLink="false">01M55RFEAEV571530NHBTA5618</guid>
+<pubDate>Thu, 13 Aug 2026 18:40:56 GMT</pubDate>
+<category>Blog</category>
+<description>Rebuilding a Security-Critical VPN Protocol for the Multicore Era Built With Rust is a series from the Rust Foundation, spotlighting how Rust Commercial Network member organizations and Rust Foundation corporate…</description>
+</item>
+<item>
+<title>Rust Team Health Summit: September 8 in Montréal</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/rust-teams-health-summit-september-8-in-montreal/</link>
+<guid isPermaLink="false">01M55RFEATZNDSJ969J8GCFYQX</guid>
+<pubDate>Fri, 07 Aug 2026 17:31:11 GMT</pubDate>
+<category>Blog</category>
+<description>The Project Directors advocated for another gathering of Rust Project Team Leads this year, and we’re excited to make it happen on September 8 in Montréal! Over the past several…</description>
+</item>
+<item>
+<title>Catching Up with the Rust Content Team: RustWeek Interviews and a New Changelog Series</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/catching-up-with-the-rust-content-team-rustweek-interviews-and-a-new-changelog-series/</link>
+<guid isPermaLink="false">01M55RFEB3FXXAQ5KCSR2S29AB</guid>
+<pubDate>Thu, 06 Aug 2026 22:35:20 GMT</pubDate>
+<category>Blog</category>
+<description>Back in May, RustWeek 2026 brought together the Rust community for a week of talks, workshops, and the Rust Project’s second All-Hands. Along with it, the Rust Project Content Team…</description>
+</item>
+<item>
+<title>Updates from Rust Commercial Network (RCN)</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/updates-from-rust-commercial-network-rcn/</link>
+<guid isPermaLink="false">01M55RFEBC4WDJRMPH906BAKM9</guid>
+<pubDate>Thu, 30 Jul 2026 17:02:42 GMT</pubDate>
+<category>Blog</category>
+<description>This past June, the Rust Foundation officially launched the Rust Commercial Network (RCN), creating a way for companies and the Rust-focused community to work together to advance Rust adoption. The…</description>
+</item>
+<item>
+<title>Securing the Rust Project Infrastructure with Hardware Security Keys</title>
+<link>https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/media/securing-the-rust-project-infrastructure-with-hardware-security-keys/</link>
+<guid isPermaLink="false">01M55RFEBMDAJAJQP57G73SFQ0</guid>
+<pubDate>Tue, 14 Jul 2026 19:50:44 GMT</pubDate>
+<category>Blog</category>
+<description>This blog has been cross-posted from the Alpha-Omega Project: https://alpha-omega.dev/blog/securing-the-rust-project-infrastructure-with-hardware-security-keys/ AI usage disclaimer: This content was originally written by the author. A LLM tool was used as a proofreader, and…</description>
+</item>
+</channel>
+</rss>

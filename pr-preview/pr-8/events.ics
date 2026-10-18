@@ -1,0 +1,257 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Rust Foundation//Events//EN
+X-WR-CALNAME:Rust Foundation events
+BEGIN:VEVENT
+UID:01M55RFHHNS0VBFK0BG1SVZHYZ@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20240910
+DTEND;VALUE=DATE:20240914
+SUMMARY:RustConf 2024
+LOCATION:Montreal\, Canada
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/rustconf-2024/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHHYX7P4TR1XRY1EG3ND@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20240913
+DTEND;VALUE=DATE:20240914
+SUMMARY:RustConf 2024 “UnConf”
+LOCATION:Montreal\, Canada
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/rustconf-2024-unconf/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHHTR83NZ9696GHFJ0JF@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20240913
+DTEND;VALUE=DATE:20240914
+SUMMARY:Rust Global at RustConf 2024
+LOCATION:Montreal\, Canada
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/rust-global-at-rustconf-2024/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHJ1MB87B97VWWSSTJA4@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20241010
+DTEND;VALUE=DATE:20241012
+SUMMARY:EuroRust 2024
+LOCATION:Vienna\, Austria
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/eurorust-2024/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHJ5WNQRTQDG1VXK371M@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20250204
+DTEND;VALUE=DATE:20250206
+SUMMARY:State of Open Conference 2025
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/state-of-open-conference-2025/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHJ84THM0Z1BXRPP89M7@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20250219
+DTEND;VALUE=DATE:20250221
+SUMMARY:Rust Nation UK 2025
+LOCATION:London\, United Kingdom
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/rust-nation-uk/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHJC77GXZDWFXJF1V0G0@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20250221
+DTEND;VALUE=DATE:20250222
+SUMMARY:Rust Global: London 2025
+LOCATION:London\, United Kingdom
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/rust-global-london-2025/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHJFV3Y99QEEKRCJAV7R@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20250328
+DTEND;VALUE=DATE:20250329
+SUMMARY:RustASIA 2025
+LOCATION:Hong Kong
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/rustasia-2025/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHJKHNNPQZ9JA4BDMZ28@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20250513
+DTEND;VALUE=DATE:20250518
+SUMMARY:RustWeek 2025 feat. All Hands
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/rust-week-2025-feat-all-hands/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHJQWAMAK5B7P7ZVSXZX@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20250714
+DTEND;VALUE=DATE:20250721
+SUMMARY:EuroPython 2025
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/europython-2025/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHJVFATBGYX96RDAC3VE@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20250902
+DTEND;VALUE=DATE:20250906
+SUMMARY:RustConf 2025
+LOCATION:Seattle\, United States
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/rustconf-2025/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHK0RR54QC6WJ52DQEE1@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20250913
+DTEND;VALUE=DATE:20250915
+SUMMARY:RustGlobal China & RustChinaConf 2025: Hangzhou
+LOCATION:Hangzhou\, China
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/rustglobal-china-rustchinaconf-2025-hangzhou/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHK47T5HZFR7P3BYSN4M@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20250916
+DTEND;VALUE=DATE:20250919
+SUMMARY:Oxidize 2025
+LOCATION:Berlin
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/oxidize-2025/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHK7XEYYTJZ057VDN772@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20251009
+DTEND;VALUE=DATE:20251011
+SUMMARY:EuroRust 2025
+LOCATION:France
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/eurorust-2025/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHKB64M1KA4V260W4EGP@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20251208
+DTEND;VALUE=DATE:20251209
+SUMMARY:Rust Global: Tokyo
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/rust-global-tokyo/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHKFXZ96CHWQYM09ZC63@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20260131
+DTEND;VALUE=DATE:20260202
+SUMMARY:FOSDEM 2026
+LOCATION:Bruxelles\, Belgium
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/fosdem-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHKKKT0BVPGZVXHFHR4Y@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20260218
+DTEND;VALUE=DATE:20260220
+SUMMARY:Rust Nation UK
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/rust-nation-uk-2/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHKQ9EQJ0VA16G7G6ZM3@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20260302
+DTEND;VALUE=DATE:20260305
+SUMMARY:Talent Arena (MWC Barcelona 2026)
+LOCATION:Spain
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/talent-arena-mwc-barcelona-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHKT5593X124M99DN7TA@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20260319
+DTEND;VALUE=DATE:20260321
+SUMMARY:Rustikon 2026
+LOCATION:Warsaw\, Poland
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/rustikon-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHKY9FN33YT0GD6XNBGR@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20260323
+DTEND;VALUE=DATE:20260324
+SUMMARY:Open Source SecurityCon EU 2026
+LOCATION:Amsterdam\, Netherlands
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/open-source-securitycon-eu-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHM2TFJATKV6CP0HDJ2T@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20260420
+DTEND;VALUE=DATE:20260423
+SUMMARY:TokioConf 2026
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/tokioconf-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHM57BCT36RBY6FMEJ6G@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20260518
+DTEND;VALUE=DATE:20260524
+SUMMARY:RustWeek 2026
+LOCATION:Netherlands
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/rustweek-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHMJ3Y4145A2S92TJ894@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20260629
+DTEND;VALUE=DATE:20260703
+SUMMARY:Upskilling Week Barcelona 2026
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/upskilling-week-barcelona-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHMQA4A5QT2KWFEA21ER@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20260827
+DTEND;VALUE=DATE:20260828
+SUMMARY:JetBrains | Rust Foundation AI Livestream Series – Building AI applications in Rust
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/jetbrains-rust-foundation-ai-livestream-series-building-ai-applications-in-rust/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHN0P1KY1PZWE3VVV2WV@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20260908
+DTEND;VALUE=DATE:20260909
+SUMMARY:Rust Teams Health Summit
+LOCATION:Montreal\, Canada
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/rust-teams-health-summit/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHMV7RVRBM2W0G00AHZE@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20260908
+DTEND;VALUE=DATE:20260912
+SUMMARY:RustConf 2026
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/rustconf-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHN48KPT57506Z5PKB85@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20260914
+DTEND;VALUE=DATE:20260917
+SUMMARY:Oxidize 2026
+LOCATION:Berlin\, Germany
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/oxidize-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHN8S2BX21ED3R88WBVB@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20261001
+DTEND;VALUE=DATE:20261002
+SUMMARY:Livestream: Smarter Coding Agents for Rust with Symposium
+LOCATION:Livestream
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/livestream-smarter-coding-agents-for-rust-with-symposium/
+END:VEVENT
+BEGIN:VEVENT
+UID:01M55RFHNCW9ACACZSDRF259N3@rustfoundation.org
+DTSTAMP:20261018T153651Z
+DTSTART;VALUE=DATE:20261014
+DTEND;VALUE=DATE:20261018
+SUMMARY:EuroRust 2026
+LOCATION:Spain
+URL:https://marcoienibot.github.io/rfwebsite/pr-preview/pr-8/event/eurorust-2026/
+END:VEVENT
+END:VCALENDAR
