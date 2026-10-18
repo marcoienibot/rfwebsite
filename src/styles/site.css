@@ -420,6 +420,7 @@ a.tag:hover {
 }
 
 .logo-grid img {
+	display: block;
 	max-width: var(--logo-width);
 	max-height: var(--logo-height);
 	width: auto;
