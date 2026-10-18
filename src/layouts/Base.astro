@@ -69,6 +69,11 @@ const year = new Date().getFullYear();
 		<Font cssVariable="--font-noto-sans" preload />
 		<Font cssVariable="--font-noto-serif" preload />
 		<EmDashHead page={pageCtx} />
+		{
+			// Pagefind's search UI is written next to the index by `astro build`; `astro dev` has neither.
+			// Its script is at the end of the body.
+			!import.meta.env.DEV && <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css" />
+		}
 		<slot name="head" />
 	</head>
 	<body>
@@ -101,7 +106,7 @@ const year = new Date().getFullYear();
 							</a>
 						))
 					}
-					<a href="/search/" class="header-icon">
+					<a href="/search/" class="header-icon" data-search-open>
 						<span class="visually-hidden">Search</span>
 						<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6" /><path d="M15 15l5 5" /></svg>
 					</a>
@@ -251,6 +256,42 @@ const year = new Date().getFullYear();
 				}
 			});
 
+			// The search icon opens a dialog with the cursor already in the search field. Until
+			// Pagefind's UI has loaded (or without JavaScript, or in `astro dev`) it links to /search/.
+			const searchLink = document.querySelector<HTMLAnchorElement>("[data-search-open]");
+			customElements.whenDefined("pagefind-modal").then(() => {
+				const modal = document.querySelector("pagefind-modal");
+				if (!searchLink || !modal) return;
+				// The search page has its own field (Pagefind defines all its elements at once, so it has
+				// been rendered by now). There the icon selects its query so that typing starts a new search.
+				const pageField = document.querySelector<HTMLInputElement>("[data-search-field] input");
+				const openSearch = () => {
+					if (pageField) {
+						pageField.focus();
+						pageField.select();
+					} else modal.open();
+				};
+				// Only announce a dialog where the icon opens one.
+				if (!pageField) searchLink.setAttribute("aria-haspopup", "dialog");
+				searchLink.setAttribute("aria-keyshortcuts", "/ Control+K Meta+K");
+				searchLink.addEventListener("click", (event) => {
+					// Modified clicks still open the search page in a new tab or window.
+					if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+					event.preventDefault();
+					openSearch();
+				});
+				// The usual shortcuts: "/" (GitHub, YouTube, MDN) and Ctrl+K / Cmd+K (docs sites).
+				document.addEventListener("keydown", (event) => {
+					const target = event.target as HTMLElement;
+					if (event.defaultPrevented || target.isContentEditable || target.closest("input, textarea, select")) return;
+					const slash = event.key === "/" && !event.ctrlKey && !event.metaKey && !event.altKey;
+					const modK = event.key.toLowerCase() === "k" && (event.ctrlKey || event.metaKey) && !event.altKey && !event.shiftKey;
+					if (!slash && !modK) return;
+					event.preventDefault();
+					openSearch();
+				});
+			});
+
 			const banner = document.querySelector<HTMLElement>("[data-announce]");
 			const bannerKey = `announce:${banner?.querySelector("a")?.textContent?.trim()}`;
 			if (banner && localStorage.getItem(bannerKey) !== "dismissed") banner.hidden = false;
@@ -259,6 +300,19 @@ const year = new Date().getFullYear();
 				localStorage.setItem(bannerKey, "dismissed");
 			});
 		</script>
+
+		{
+			// Pagefind works out where its files are (and the base of result links) from the `src` of the
+			// script that defines its elements, which the build rewrites for the sub-path. So it must be a
+			// classic script (not a module) that runs once its elements are in the page. It comes after the
+			// site's own script so that it doesn't hold that one back.
+			!import.meta.env.DEV && (
+				<>
+					<pagefind-modal reset-on-close></pagefind-modal>
+					<script is:inline defer src="/pagefind/pagefind-component-ui.js"></script>
+				</>
+			)
+		}
 	</body>
 </html>
 

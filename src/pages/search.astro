@@ -3,7 +3,6 @@ import Base from "../layouts/Base.astro";
 ---
 
 <Base title="Search" robots="noindex">
-	<link slot="head" rel="stylesheet" href="/pagefind/pagefind-ui.css" />
 	<section class="search-hero bg-navy">
 		<div class="container--narrow">
 			<h1>Search</h1>
@@ -11,28 +10,35 @@ import Base from "../layouts/Base.astro";
 		</div>
 	</section>
 	<section class="container--narrow search">
-		<!-- The href is rewritten for sub-path deployments; search results use it as their base. -->
-		<a id="search-base" href="/" hidden></a>
-		<div id="search"></div>
+		<!-- Pagefind's UI is loaded by Base.astro. Its own instance keeps this page's query apart from the header's search dialog. -->
+		<pagefind-input instance="page" data-search-field></pagefind-input>
+		<pagefind-summary instance="page"></pagefind-summary>
+		<pagefind-results instance="page"></pagefind-results>
 		<noscript>Search needs JavaScript.</noscript>
-		<p class="search__dev" hidden>The search index is created when the website is built, so search only works on the published site.</p>
-	</section>
-	<script is:inline type="module">
-		const base = new URL(document.getElementById("search-base").href).pathname;
-		try {
-			await import(`${base}pagefind/pagefind-ui.js`);
-			const query = new URLSearchParams(location.search).get("q") ?? "";
-			const ui = new PagefindUI({
-				element: "#search",
-				bundlePath: `${base}pagefind/`,
-				baseUrl: base,
-				showSubResults: true,
-				showImages: false,
-			});
-			if (query) ui.triggerSearch(query);
-		} catch {
-			document.querySelector(".search__dev").hidden = false;
+		{
+			import.meta.env.DEV && (
+				<p>The search index is created when the website is built, so search only works on the published site.</p>
+			)
 		}
+	</section>
+
+	<script>
+		customElements.whenDefined("pagefind-input").then(() => {
+			const instance = window.PagefindComponents.getInstanceManager().getInstance("page");
+			// Links to /search/?q=… (from the post listings) arrive with results. Otherwise the
+			// cursor waits in the empty search field, unless the visitor has moved focus while
+			// Pagefind was loading.
+			const query = new URLSearchParams(location.search).get("q");
+			if (query) instance.triggerSearch(query);
+			else if (document.activeElement === document.body) document.querySelector<HTMLInputElement>("[data-search-field] input")?.focus();
+			// Keep the query in the URL so that a search can be shared, reloaded and returned to.
+			instance.on("search", (term) => {
+				const url = new URL(location.href);
+				if (term) url.searchParams.set("q", term);
+				else url.searchParams.delete("q");
+				history.replaceState(history.state, "", url);
+			});
+		});
 	</script>
 </Base>
 
@@ -43,8 +49,15 @@ import Base from "../layouts/Base.astro";
 
 	.search {
 		padding-block: 2.5rem 4rem;
-		--pagefind-ui-primary: var(--navy);
-		--pagefind-ui-font: var(--font-sans);
-		--pagefind-ui-border-radius: 0;
+		--pf-input-height: 3rem;
+		--pf-input-font-size: 1.125rem;
+		--pf-summary-font-size: 0.875rem;
+		--pf-result-title-font-size: 1.125rem;
+		--pf-result-excerpt-font-size: 0.95rem;
+		--pf-border-radius: 0;
+	}
+
+	pagefind-summary {
+		margin-block: 1rem 0.5rem;
 	}
 </style>
