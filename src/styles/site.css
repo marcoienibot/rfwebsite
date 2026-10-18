@@ -388,15 +388,18 @@ a.tag:hover {
 	scroll-snap-align: start;
 }
 
+/* At most 7 logos per row, like the old site. */
 .logo-grid {
 	--logo-width: 9.5rem;
 	--logo-height: 6.3rem;
+	--logo-gap: 1.25rem;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
-	gap: 1.25rem;
-	margin: 1.25rem 0 2rem;
+	gap: var(--logo-gap);
+	max-width: calc(7 * var(--logo-width) + 6 * var(--logo-gap));
+	margin: 1.25rem auto 2rem;
 	padding: 0;
 	list-style: none;
 }
