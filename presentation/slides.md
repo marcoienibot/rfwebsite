@@ -587,7 +587,7 @@ The upsides, in one place.
 - Speed: pages are ready-made and served from a worldwide network, so they load fast for everyone. And a big announcement or a traffic spike can't take the site down.
 - Security: there's no live server running WordPress, no database, no login page. There is simply much less that can be attacked, and nothing for anyone to patch.
 - Cost: hosting is free.
-- No cookie banner: the new site doesn't set any cookies or track visitors. The fonts are served by us, and YouTube videos only load when a visitor presses play. So there's nothing to ask consent for. Today's banner is there because of Google Analytics; if we pick a cookie-free analytics tool, the site stays banner-free.
+- No cookie banner: the new site doesn't set any cookies or track visitors. The fonts are served by us, and YouTube videos only load when a visitor presses play. So there's nothing to ask consent for. Today's banner is only there because of Google Analytics.
 - History: every change is recorded and can be undone.
 - Ownership: the content lives in our own repository. If we ever want to move away from EmDash or GitHub, we take everything with us.
 - Developers like working with this stack, which makes it easier to get help, including from volunteers.
@@ -767,7 +767,7 @@ Remember to revert the demo changes afterwards.
   <div class="tile">
     <ph-list-checks class="tile-icon" />
     <h3>2. Analytics and review</h3>
-    <p>Choose analytics (a cookie-free tool keeps the site banner-free) and review the rebuilt pages.</p>
+    <p>Choose analytics and review the rebuilt pages.</p>
   </div>
   <div class="tile">
     <ph-signpost class="tile-icon" />
@@ -782,7 +782,7 @@ Remember to revert the demo changes afterwards.
 So here's what I'm proposing.
 
 1. A pilot of 2 to 4 weeks with one or two of you, doing real work in the new setup. During the pilot nothing changes for the public: the WordPress site stays live, and we compare the two.
-2. In parallel, we pick an analytics tool, and you review the rebuilt pages and tell me what's missing or wrong. If we want to keep the site free of cookie banners, the analytics tool needs to be cookie-free too.
+2. In parallel, we pick an analytics tool, and you review the rebuilt pages and tell me what's missing or wrong.
 3. At the end of the pilot, we decide together whether the laptop editor is good enough, or whether we host the editor online.
 
 Only after that would we talk about actually switching rustfoundation.org over.
