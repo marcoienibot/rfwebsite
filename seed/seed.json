@@ -1617,6 +1617,11 @@
 					"type": "text"
 				},
 				{
+					"slug": "links",
+					"label": "Profile links shown as icons: one URL per line (LinkedIn, GitHub, Mastodon, X, Bluesky…)",
+					"type": "text"
+				},
+				{
 					"slug": "order",
 					"label": "Order (lower comes first)",
 					"type": "integer",

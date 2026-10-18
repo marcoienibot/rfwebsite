@@ -2,6 +2,7 @@
 import Paragraphs from "../Paragraphs.astro";
 import Img from "../Img.astro";
 import { people } from "../../utils/content";
+import { profileLinks } from "../../utils/social";
 
 const { value } = Astro.props;
 const list = await people(value.group ?? "staff");
@@ -23,6 +24,7 @@ const initials = (name: string) =>
 				list.map((person) => {
 					const popoverId = `bio-${value._key ?? value.group}-${person.id}`;
 					const bio = person.data.bio?.trim();
+					const links = profileLinks(person.data.links);
 					return (
 						<li class="person">
 							{person.data.photo ? (
@@ -34,7 +36,7 @@ const initials = (name: string) =>
 							)}
 							<h3 class="person__name">{person.data.title}</h3>
 							{person.data.role && <p class="person__role">{person.data.role}</p>}
-							{bio && (
+							{(bio || links.length > 0) && (
 								<>
 									<button type="button" class="arrow-link person__more" popovertarget={popoverId}>
 										<span class="visually-hidden">About {person.data.title}</span>
@@ -51,6 +53,25 @@ const initials = (name: string) =>
 											<div>
 												<h3>{person.data.title}</h3>
 												{person.data.role && <p class="person__role">{person.data.role}</p>}
+												{links.length > 0 && (
+													<ul class="bio__links">
+														{links.map((link) => (
+															<li>
+																<a
+																	href={link.url}
+																	target="_blank"
+																	rel="noopener"
+																	aria-label={`${person.data.title} on ${link.network}`}
+																	title={link.network}
+																>
+																	<svg viewBox={link.viewBox} aria-hidden="true">
+																		<path d={link.icon} />
+																	</svg>
+																</a>
+															</li>
+														))}
+													</ul>
+												)}
 												<Paragraphs text={bio} />
 											</div>
 										</div>
@@ -157,6 +178,32 @@ const initials = (name: string) =>
 		display: grid;
 		grid-template-columns: 10rem 1fr;
 		gap: 1.5rem;
+	}
+
+	.bio__links {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.75rem;
+		margin: 0.25rem 0 1rem;
+		padding: 0;
+		list-style: none;
+	}
+
+	.bio__links a {
+		display: block;
+		color: var(--navy);
+	}
+
+	.bio__links a:hover {
+		color: var(--rust);
+	}
+
+	.bio__links svg {
+		display: block;
+		width: 1.5rem;
+		height: 1.5rem;
+		fill: currentColor;
 	}
 
 	.bio__close {

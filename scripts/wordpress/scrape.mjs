@@ -6,7 +6,7 @@ import { join } from "node:path";
 
 import * as cheerio from "cheerio";
 
-import { decodeEntities } from "./convert.mjs";
+import { decodeEntities, localizeHref } from "./convert.mjs";
 
 // [page, heading above the module] → group in EmDash
 const PEOPLE_GROUPS = {
@@ -60,12 +60,25 @@ function bestImage($img) {
 	return candidates[0]?.url ?? (src?.startsWith("data:") ? undefined : src);
 }
 
-/** Paragraph text of a modal or accordion body, links dropped. */
+/** Text of an element, with its links written as [text](url) (how plain text fields hold links). */
+function textWithLinks($, el) {
+	const $copy = $(el).clone();
+	$copy.find("a[href]").each((_, a) => {
+		const $a = $(a);
+		const label = clean($a.text());
+		const href = localizeHref($a.attr("href") ?? "", new Map()).replace(/[ ()]/g, encodeURIComponent);
+		if (label && /^(https?:|mailto:|\/)/.test(href)) $a.text(`[${label.replace(/[[\]]/g, "")}](${href})`);
+	});
+	return clean($copy.text());
+}
+
+/** Paragraph text of a modal or accordion body. */
 function paragraphsOf($, $el) {
-	const blocks = $el.find("p, li");
-	if (blocks.length === 0) return clean($el.text());
+	// Some bodies use <div>s as paragraphs.
+	const blocks = $el.find("p, li, div").filter((_, el) => $(el).find("p, li, div").length === 0);
+	if (blocks.length === 0) return textWithLinks($, $el);
 	return blocks
-		.map((_, p) => clean($(p).text()))
+		.map((_, p) => textWithLinks($, p))
 		.get()
 		.filter(Boolean)
 		.join("\n\n");
@@ -96,16 +109,25 @@ export async function scrapePeople(cacheDir) {
 				const $item = $(item);
 				const name = clean($item.find(".cmp-team__item-name").first().text());
 				if (!name) return;
-				const person = people.get(name) ?? {
+				const role = clean($item.find(".cmp-team__item-position").first().text());
+				// Someone listed with another role elsewhere (a board member who also reviews
+				// training applications) has a separate bio there: keep them apart.
+				const key = `${name}|${role}`;
+				const person = people.get(key) ?? {
 					name,
-					role: clean($item.find(".cmp-team__item-position").first().text()),
+					role,
 					photo: bestImage($item.find("img.cmp-team__item-img").first()),
 					bio: paragraphsOf($, $item.find(".cmp-modal__content").first()),
+					links: $item
+						.find(".cmp-modal__social-link")
+						.map((_, a) => $(a).attr("href"))
+						.get()
+						.filter(Boolean),
 					groups: [],
 					order: (people.size + 1) * 10,
 				};
 				if (!person.groups.includes(group)) person.groups.push(group);
-				people.set(name, person);
+				people.set(key, person);
 			});
 		});
 	}
@@ -127,13 +149,16 @@ export async function scrapeOrganizations(cacheDir) {
 					clean($item.find(".cmp-modal__title").first().text()) ||
 					clean($item.find("img").first().attr("alt"));
 				if (!name) return;
-				const key = name.toLowerCase();
+				const website = $item.find(".cmp-modal__btn-primary").attr("href") || undefined;
+				const bio = paragraphsOf($, $item.find(".cmp-modal__content").first());
+				// Training providers have their own details on the training page: keep them apart.
+				const key = group === "rftt-provider" ? `${name.toLowerCase()}|training` : name.toLowerCase();
 				const org = organizations.get(key) ?? {
 					name,
 					logo: bestImage($item.find("img.cmp-roles__item-img").first()),
-					website: $item.find(".cmp-modal__btn-primary").attr("href") || undefined,
+					website,
 					joined: clean($item.find(".cmp-modal__position").first().text()).replace(/^Joined\s*/i, "") || undefined,
-					bio: paragraphsOf($, $item.find(".cmp-modal__content").first()),
+					bio,
 					groups: [],
 					order: (organizations.size + 1) * 10,
 				};

@@ -354,6 +354,7 @@ const collections = [
 			{ slug: "groups", label: "Shown in", type: "multiSelect", validation: { options: PEOPLE_GROUPS } },
 			image("photo", "Photo"),
 			text("bio", `Biography ${PARAGRAPHS}`),
+			text("links", "Profile links shown as icons: one URL per line (LinkedIn, GitHub, Mastodon, X, Bluesky…)"),
 			{ slug: "order", label: "Order (lower comes first)", type: "integer", defaultValue: 100 },
 		],
 	},

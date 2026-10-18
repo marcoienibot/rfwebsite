@@ -130,6 +130,7 @@ for (const person of await scrapePeople(cacheDir)) {
 			groups: person.groups,
 			photo: person.photo ? imageValue(await media.add(person.photo, person.name), person.name) : undefined,
 			bio: person.bio || undefined,
+			links: person.links.join("\n") || undefined,
 			order: person.order,
 		},
 	});

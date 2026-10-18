@@ -367,6 +367,7 @@ export interface People {
   groups?: ("member-directors" | "project-directors" | "staff" | "security-contributors" | "infrastructure-contributors" | "rftt-reviewers")[];
   photo?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
   bio?: string;
+  links?: string;
   order?: number;
   createdAt: Date;
   updatedAt: Date;
