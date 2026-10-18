@@ -14,7 +14,6 @@ const TYPES = [
 	"posts",
 	"pages",
 	"media",
-	"categories",
 	"tags",
 	"users",
 	"job",
