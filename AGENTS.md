@@ -22,7 +22,12 @@ node scripts/wordpress/check-pages.mjs      # validate page definitions used by 
   means committing them (see `plugins/publish`).
 - Media is served from `/media/<storageKey>` (local storage `baseUrl`), not EmDash's media route.
   Use `src/components/Img.astro` / `mediaSrc()`, not `Image` from `emdash/ui`. Rich text goes through
-  `src/components/RichText.astro`, which overrides the image renderer.
+  `src/components/RichText.astro`, which overrides some of EmDash's renderers, including images, and
+  renders YouTube and Vimeo `embed` and `iframe` blocks with `src/components/VideoEmbed.astro`, which
+  loads the player only on click.
+- The site sets no cookies and loads nothing from other sites when a page loads (apart from images
+  hotlinked by a few old posts), which is why it needs no cookie banner. Don't add third-party
+  scripts, fonts or iframes; embed videos through `src/components/VideoEmbed.astro`.
 - Write root-relative links (`/about/`). The build rewrites them when the site lives under a sub-path.
 - Content model: `scripts/schema.mjs` (collections `pages`, `posts`, `policies`, `organizations`,
   `people`, `events`, `documents`, `faqs`, and the page block types). Each block type has a component
