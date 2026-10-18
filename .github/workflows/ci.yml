@@ -53,12 +53,14 @@ jobs:
       # The site needs no cookie banner because its pages don't embed other
       # sites. An iframe (a YouTube player, a map, a form) loads another site
       # along with the page, and that site can set cookies and track visitors.
+      # An HTML block shown in an isolated frame is an iframe too, and its
+      # scripts can load other sites, so it fails the check as well.
       - name: Check that no page embeds an iframe
         run: |
           status=0
           grep -rl --include='*.html' '<iframe' dist/client || status=$?
           if [ "$status" -eq 0 ]; then
-            echo "::error::The pages above contain an iframe, which loads another site (and its cookies and tracking) with the page, so the site would need a cookie banner. Embed videos with src/components/VideoEmbed.astro, which loads the player only on click."
+            echo "::error::The pages above contain an iframe, which can load another site (and its cookies and tracking) with the page, so the site would need a cookie banner. Embed videos with src/components/VideoEmbed.astro, which loads the player only on click. An iframe with class emdash-html-block is an HTML block shown in an isolated frame: in the admin, switch it to Inline, or remove it."
             exit 1
           fi
           # grep exits 1 when no page matches. Any other status is an error,
