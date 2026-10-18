@@ -587,7 +587,7 @@ The upsides, in one place.
 - Speed: pages are ready-made and served from a worldwide network, so they load fast for everyone. And a big announcement or a traffic spike can't take the site down.
 - Security: there's no live server running WordPress, no database, no login page. There is simply much less that can be attacked, and nothing for anyone to patch.
 - Cost: hosting is free.
-- No cookie banner: the new site doesn't set any cookies or track visitors, and it doesn't load anything from Google or other companies. The fonts are served by us, and YouTube videos only load when a visitor presses play. So there's nothing to ask consent for. Today's banner is there because of Google Analytics; if we pick a cookie-free analytics tool, the site stays banner-free.
+- No cookie banner: the new site doesn't set any cookies or track visitors. The fonts are served by us, and YouTube videos only load when a visitor presses play. So there's nothing to ask consent for. Today's banner is there because of Google Analytics; if we pick a cookie-free analytics tool, the site stays banner-free.
 - History: every change is recorded and can be undone.
 - Ownership: the content lives in our own repository. If we ever want to move away from EmDash or GitHub, we take everything with us.
 - Developers like working with this stack, which makes it easier to get help, including from volunteers.
