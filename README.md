@@ -44,6 +44,10 @@ npm run preview    # serve dist/client
 
 Node.js 22.16 or newer is required.
 
+[CI](.github/workflows/ci.yml) runs on every pull request. It checks that `seed/seed.json` matches
+`scripts/schema.mjs`, validates the migration page definitions, runs `npm run typecheck`, and builds
+the website and the presentation.
+
 | Path | What it is |
 | --- | --- |
 | `src/pages/` | Routes: home, pages (`[slug]`), news (`media/…`), policies, events, search, RSS |

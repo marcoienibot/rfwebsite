@@ -1,0 +1,69 @@
+# Checks pull requests before they reach main, where every push is deployed
+# straight to GitHub Pages (see deploy.yml).
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A new push to a pull request makes the previous run obsolete.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  website:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Check that seed/seed.json matches scripts/schema.mjs
+        run: |
+          node scripts/schema.mjs
+          git diff --exit-code -- seed/seed.json || {
+            echo "::error file=seed/seed.json::seed/seed.json is out of date. Run 'node scripts/schema.mjs' and commit the result."
+            exit 1
+          }
+
+      - name: Validate the WordPress migration page definitions
+        run: node scripts/wordpress/check-pages.mjs
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # Build under a sub-path, like the GitHub Pages deployment, so that the
+      # root-relative link rewriting in integrations/static-site.mjs runs too.
+      - name: Build website
+        run: npm run build
+        env:
+          SITE_URL: https://marcoienibot.github.io/rfwebsite
+
+  presentation:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: presentation
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: presentation/package-lock.json
+
+      - run: npm ci
+
+      - run: npx slidev build --base /rfwebsite/presentation/

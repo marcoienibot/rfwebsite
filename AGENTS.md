@@ -7,6 +7,7 @@ published as a **static site** to GitHub Pages. See README.md for the architectu
 npm run cms     # editor launcher: git pull, npm ci when needed, astro dev, open the admin
 npm run dev     # Astro dev server; admin at http://localhost:4321/_emdash/admin
 npm run build   # static build into dist/client (also builds the Pagefind index)
+npm run typecheck                           # astro check
 node scripts/schema.mjs                     # regenerate seed/seed.json from the content model
 node scripts/wordpress/check-pages.mjs      # validate page definitions used by the migration
 ```
