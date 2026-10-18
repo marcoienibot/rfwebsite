@@ -74,7 +74,8 @@ each entry from the content API and update it with `migrateBlocks: true`, keepin
 then publish the entry (`POST /_emdash/api/content/{collection}/{id}/publish`), but only if its
 `status` was `published` and it had no `draftRevisionId` before your save. Otherwise publishing
 would make a draft entry or an editor's unpublished changes public: leave the entry to its editor,
-whose next publish includes the migration.
+whose next publish includes the migration. Until then the live page still uses the old version,
+so the block's component must keep handling it.
 
 ### Re-running the WordPress migration
 
