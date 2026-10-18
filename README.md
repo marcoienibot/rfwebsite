@@ -9,6 +9,7 @@ WordPress-like admin panel, and the site is published to **GitHub Pages**.
 - **Live demo:** https://marcoienibot.github.io/rfwebsite/
 - **Presentation for the marketing team:** https://marcoienibot.github.io/rfwebsite/presentation/ (source in [`presentation/`](presentation/))
 - **How to edit the website:** [docs/EDITING.md](docs/EDITING.md)
+- **Proposal for a shared editor, so several people can publish without conflicts:** [docs/SHARED-EDITOR.md](docs/SHARED-EDITOR.md)
 
 ## How it works
 
