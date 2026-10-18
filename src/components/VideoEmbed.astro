@@ -14,7 +14,7 @@ interface Props {
 const { player, title } = Astro.props;
 ---
 
-<div class="video-embed bg-navy" data-video-embed={player.embedUrl} data-video-title={title || `${player.provider} video`}>
+<div class="video-embed bg-navy" data-pagefind-ignore data-video-embed={player.embedUrl} data-video-title={title || `${player.provider} video`}>
 	<button type="button" class="video-embed__play">
 		<svg class="video-embed__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5v14l11-7z"></path></svg>
 		<span>Play video{title && <span class="visually-hidden">: {title}</span>}</span>
