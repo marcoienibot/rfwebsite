@@ -107,6 +107,7 @@ const year = new Date().getFullYear();
 						aria-expanded="false"
 						aria-controls="site-menu"
 						data-menu-toggle
+						hidden
 					>
 						<span class="visually-hidden">Menu</span>
 						<svg class="menu-toggle__open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
@@ -114,7 +115,7 @@ const year = new Date().getFullYear();
 					</button>
 				</div>
 			</div>
-			<nav id="site-menu" class="mega" aria-label="Main" hidden>
+			<nav id="site-menu" class="mega" aria-label="Main">
 				{
 					primary?.items.map((column) => {
 						const isButtonColumn = column.cssClasses?.includes("button");
@@ -215,6 +216,11 @@ const year = new Date().getFullYear();
 			const bar = header?.querySelector<HTMLElement>(".site-header__bar");
 			const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
 			const menu = document.getElementById("site-menu");
+			// Keep navigation available when JavaScript is disabled or fails to load.
+			if (toggle && menu) {
+				menu.hidden = true;
+				toggle.hidden = false;
+			}
 			toggle?.addEventListener("click", () => {
 				const open = toggle.getAttribute("aria-expanded") !== "true";
 				toggle.setAttribute("aria-expanded", String(open));
@@ -228,10 +234,10 @@ const year = new Date().getFullYear();
 				new IntersectionObserver(([entry]) => {
 					const stuck = !entry.isIntersecting && entry.boundingClientRect.top < 0;
 					if (stuck === header.classList.contains("site-header--stuck")) return;
-					// The bar leaves the header: keep its space so the page doesn't move.
-					if (stuck) header.style.setProperty("--bar-height", `${bar.offsetHeight}px`);
+					// Keep the space of both the bar and any open menu when they become fixed.
+					if (stuck) header.style.setProperty("--header-height", `${header.offsetHeight}px`);
 					header.classList.toggle("site-header--stuck", stuck);
-					if (!stuck) header.classList.remove("site-header--overlay");
+					header.classList.toggle("site-header--overlay", stuck && toggle?.getAttribute("aria-expanded") === "true");
 				}).observe(header);
 			}
 			document.addEventListener("keydown", (event) => {
@@ -327,7 +333,7 @@ const year = new Date().getFullYear();
 	}
 
 	.site-header--stuck {
-		padding-top: var(--bar-height);
+		min-height: var(--header-height);
 	}
 
 	.site-header--stuck .site-header__bar {
@@ -390,6 +396,10 @@ const year = new Date().getFullYear();
 
 	.menu-toggle[aria-expanded="true"] {
 		background: var(--rust);
+	}
+
+	.menu-toggle[hidden] {
+		display: none;
 	}
 
 	.menu-toggle__close,
