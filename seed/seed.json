@@ -249,6 +249,43 @@
 							"type": "string"
 						},
 						{
+							"slug": "authors",
+							"label": "Written by (shown with their photo)",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "name",
+										"label": "Name",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "role",
+										"label": "Role",
+										"type": "string"
+									},
+									{
+										"slug": "photo",
+										"label": "Photo",
+										"type": "image"
+									}
+								]
+							}
+						},
+						{
+							"slug": "authors_position",
+							"label": "Where “Written by” appears",
+							"type": "select",
+							"validation": {
+								"options": [
+									"above the text",
+									"below the text"
+								]
+							},
+							"defaultValue": "above the text"
+						},
+						{
 							"slug": "body",
 							"label": "Text",
 							"type": "portableText"

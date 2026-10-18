@@ -138,6 +138,12 @@ const blockTypes = [
 	]),
 	block("rich_text", "Text", "Headings, paragraphs, lists, links and images", [
 		string("headline", "Headline"),
+		repeater("authors", "Written by (shown with their photo)", [
+			string("name", "Name", { required: true }),
+			string("role", "Role"),
+			image("photo", "Photo"),
+		]),
+		select("authors_position", "Where “Written by” appears", ["above the text", "below the text"], "above the text"),
 		{ slug: "body", label: "Text", type: "portableText" },
 		select("background", "Background", BACKGROUNDS, "white"),
 		select("width", "Width", ["narrow", "wide"], "narrow"),
