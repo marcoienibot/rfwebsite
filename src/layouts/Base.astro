@@ -101,9 +101,13 @@ const year = new Date().getFullYear();
 							</a>
 						))
 					}
+					<a href="/search/" class="header-icon">
+						<span class="visually-hidden">Search</span>
+						<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6" /><path d="M15 15l5 5" /></svg>
+					</a>
 					<button
 						type="button"
-						class="menu-toggle"
+						class="header-icon menu-toggle"
 						aria-expanded="false"
 						aria-controls="site-menu"
 						data-menu-toggle
@@ -303,7 +307,7 @@ const year = new Date().getFullYear();
 	}
 
 	.announce__close svg,
-	.menu-toggle svg {
+	.header-icon svg {
 		width: 1.25rem;
 		height: 1.25rem;
 		fill: none;
@@ -382,7 +386,7 @@ const year = new Date().getFullYear();
 		color: var(--white);
 	}
 
-	.menu-toggle {
+	.header-icon {
 		display: grid;
 		place-items: center;
 		width: 2.5rem;
@@ -392,6 +396,10 @@ const year = new Date().getFullYear();
 		color: var(--white);
 		background: transparent;
 		cursor: pointer;
+	}
+
+	.header-icon:hover {
+		background: rgb(255 255 255 / 0.15);
 	}
 
 	.menu-toggle[aria-expanded="true"] {
