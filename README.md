@@ -16,7 +16,7 @@ WordPress-like admin panel, and the site is published to **GitHub Pages**.
 flowchart LR
   A["Editor's laptop<br/>EmDash admin<br/>(npm run cms)"] -- "Publish website<br/>(git commit + push)" --> B[GitHub: main branch]
   B -- push triggers --> C[GitHub Actions<br/>astro build]
-  C --> D[GitHub Pages<br/>static HTML]
+  C -- "gh-pages branch" --> D[GitHub Pages<br/>static HTML]
   D --> E((Visitors))
 ```
 
@@ -30,7 +30,8 @@ flowchart LR
    and pushing with GitHub Desktop works too.
 4. **GitHub Actions** ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)) builds the
    site with `output: "static"`. Every page is prerendered from the database to plain HTML, and the
-   result is deployed to GitHub Pages. It also rebuilds every night, so scheduled posts go live.
+   result is pushed to the `gh-pages` branch, which GitHub Pages serves. It also rebuilds every
+   night, so scheduled posts go live.
 
 ## For developers
 
@@ -47,6 +48,13 @@ Node.js 22.16 or newer is required.
 [CI](.github/workflows/ci.yml) runs on every pull request. It checks that `seed/seed.json` matches
 `scripts/schema.mjs`, validates the migration page definitions, runs `npm run typecheck`, and builds
 the website and the presentation.
+
+Each pull request opened from a branch of this repository also gets a preview of the website at
+`https://marcoienibot.github.io/rfwebsite/pr-preview/pr-<number>/`
+([pr-preview.yml](.github/workflows/pr-preview.yml)). A comment on the pull request links to it. The
+preview is updated on every push and removed when the pull request is merged or closed. Pull
+requests from forks don't get a preview, because building them with permission to publish would let
+anyone change the website.
 
 | Path | What it is |
 | --- | --- |
@@ -78,8 +86,15 @@ After a fix to the converter or the scraper, `--posts post-slug…` converts the
 policies again (it replaces their content), and `--people` updates biographies and profile links
 (biographies edited in the admin are left alone).
 
+### GitHub Pages settings
+
+GitHub Pages serves the `gh-pages` branch: in **Settings → Pages**, the source is **Deploy from a
+branch**, `gh-pages`, `/ (root)`. The `github-pages` environment (**Settings → Environments**) must
+allow deployments from `gh-pages`.
+
 ### Custom domain
 
-Configure the domain in the repository's GitHub Pages settings. The workflow reads the site URL from
-GitHub Pages, and URLs are only rewritten when the site lives under a sub-path, so on
-`https://rustfoundation.org` nothing changes.
+Configure the domain in the repository's GitHub Pages settings. GitHub saves it as a `CNAME` file in
+the `gh-pages` branch, which deployments keep. The workflows read the site URL from GitHub Pages,
+and URLs are only rewritten when the site lives under a sub-path, so on `https://rustfoundation.org`
+nothing changes.

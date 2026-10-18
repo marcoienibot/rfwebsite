@@ -1,0 +1,97 @@
+# Publishes a preview of each pull request to GitHub Pages, at
+# <site>/pr-preview/pr-<number>/, and links it in a comment on the pull
+# request. The preview is updated on every push and removed when the pull
+# request is merged or closed.
+#
+# Pull requests from forks don't get a preview. Their workflows only get a
+# read-only token, and building them with write access (pull_request_target)
+# would let anyone publish to the website.
+name: PR preview
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+  # Nightly clean-up, see the remove-stale job.
+  schedule:
+    - cron: "47 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A new push makes the running build obsolete, and closing the pull request
+# makes it pointless.
+concurrency:
+  group: pr-preview-${{ github.event.number || 'stale' }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # push the preview to the gh-pages branch
+      pull-requests: write # comment with the link
+      pages: read # look up the site URL
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      # html_url follows the custom domain, if one is configured.
+      - name: Get the GitHub Pages URL
+        id: pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          url=$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq .html_url)
+          url=${url%/}
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "host-and-path=${url#*://}" >> "$GITHUB_OUTPUT"
+
+      # pr-preview-action publishes the build to pr-preview/pr-<number>/.
+      - uses: ./.github/actions/build-site
+        if: github.event.action != 'closed'
+        with:
+          site-url: ${{ steps.pages.outputs.url }}/pr-preview/pr-${{ github.event.number }}
+
+      # Deploys the preview on opened/reopened/synchronize, removes it on closed,
+      # and keeps a single comment on the pull request up to date.
+      - uses: rossjrw/pr-preview-action@ffa7509e91a3ec8dfc2e5536c4d5c1acdf7a6de9 # v1.8.1
+        with:
+          source-dir: dist/client
+          pages-base-url: ${{ steps.pages.outputs.host-and-path }}
+          qr-code: false
+
+  # GitHub doesn't run pull_request workflows while a pull request has merge
+  # conflicts, so closing such a pull request leaves its preview behind.
+  remove-stale:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # remove previews from the gh-pages branch
+      pull-requests: read # list the open pull requests
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: gh-pages
+
+      - name: Remove the previews of closed pull requests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          open=$(gh pr list --repo "$GITHUB_REPOSITORY" --state open --limit 1000 --json number --jq '.[].number')
+          for dir in pr-preview/pr-*; do
+            [ -d "$dir" ] || continue
+            grep -qx "${dir#pr-preview/pr-}" <<< "$open" || git rm -rq "$dir"
+          done
+          git diff --cached --quiet && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -qm "Remove previews of closed pull requests"
+          # Another deployment may have been pushed in the meantime.
+          for _ in 1 2 3; do
+            git push -q origin HEAD:gh-pages && exit 0
+            git pull -q --rebase origin gh-pages
+          done
+          exit 1

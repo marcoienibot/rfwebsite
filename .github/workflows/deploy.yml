@@ -1,6 +1,8 @@
 # Builds the static website (and the presentation) from main and publishes
-# them to GitHub Pages. Runs on every push, including the ones made by the
-# "Publish website" button in the EmDash admin.
+# them to GitHub Pages, which serves the gh-pages branch. Runs on every push,
+# including the ones made by the "Publish website" button in the EmDash admin.
+# Pull request previews live in the same branch, under pr-preview/ (see
+# pr-preview.yml).
 name: Deploy website
 
 on:
@@ -14,8 +16,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 # Never cancel a deployment halfway; queue the next one instead.
 concurrency:
@@ -23,45 +23,39 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  deploy:
+    # Only main is the live site, even when the workflow is started by hand.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # push to the gh-pages branch
+      pages: read # look up the site URL
     steps:
       - uses: actions/checkout@v7
-
-      - uses: actions/setup-node@v7
         with:
-          node-version: 24
-          cache: npm
-          cache-dependency-path: |
-            package-lock.json
-            presentation/package-lock.json
+          persist-credentials: false
 
-      - id: pages
-        uses: actions/configure-pages@v6
-
-      - name: Build website
-        run: |
-          npm ci
-          npm run build
+      # html_url follows the custom domain, if one is configured.
+      - name: Get the GitHub Pages URL
+        id: pages
         env:
-          SITE_URL: ${{ steps.pages.outputs.base_url }}
-
-      - name: Build presentation
-        working-directory: presentation
+          GH_TOKEN: ${{ github.token }}
         run: |
-          npm ci
-          npx slidev build --base "${{ steps.pages.outputs.base_path }}/presentation/" --out ../dist/client/presentation
+          url=$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq .html_url)
+          echo "url=${url%/}" >> "$GITHUB_OUTPUT"
 
-      - uses: actions/upload-pages-artifact@v5
+      - uses: ./.github/actions/build-site
         with:
-          path: dist/client
+          site-url: ${{ steps.pages.outputs.url }}
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v5
+      # Serve the files as they are: Jekyll would leave out `_astro/`.
+      - run: touch dist/client/.nojekyll
+
+      - uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
+        with:
+          folder: dist/client
+          branch: gh-pages
+          # Keep the pull request previews,
+          clean-exclude: pr-preview/
+          # and rebase onto a preview pushed at the same time instead of overwriting it.
+          force: false
