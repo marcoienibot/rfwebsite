@@ -1,6 +1,6 @@
 ---
 /**
- * Every post as a card, for the Media Room filters: they load this page and
+ * Every post as a card, for the News filters: they load this page and
  * show the cards that match. Not a page for visitors (no layout, not indexed).
  */
 import PostCard from "../../components/PostCard.astro";
@@ -23,7 +23,6 @@ const month = (date: Date | null | undefined) =>
 			posts.map((post) => (
 				<div
 					data-post
-					data-category={post.categories.map((term) => term.slug).join(" ")}
 					data-tag={post.tags.map((term) => term.slug).join(" ")}
 					data-author={(post.data.bylines ?? []).map((credit) => credit.byline.slug).join(" ")}
 					data-month={month(post.data.publishedAt)}

@@ -24,10 +24,9 @@ const DATABASE = "content/data.db";
 
 const load = async (name) => JSON.parse(await readFile(join(cacheDir, `${name}.json`), "utf8"));
 
-const [posts, policies, categories, tags, users, wpMedia, externalLinks, wpEvents] = await Promise.all([
+const [posts, policies, tags, users, wpMedia, externalLinks, wpEvents] = await Promise.all([
 	load("posts"),
 	load("policy"),
-	load("categories"),
 	load("tags"),
 	load("users"),
 	load("media"),
@@ -40,7 +39,6 @@ const media = new MediaLibrary({ baseUrl, cacheDir });
 await media.login();
 
 const mediaById = new Map(wpMedia.map((item) => [item.id, item]));
-const categoryById = new Map(categories.map((c) => [c.id, c]));
 const tagById = new Map(tags.map((t) => [t.id, t]));
 
 async function featuredImage(wpId) {
@@ -79,9 +77,6 @@ for (const user of users) {
 const postEntries = [];
 for (const [index, post] of posts.entries()) {
 	if (index % 25 === 0) console.log(`posts: ${index}/${posts.length}`);
-	const categorySlugs = post.categories
-		.map((id) => categoryById.get(id)?.slug)
-		.filter((slug) => slug && slug !== "uncategorized");
 	postEntries.push({
 		id: `post-${post.id}`,
 		slug: post.slug,
@@ -93,8 +88,8 @@ for (const [index, post] of posts.entries()) {
 			content: await convertHtml(post.content.rendered, media),
 			external_url: externalLinks[post.id] ?? undefined,
 		},
+		// WordPress also files posts under News, Blog or Press: here they are all news.
 		taxonomies: {
-			category: categorySlugs.length ? categorySlugs : ["blog"],
 			tag: post.tags.map((id) => tagById.get(id)?.slug).filter(Boolean),
 		},
 		bylines: authorIds.has(post.author) && bylines.some((b) => b.id === `author-${post.author}`)
@@ -222,7 +217,8 @@ for (const doc of wpDocuments) {
 		status: "published",
 		data: {
 			title: decodeEntities(doc.title),
-			category: doc.category,
+			// The old Publications page split its reports into three categories.
+			category: ["year-in-review", "partnered-publications"].includes(doc.category) ? "rust-foundation-reports" : doc.category,
 			file: fileItem ? { ...imageValue(fileItem), alt: undefined } : undefined,
 			// The AI position statement's page is empty on the live site and has no
 			// file, so it keeps pointing there.
@@ -247,9 +243,13 @@ const redirects = [
 	["/brand-guide-2", "/brand-guide/"],
 	["/mastodon", "/"],
 	["/board", "/about/"],
-	["/news", "/media/category/news/"],
-	["/blog", "/media/category/blog/"],
-	["/press", "/media/category/press/"],
+	["/news", "/media/"],
+	["/blog", "/media/"],
+	["/press", "/media/"],
+	["/media/category/news", "/media/"],
+	["/media/category/blog", "/media/"],
+	["/media/category/press", "/media/"],
+	["/publications", "/policies-resources/#reports"],
 	["/grants", "/project-support/"],
 	["/support", "/project-support/"],
 	["/membership", "/get-involved/"],

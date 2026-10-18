@@ -9,6 +9,5 @@ export function linkAttrs(url: string | undefined) {
 
 export const postUrl = (slug: string) => `/media/${slug}/`;
 export const policyUrl = (slug: string) => `/policy/${slug}/`;
-export const categoryUrl = (slug: string) => `/media/category/${slug}/`;
 export const tagUrl = (slug: string) => `/media/tag/${slug}/`;
 export const authorUrl = (slug: string) => `/media/author/${slug}/`;

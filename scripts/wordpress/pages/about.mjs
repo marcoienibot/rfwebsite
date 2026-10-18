@@ -101,7 +101,7 @@ export default async ({ image, file, richText }) => ({
 			_type: "cta",
 			headline: "Want to learn more about the work we’re doing?",
 			buttons: [
-				{ label: "Read Recent News", url: "/media/category/news/" },
+				{ label: "Read Recent News", url: "/media/" },
 				{ label: "Browse Initiatives", url: "/initiatives/" },
 			],
 			background: "white",

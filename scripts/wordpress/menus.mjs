@@ -1,4 +1,5 @@
-// Navigation menus, as on rustfoundation.org (broken links fixed).
+// Navigation menus, as on rustfoundation.org (broken links fixed, and one
+// News link instead of News, Blog, Press and Publications).
 const link = (label, url, extra = {}) => ({ type: "custom", label, url, ...extra });
 
 export const menus = [
@@ -46,15 +47,7 @@ export const menus = [
 					link("Events", "/events/"),
 				],
 			},
-			{
-				...link("Media", "/media/"),
-				children: [
-					link("News", "/media/category/news/"),
-					link("Blog", "/media/category/blog/"),
-					link("Press", "/media/category/press/"),
-					link("Publications", "/publications/"),
-				],
-			},
+			link("News", "/media/"),
 			{
 				...link("Get Involved", "/get-involved/", { cssClasses: "button" }),
 				children: [link("Contact", "/contact/"), link(">> Rust Language Repository", "https://github.com/rust-lang/rust")],
@@ -67,10 +60,7 @@ export const menus = [
 		items: [
 			link("About", "/about/"),
 			link("Membership & Donations", "/get-involved/"),
-			link("News", "/media/category/news/"),
-			link("Blog", "/media/category/blog/"),
-			link("Press", "/media/category/press/"),
-			link("Publications", "/publications/"),
+			link("News", "/media/"),
 			link("Events", "/events/"),
 			link("Community Resources", "/community/"),
 			link("Brand Guide", "/brand-guide/"),

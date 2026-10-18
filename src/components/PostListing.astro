@@ -5,7 +5,7 @@ import PageHeader from "./blocks/PageHeader.astro";
 import Pagination from "./Pagination.astro";
 import PostCard from "./PostCard.astro";
 import { allPosts, authors, type Post } from "../utils/content";
-import { authorUrl, categoryUrl } from "../utils/links";
+import { authorUrl } from "../utils/links";
 
 export const PER_PAGE = 12;
 
@@ -14,7 +14,7 @@ interface Props {
 	page: number;
 	/** URL of page n of this listing */
 	href: (page: number) => string;
-	/** Archive title (category, tag, author) shown instead of "Media Room" */
+	/** Archive title (tag, author) shown instead of "News" */
 	heading?: string;
 	description?: string;
 	/** Show the pinned (or newest) post as a large featured card on the first page */
@@ -29,7 +29,7 @@ const last = Math.max(1, Math.ceil(listed.length / PER_PAGE));
 const pagePosts = listed.slice((page - 1) * PER_PAGE, page * PER_PAGE);
 const featured = page === 1 ? pinned : undefined;
 
-// The "Media Room" header is editable: it's the `media` page in the admin.
+// The "News" header is editable: it's the `media` page in the admin.
 // Archives reuse its buttons with their own title.
 const { entry: mediaPage } = await getEmDashEntry("pages", "media");
 const blocks = mediaPage?.data.content ?? [];
@@ -37,7 +37,6 @@ const header = blocks.find((block) => block._type === "page_header");
 
 // Filters (over every post, like the old site's Media Room).
 const everyPost = await allPosts();
-const categoryOptions = new Map(everyPost.flatMap((post) => post.categories.map((term) => [term.slug, term.label])));
 const authorOptions = [...(await authors())].sort(([, a], [, b]) => a.localeCompare(b));
 const monthFormat = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "long", timeZone: "UTC" });
 const months = new Map<string, string>();
@@ -45,7 +44,6 @@ for (const post of everyPost) {
 	const date = post.data.publishedAt;
 	if (date) months.set(`${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`, monthFormat.format(date));
 }
-const currentCategory = Astro.url.pathname.match(/\/media\/category\/([^/]+)/)?.[1] ?? "";
 const currentAuthor = Astro.url.pathname.match(/\/media\/author\/([^/]+)/)?.[1] ?? "";
 const currentTag = Astro.url.pathname.match(/\/media\/tag\/([^/]+)/)?.[1] ?? "";
 ---
@@ -63,13 +61,6 @@ const currentTag = Astro.url.pathname.match(/\/media\/tag\/([^/]+)/)?.[1] ?? "";
 		<form class="filters" action="/search/" method="get" role="search" aria-label="Filter posts" data-filters hidden>
 			<a href="/media/all-post-cards/" hidden data-filters-index></a>
 			{currentTag && <input type="hidden" name="tag" value={currentTag} />}
-			<label>
-				Category
-				<select name="category">
-					<option value="">All categories</option>
-					{[...categoryOptions].map(([slug, label]) => <option value={slug} selected={slug === currentCategory}>{label}</option>)}
-				</select>
-			</label>
 			<label>
 				Author
 				<select name="author">
@@ -91,10 +82,7 @@ const currentTag = Astro.url.pathname.match(/\/media\/tag\/([^/]+)/)?.[1] ?? "";
 			<button type="submit" class="btn">Filter</button>
 		</form>
 		<noscript>
-			<p>Filtering needs JavaScript. Browse by category or author, or use the page links below.</p>
-			<nav aria-label="Post categories" class="btn-row">
-				{[...categoryOptions].map(([slug, label]) => <a href={categoryUrl(slug)}>{label}</a>)}
-			</nav>
+			<p>Filtering needs JavaScript. Browse by author, or use the page links below.</p>
 			<details>
 				<summary>Browse by author</summary>
 				<ul>{authorOptions.map(([slug, name]) => <li><a href={authorUrl(slug)}>{name}</a></li>)}</ul>
@@ -146,7 +134,6 @@ const currentTag = Astro.url.pathname.match(/\/media\/tag\/([^/]+)/)?.[1] ?? "";
 	async function applyFilters(params: URLSearchParams) {
 		if (!form || !results || !status || !listing) return;
 		const currentRequest = ++request;
-		const category = params.get("category") ?? "";
 		const author = params.get("author") ?? "";
 		const tag = params.get("tag") ?? "";
 		const words = (params.get("q") ?? "").toLowerCase().split(/\s+/).filter(Boolean);
@@ -155,7 +142,7 @@ const currentTag = Astro.url.pathname.match(/\/media\/tag\/([^/]+)/)?.[1] ?? "";
 		listing.hidden = false;
 		status.textContent = "";
 		// Unfiltered archives keep their own pagination and featured card.
-		if (!words.length && !date && ["category", "author", "tag"].every(
+		if (!words.length && !date && ["author", "tag"].every(
 			(name) => (params.get(name) ?? "") === (defaults.get(name) ?? ""),
 		)) return;
 
@@ -166,7 +153,6 @@ const currentTag = Astro.url.pathname.match(/\/media\/tag\/([^/]+)/)?.[1] ?? "";
 			if (currentRequest !== request) return;
 			const matching = loaded.filter(
 				(card) =>
-					(!category || card.dataset.category!.split(" ").includes(category)) &&
 					(!author || card.dataset.author!.split(" ").includes(author)) &&
 					(!tag || card.dataset.tag!.split(" ").includes(tag)) &&
 					(!date || card.dataset.month === date) &&
@@ -196,7 +182,7 @@ const currentTag = Astro.url.pathname.match(/\/media\/tag\/([^/]+)/)?.[1] ?? "";
 		form.addEventListener("submit", (event) => {
 			event.preventDefault();
 			const params = formParams();
-			// An empty category/author overrides the archive's default and must survive reloads.
+			// An empty author overrides the archive's default and must survive reloads.
 			const urlParams = new URLSearchParams([...params].filter(([name, value]) => value || defaults.get(name)));
 			history.replaceState(null, "", urlParams.size ? `?${urlParams}` : location.pathname);
 			void applyFilters(params);

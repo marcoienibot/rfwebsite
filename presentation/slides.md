@@ -107,7 +107,7 @@ Our site has exactly this shape: WP Engine hosting, Beaver Builder, and plugins 
   <div class="tile">
     <ph-browser class="tile-icon" />
     <h3>A friendly admin</h3>
-    <p>Pages, posts, media library, menus, categories and tags, SEO fields, drafts, previews, revision history and scheduled publishing. If you know WordPress, you'll feel at home.</p>
+    <p>Pages, posts, media library, menus, tags, SEO fields, drafts, previews, revision history and scheduled publishing. If you know WordPress, you'll feel at home.</p>
   </div>
   <div class="tile">
     <ph-files class="tile-icon" />
@@ -126,7 +126,7 @@ Our site has exactly this shape: WP Engine hosting, Beaver Builder, and plugins 
 <!--
 Let me start with what doesn't change, because that's what matters most for your day-to-day work.
 
-1. You still log into an admin that looks a lot like WordPress: pages, posts, media, menus, categories, SEO fields, drafts, previews, revision history, scheduling.
+1. You still log into an admin that looks a lot like WordPress: pages, posts, media, menus, tags, SEO fields, drafts, previews, revision history, scheduling.
 2. All our content has already been migrated automatically. I'll show the numbers later.
 3. The site keeps the Rust Foundation brand and content.
 
@@ -271,7 +271,7 @@ Nothing you do in the editor is public until you click Publish.
 <div>
 
 - Opens automatically after **Start editor**
-- Pages, posts ("News & blog"), policies, media, menus, categories and tags
+- Pages, posts ("News"), policies, media, menus and tags
 - Lists that feed the whole site: **Organisations** (members and partners, with their logos), **People**, **Events**, **Documents** (reports, board minutes) and **FAQs**
 - The **Website** box tells you if you have changes that aren't on the public site yet, and has the **Publish website** button
 
@@ -284,7 +284,7 @@ Nothing you do in the editor is public until you click Publish.
 <!--
 This is the first thing you see after Start editor: the EmDash dashboard.
 
-On the left there's the menu you'd expect: pages, news and blog posts, policies, media, menus, categories and tags.
+On the left there's the menu you'd expect: pages, news posts, policies, media, menus and tags.
 
 There are also a few lists that didn't exist as such in WordPress: Organisations, People, Events, Documents and FAQs. Add a new Silver member once, with its logo, and it shows up on the members page and the home page automatically. Same for a new staff member on the About page, a new event, or a new set of board minutes.
 
@@ -327,7 +327,7 @@ If we need a new kind of block, that's a developer task, and a small one.
 <div>
 
 - A familiar rich-text editor
-- Categories (Blog, News, Press) and tags
+- Tags
 - SEO title and description per post
 - Save as draft, preview, schedule (goes live with the nightly rebuild)
 - Revision history for every post
@@ -339,9 +339,9 @@ If we need a new kind of block, that's a developer task, and a small one.
 </div>
 
 <!--
-Writing a news or blog post is the bit you'll do most often, and it should feel very familiar.
+Writing a news post is the bit you'll do most often, and it should feel very familiar.
 
-Title, a rich-text editor for the body, a featured image, categories and tags, and the SEO fields that SEOPress gives you today.
+Title, a rich-text editor for the body, a featured image, tags, and the SEO fields that SEOPress gives you today.
 
 Drafts, previews and revision history all work like you'd expect.
 
@@ -691,10 +691,10 @@ And the design and content stay exactly the same, and the public website can sta
   <div class="stat">
     <div class="num">310</div>
     <div class="label">posts</div>
-    <div class="sub">Blog, News and Press, with authors, categories, tags and original dates. The 51 press items link to the external articles.</div>
+    <div class="sub">The old Blog, News and Press, now one News list, with authors, tags and original dates. The 51 press items link to the external articles.</div>
   </div>
   <div class="stat">
-    <div class="num">25</div>
+    <div class="num">24</div>
     <div class="label">pages</div>
     <div class="sub">Rebuilt from blocks, editable in the admin</div>
   </div>
@@ -715,7 +715,7 @@ And the design and content stay exactly the same, and the public website can sta
 <!--
 Where are we today?
 
-All of the content has been migrated automatically from the current site: 310 posts across Blog, News and Press with their original dates, authors, categories and tags; 25 pages rebuilt from blocks (the other two WordPress "pages" were just redirects); and 273 entries in the new lists: policies, organisations, people, events, documents and FAQs. Around 425 images and PDFs came along.
+All of the content has been migrated automatically from the current site: 310 posts from Blog, News and Press, now one News list, with their original dates, authors and tags; 24 pages rebuilt from blocks (Publications is now part of Policies & Resources, and two WordPress "pages" were just redirects); and 273 entries in the new lists: policies, organisations, people, events, documents and FAQs. Around 425 images and PDFs came along.
 
 Addresses stay the same, so links from search engines and other sites keep working, and old addresses that moved have redirects.
 

@@ -20,7 +20,7 @@ export async function allEntries<C extends string>(
 	return entries;
 }
 
-export type Post = Entry<"posts"> & { categories: TaxonomyTerm[]; tags: TaxonomyTerm[] };
+export type Post = Entry<"posts"> & { tags: TaxonomyTerm[] };
 
 // During `astro build` every page asks for the same posts, so query them once.
 // In the editor (`astro dev`) always re-read, so saved changes show up.
@@ -34,7 +34,6 @@ async function loadPosts(): Promise<Post[]> {
 	);
 	return entries.map((entry) => ({
 		...entry,
-		categories: terms.get(entry.data.id)?.category ?? [],
 		tags: terms.get(entry.data.id)?.tag ?? [],
 	}));
 }
@@ -45,11 +44,10 @@ export function allPosts(): Promise<Post[]> {
 	return postsCache;
 }
 
-export async function postsWhere({ category, tag, author }: { category?: string; tag?: string; author?: string }) {
+export async function postsWhere({ tag, author }: { tag?: string; author?: string }) {
 	const posts = await allPosts();
 	return posts.filter(
 		(post) =>
-			(!category || category === "all" || post.categories.some((term) => term.slug === category)) &&
 			(!tag || post.tags.some((term) => term.slug === tag)) &&
 			(!author || post.data.bylines?.some((credit) => credit.byline.slug === author)),
 	);
@@ -64,7 +62,7 @@ export async function authors() {
 	return names;
 }
 
-/** Pages with their own routes: "home" is the front page and "media" the header of the news listing. */
+/** Pages with their own routes: "home" is the front page and "media" the header of the News listing. */
 export const RESERVED_PAGES = new Set(["home", "media"]);
 
 type Ordered = { data: { order?: number | null; title: string } };

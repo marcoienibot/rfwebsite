@@ -1,7 +1,7 @@
 ---
 import Img from "./Img.astro";
 import type { Post } from "../utils/content";
-import { categoryUrl, postUrl, tagUrl } from "../utils/links";
+import { postUrl, tagUrl } from "../utils/links";
 
 interface Props {
 	post: Post;
@@ -14,7 +14,7 @@ const external = post.data.external_url;
 const href = external || postUrl(post.id);
 const target = external ? "_blank" : undefined;
 const rel = external ? "noopener" : undefined;
-const terms = [...post.categories, ...post.tags].slice(0, featured ? 4 : 5);
+const terms = post.tags.slice(0, featured ? 4 : 5);
 ---
 
 <article class:list={["card", { "card--featured": featured }]}>
@@ -31,10 +31,7 @@ const terms = [...post.categories, ...post.tags].slice(0, featured ? 4 : 5);
 				<ul class="tags">
 					{terms.map((term) => (
 						<li>
-							<a
-								class="tag"
-								href={post.categories.includes(term) ? categoryUrl(term.slug) : tagUrl(term.slug)}
-							>
+							<a class="tag" href={tagUrl(term.slug)}>
 								{term.label}
 							</a>
 						</li>

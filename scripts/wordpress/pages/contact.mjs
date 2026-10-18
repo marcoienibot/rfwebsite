@@ -19,7 +19,7 @@ export default async ({ richText }) => ({
 <p>8 The Green, Suite # 11976</p>
 <p>Dover, DE 19901 USA</p>
 <h2>Media/Press</h2>
-<p>If you are a member of the press and would like to get in touch with us about a story about the Rust programming language and/or the Rust Foundation, please visit our <a href="/media/category/press/">press page</a> for more information.</p>
+<p>If you are a member of the press and would like to get in touch with us about a story about the Rust programming language and/or the Rust Foundation, please email <a href="mailto:media@rustfoundation.org">media@rustfoundation.org</a>.</p>
 <h2>Membership &amp; Donations</h2>
 <p>Interested in becoming a member of the Rust Foundation or making a donation? Click <a href="/get-involved/">here</a>.</p>
 <h2>RustConf</h2>

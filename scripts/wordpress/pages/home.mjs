@@ -82,10 +82,7 @@ export default async ({ image }) => ({
 			headline: "More about the Rust Foundation:",
 			links: [
 				{ label: "About", url: "/about/" },
-				{ label: "News", url: "/media/category/news/" },
-				{ label: "Blog", url: "/media/category/blog/" },
-				{ label: "Press", url: "/media/category/press/" },
-				{ label: "Publications", url: "/publications/" },
+				{ label: "News", url: "/media/" },
 				{ label: "Careers", url: "/careers/" },
 				{ label: "Policies & Resources", url: "/policies-resources/" },
 				{ label: "Contact", url: "/contact/" },

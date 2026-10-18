@@ -77,7 +77,8 @@ async function updatePages(onlyPages) {
 		const page = await define(helpers);
 		const content = page.blocks
 			.filter(Boolean)
-			.map((block) => ({ _version: 1, _key: `u${Date.now().toString(36)}${(key++).toString(36)}`, ...block }));
+			// Without a `_version`, EmDash uses the block type's current version.
+			.map((block) => ({ _key: `u${Date.now().toString(36)}${(key++).toString(36)}`, ...block }));
 		await update("pages", entry, { title: page.title, content });
 		console.log(`page: ${slug}`);
 	}

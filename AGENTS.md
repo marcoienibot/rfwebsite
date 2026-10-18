@@ -37,4 +37,5 @@ docs are available as an MCP server at `https://docs.emdashcms.com/mcp`.
 
 - Image fields are objects (`{ id, alt, width, height, meta: { storageKey } }`), not strings.
 - `entry.id` is the slug, and `entry.data.id` is the database ULID.
-- Taxonomy names are `category` and `tag`.
+- Posts have one taxonomy, `tag`. There are no categories: news, blog posts and press clips are one
+  list (press clips are posts with an *External article* link).
