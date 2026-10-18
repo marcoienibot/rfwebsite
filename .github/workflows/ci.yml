@@ -55,10 +55,15 @@ jobs:
       # along with the page, and that site can set cookies and track visitors.
       - name: Check that no page embeds an iframe
         run: |
-          if grep -rl --include='*.html' '<iframe' dist/client; then
+          status=0
+          grep -rl --include='*.html' '<iframe' dist/client || status=$?
+          if [ "$status" -eq 0 ]; then
             echo "::error::The pages above contain an iframe, which loads another site (and its cookies and tracking) with the page, so the site would need a cookie banner. Embed videos with src/components/VideoEmbed.astro, which loads the player only on click."
             exit 1
           fi
+          # grep exits 1 when no page matches. Any other status is an error,
+          # such as a missing dist/client, and must fail the step.
+          [ "$status" -eq 1 ] || exit "$status"
 
   presentation:
     runs-on: ubuntu-latest
