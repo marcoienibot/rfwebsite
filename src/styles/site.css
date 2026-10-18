@@ -406,6 +406,12 @@ a.tag:hover {
 	--logo-height: 4.5rem;
 }
 
+/* Hand-picked logos (community groups, our own logo) are shown bigger, as on the old site. */
+.logo-grid--showcase {
+	--logo-width: 15rem;
+	--logo-height: 7.5rem;
+}
+
 .logo-grid > li {
 	display: grid;
 	place-items: center;

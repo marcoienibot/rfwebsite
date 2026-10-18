@@ -8,7 +8,8 @@ import { linkAttrs } from "../../utils/links";
 const { value } = Astro.props;
 type Logo = { name: string; logo?: unknown; url?: string; id?: string; joined?: string | null; bio?: string | null };
 let logos: Logo[] = value.logos ?? [];
-if (value.source && value.source !== "pick below") {
+const picked = !value.source || value.source === "pick below";
+if (!picked) {
 	logos = (await organizations(value.source)).map((org) => ({
 		name: org.data.title,
 		logo: org.data.logo,
@@ -27,7 +28,7 @@ if (value.source && value.source !== "pick below") {
 	<div class="container">
 		{value.headline && <h2 class="heading-center">{value.headline}</h2>}
 		<Paragraphs text={value.text} class="logos__text" />
-		<ul class="logo-grid">
+		<ul class:list={["logo-grid", { "logo-grid--showcase": picked }]}>
 			{
 				logos.map((item) => (
 					<li>
