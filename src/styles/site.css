@@ -389,21 +389,16 @@ a.tag:hover {
 }
 
 .logo-grid {
-	--logo-width: 8.5rem;
-	--logo-height: 4rem;
+	--logo-width: 9.5rem;
+	--logo-height: 6.3rem;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
-	gap: 1.25rem 2.5rem;
+	gap: 1.25rem;
 	margin: 1.25rem 0 2rem;
 	padding: 0;
 	list-style: none;
-}
-
-.logo-grid--large {
-	--logo-width: 10rem;
-	--logo-height: 4.5rem;
 }
 
 /* Hand-picked logos (community groups, our own logo) are shown bigger, as on the old site. */
