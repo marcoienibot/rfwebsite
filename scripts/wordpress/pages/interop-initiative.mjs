@@ -13,7 +13,6 @@ export default async ({ richText }) => ({
 				{ label: "News", url: "#news" },
 				{ label: "Get Involved", url: "#get-involved" },
 			],
-			buttons: [{ label: "News", url: "/media/tag/interop-initiative/" }],
 		},
 		{
 			_type: "quotes",
