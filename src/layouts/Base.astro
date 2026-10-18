@@ -69,6 +69,15 @@ const year = new Date().getFullYear();
 		<Font cssVariable="--font-noto-sans" preload />
 		<Font cssVariable="--font-noto-serif" preload />
 		<EmDashHead page={pageCtx} />
+		{
+			// Pagefind's search UI is written next to the index by `astro build`; `astro dev` has neither.
+			!import.meta.env.DEV && (
+				<>
+					<link rel="stylesheet" href="/pagefind/pagefind-component-ui.css" />
+					<script is:inline defer src="/pagefind/pagefind-component-ui.js"></script>
+				</>
+			)
+		}
 		<slot name="head" />
 	</head>
 	<body>
@@ -101,7 +110,7 @@ const year = new Date().getFullYear();
 							</a>
 						))
 					}
-					<a href="/search/" class="header-icon">
+					<a href="/search/" class="header-icon" data-search-open>
 						<span class="visually-hidden">Search</span>
 						<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6" /><path d="M15 15l5 5" /></svg>
 					</a>
@@ -213,6 +222,8 @@ const year = new Date().getFullYear();
 			</div>
 		</footer>
 
+		{!import.meta.env.DEV && <pagefind-modal reset-on-close></pagefind-modal>}
+
 		<EmDashBodyEnd page={pageCtx} />
 
 		<script>
@@ -249,6 +260,40 @@ const year = new Date().getFullYear();
 					toggle.click();
 					toggle.focus();
 				}
+			});
+
+			// The search icon opens a dialog with the cursor already in the search field. Until
+			// Pagefind's UI has loaded (or without JavaScript, or in `astro dev`) it links to /search/.
+			const searchLink = document.querySelector<HTMLAnchorElement>("[data-search-open]");
+			customElements.whenDefined("pagefind-modal").then(() => {
+				const modal = document.querySelector<HTMLElement & { open(): void }>("pagefind-modal");
+				if (!searchLink || !modal) return;
+				const openSearch = () => {
+					// The search page has its own field. Select its query so that typing starts a new search.
+					const pageField = document.querySelector<HTMLInputElement>("main pagefind-input input");
+					if (pageField) {
+						pageField.focus();
+						pageField.select();
+					} else modal.open();
+				};
+				searchLink.setAttribute("aria-haspopup", "dialog");
+				searchLink.setAttribute("aria-keyshortcuts", "/ Control+K Meta+K");
+				searchLink.addEventListener("click", (event) => {
+					// Modified clicks still open the search page in a new tab or window.
+					if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+					event.preventDefault();
+					openSearch();
+				});
+				// The usual shortcuts: "/" (GitHub, YouTube, MDN) and Ctrl+K / Cmd+K (docs sites).
+				document.addEventListener("keydown", (event) => {
+					const target = event.target as HTMLElement;
+					if (event.defaultPrevented || target.isContentEditable || target.closest("input, textarea, select")) return;
+					const slash = event.key === "/" && !event.ctrlKey && !event.metaKey && !event.altKey;
+					const modK = event.key.toLowerCase() === "k" && (event.ctrlKey || event.metaKey) && !event.altKey && !event.shiftKey;
+					if (!slash && !modK) return;
+					event.preventDefault();
+					openSearch();
+				});
 			});
 
 			const banner = document.querySelector<HTMLElement>("[data-announce]");

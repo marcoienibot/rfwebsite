@@ -472,3 +472,10 @@ a.tag:hover {
 		--per-page: 7;
 	}
 }
+
+/* Search (Pagefind's UI: the header's search dialog and the search page) -- */
+/* Pagefind resets inherited styles on its elements; only these variables reach them. */
+:root {
+	--pf-font: var(--font-sans);
+	--pf-outline-focus: var(--navy);
+}
