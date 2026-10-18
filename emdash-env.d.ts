@@ -10,7 +10,7 @@ export interface Document {
   slug: string | null;
   status: string;
   title: string;
-  category?: "board-meeting-minutes" | "rust-foundation-reports" | "informational-resources" | "financial-filings" | "partnered-publications" | "year-in-review";
+  category?: "board-meeting-minutes" | "rust-foundation-reports" | "informational-resources" | "financial-filings";
   file?: { id: string; url?: string; src?: string; filename?: string; mimeType?: string; size?: number; provider?: string; meta?: Record<string, unknown> };
   link?: string;
   summary?: string;
@@ -207,7 +207,20 @@ export interface PageContentPostCardsV1Block {
   "anchor_id"?: string | null;
 }
 
-export type PageContentPostCardsBlock = PageContentPostCardsV1Block;
+export interface PageContentPostCardsV2Block {
+  _type: "post_cards";
+  _version: 2;
+  _key: string;
+  "headline": string;
+  "tag"?: string | null;
+  "posts"?: string | null;
+  "count"?: number | null;
+  "buttons"?: { "label": string; "url"?: string | null }[] | null;
+  "background"?: "white" | "light" | "navy" | "teal" | "slate" | "blush" | null;
+  "anchor_id"?: string | null;
+}
+
+export type PageContentPostCardsBlock = PageContentPostCardsV1Block | PageContentPostCardsV2Block;
 
 export interface PageContentCardsV1Block {
   _type: "cards";
@@ -296,7 +309,21 @@ export interface PageContentDocumentsV1Block {
   "anchor_id"?: string | null;
 }
 
-export type PageContentDocumentsBlock = PageContentDocumentsV1Block;
+export interface PageContentDocumentsV2Block {
+  _type: "documents";
+  _version: 2;
+  _key: string;
+  "headline"?: string | null;
+  "text"?: string | null;
+  "category"?: "board-meeting-minutes" | "rust-foundation-reports" | "informational-resources" | "financial-filings" | null;
+  "style"?: "cards" | "list" | null;
+  "count"?: number | null;
+  "show_first"?: number | null;
+  "background"?: "white" | "light" | "navy" | "teal" | "slate" | "blush" | null;
+  "anchor_id"?: string | null;
+}
+
+export type PageContentDocumentsBlock = PageContentDocumentsV1Block | PageContentDocumentsV2Block;
 
 export interface PageContentEventsV1Block {
   _type: "events";

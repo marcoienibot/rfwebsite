@@ -26,9 +26,7 @@ export default async ({ richText }) => ({
 			_type: "post_cards",
 			anchor_id: "learn-more",
 			headline: "Learn more:",
-			category: "news",
-			tag: "safety-critical",
-			count: 1,
+			posts: "/media/announcing-the-safety-critical-rust-consortium/",
 		},
 		{
 			_type: "logo_wall",

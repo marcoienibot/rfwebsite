@@ -6,9 +6,10 @@ export default async () => ({
 		{
 			_type: "page_header",
 			headline: "Policies & Resources",
-			intro: "A collection of informative Rust Foundation policies, resources, & references.",
+			intro: "A collection of informative Rust Foundation policies, reports, resources, & references.",
 			jump_links: [
 				{ label: "Policies", url: "#policies" },
+				{ label: "Reports", url: "#reports" },
 				{ label: "Informational Resources", url: "#resources" },
 				{ label: "Board Meeting Minutes", url: "#minutes" },
 				{ label: "Financial Filings", url: "#filings" },
@@ -18,6 +19,15 @@ export default async () => ({
 			_type: "policies",
 			anchor_id: "policies",
 			headline: "Policies",
+		},
+		// The old site listed these on a separate Publications page.
+		{
+			_type: "documents",
+			anchor_id: "reports",
+			headline: "Reports",
+			category: "rust-foundation-reports",
+			style: "cards",
+			count: 0,
 		},
 		{
 			_type: "documents",

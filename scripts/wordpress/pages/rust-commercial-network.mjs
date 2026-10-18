@@ -233,7 +233,6 @@ export default async ({ image, richText }) => ({
 		{
 			_type: "post_cards",
 			headline: "Further Reading:",
-			category: "all",
 			tag: "rcn",
 			count: 5,
 		},

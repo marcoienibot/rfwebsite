@@ -7,14 +7,12 @@ export default async ({ richText }) => ({
 			_type: "page_header",
 			headline: "Rust-C++ Interoperability Initiative",
 			intro:
-				"In 2024, Rust Foundation Platinum Member Google generously contributed $1M USD to help the Rust Foundation improve the state of interoperability between the Rust and C++ programming languages. Meaningful work on this Interop Initiative has begun. Updates will be shared here and through our blog.",
+				"In 2024, Rust Foundation Platinum Member Google generously contributed $1M USD to help the Rust Foundation improve the state of interoperability between the Rust and C++ programming languages. Meaningful work on this Interop Initiative has begun. Updates will be shared here and in our news.",
 			jump_links: [
 				{ label: "About", url: "#about" },
 				{ label: "News", url: "#news" },
-				{ label: "Press", url: "#press" },
 				{ label: "Get Involved", url: "#get-involved" },
 			],
-			buttons: [{ label: "Blog", url: "/media/category/blog/" }],
 		},
 		{
 			_type: "quotes",
@@ -61,16 +59,8 @@ export default async ({ richText }) => ({
 			_type: "post_cards",
 			anchor_id: "news",
 			headline: "Rust/C++ Interoperability Initiative News",
-			// Hand-picked, as on the old site.
-			posts: "/media/rust-cpp-interop-initiative-progress-update/\n/media/experimenting-with-function-overloading-in-rust-why-it-matters/\n/media/rust-foundation-interop-initiative-update-from-research-to-implementation/\n/media/google-contributes-1m-to-rust-foundation-to-support-c-rust-interop-initiative/",
-		},
-		{
-			_type: "post_cards",
-			anchor_id: "press",
-			headline: "Recent Press",
-			category: "press",
 			tag: "interop-initiative",
-			count: 6,
+			count: 10,
 		},
 		{
 			_type: "statement",

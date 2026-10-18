@@ -112,14 +112,7 @@ export default async ({ image }) => ({
 		},
 		{
 			_type: "post_cards",
-			headline: "Our Initiatives in the News",
-			category: "press",
-			count: 8,
-		},
-		{
-			_type: "post_cards",
-			headline: "Stories About Our Work",
-			category: "blog",
+			headline: "Latest News",
 			count: 8,
 		},
 		{

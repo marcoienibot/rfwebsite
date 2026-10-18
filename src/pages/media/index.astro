@@ -6,6 +6,6 @@ import { allPosts } from "../../utils/content";
 const posts = await allPosts();
 ---
 
-<Base title="Media Room" description="Announcements, blogs, media pieces, and publications from the Rust Foundation.">
+<Base title="News" description="News from the Rust Foundation.">
 	<PostListing posts={posts} page={1} href={(n) => (n === 1 ? "/media/" : `/media/page/${n}/`)} feature />
 </Base>

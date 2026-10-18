@@ -25,8 +25,8 @@ This guide is for the people who update the website's content. No coding needed.
    - **Pages**: each page is a stack of *sections* (page header, coloured feature bands, logo walls,
      people, news cards, call-to-action…). Add, remove, reorder and edit sections. Click **Save**,
      then **Publish** on the entry.
-   - **News & blog**: write posts with the rich-text editor, pick categories and tags, and set a
-     featured image. Press coverage is a post with an *External article* link.
+   - **News**: write posts with the rich-text editor, pick tags, and set a featured image. Every
+     post appears in the one News list. Press coverage is a post with an *External article* link.
    - **Organisations**, **People**, **Events**, **Documents**, **FAQs**, **Policies**: these lists
      feed the logo walls, team grids, event lists and so on everywhere on the site. Add a new member
      once and they appear on the home page and the members page.

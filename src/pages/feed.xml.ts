@@ -17,7 +17,7 @@ export const GET: APIRoute = async ({ site, url }) => {
 <link>${escape(link)}</link>
 <guid isPermaLink="false">${escape(post.data.id)}</guid>
 <pubDate>${(post.data.publishedAt ?? post.data.createdAt).toUTCString()}</pubDate>
-${post.categories.map((c) => `<category>${escape(c.label)}</category>`).join("")}
+${post.tags.map((t) => `<category>${escape(t.label)}</category>`).join("")}
 ${post.data.excerpt ? `<description>${escape(post.data.excerpt)}</description>` : ""}
 </item>`;
 		})
@@ -27,7 +27,7 @@ ${post.data.excerpt ? `<description>${escape(post.data.excerpt)}</description>` 
 <channel>
 <title>Rust Foundation</title>
 <link>${escape(root)}</link>
-<description>News, blog posts and press from the Rust Foundation</description>
+<description>News from the Rust Foundation</description>
 ${items}
 </channel>
 </rss>`;

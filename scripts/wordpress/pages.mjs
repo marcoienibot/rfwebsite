@@ -40,8 +40,8 @@ export async function buildPages({ media }) {
 			status: "published",
 			data: {
 				title: page.title,
+				// Without a `_version`, EmDash uses the block type's current version.
 				content: page.blocks.filter(Boolean).map((block) => ({
-					_version: 1,
 					_key: `b${(keyCounter++).toString(36)}`,
 					...block,
 				})),
