@@ -60,7 +60,7 @@ jobs:
           status=0
           grep -rl --include='*.html' '<iframe' dist/client || status=$?
           if [ "$status" -eq 0 ]; then
-            echo "::error::The pages above contain an iframe, which can load another site (and its cookies and tracking) with the page, so the site would need a cookie banner. Embed videos with src/components/VideoEmbed.astro, which loads the player only on click. An iframe with class emdash-html-block is an HTML block shown in an isolated frame: in the admin, switch it to Inline, or remove it."
+            echo "::error::The pages above contain an iframe, which can load another site (and its cookies and tracking) with the page, so the site would need a cookie banner. Embed videos with src/components/VideoEmbed.astro, which loads the player only on click. An iframe with class emdash-html-block is an HTML block shown in an isolated frame: in the admin, remove it, or switch it to Inline and take out any embed code."
             exit 1
           fi
           # grep exits 1 when no page matches. Any other status is an error,
