@@ -26,10 +26,11 @@ import Base from "../layouts/Base.astro";
 		customElements.whenDefined("pagefind-input").then(() => {
 			const instance = window.PagefindComponents.getInstanceManager().getInstance("page");
 			// Links to /search/?q=… (from the post listings) arrive with results. Otherwise the
-			// cursor waits in the empty search field.
+			// cursor waits in the empty search field, unless the visitor has moved focus while
+			// Pagefind was loading.
 			const query = new URLSearchParams(location.search).get("q");
 			if (query) instance.triggerSearch(query);
-			else document.querySelector<HTMLInputElement>("[data-search-field] input")?.focus();
+			else if (document.activeElement === document.body) document.querySelector<HTMLInputElement>("[data-search-field] input")?.focus();
 			// Keep the query in the URL so that a search can be shared, reloaded and returned to.
 			instance.on("search", (term) => {
 				const url = new URL(location.href);
